@@ -189,7 +189,7 @@ public class VT
 //    }
 //    ImageIO.setUseCache(false);
     disableAccessWarnings();
-    System.setProperty("java.awt.headless", "true");
+    //System.setProperty("java.awt.headless", "true");
     System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
     System.setProperty("jdk.http.auth.proxying.disabledSchemes", "");
     Authenticator.setDefault(VTDefaultProxyAuthenticator.getInstance());
