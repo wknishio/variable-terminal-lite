@@ -502,7 +502,7 @@ public class VTClientConnector implements Runnable
     }
     try
     {
-      Thread.sleep(250);
+      Thread.sleep(125);
     }
     catch (Throwable t)
     {
@@ -1510,6 +1510,10 @@ public class VTClientConnector implements Runnable
           }
           handler.run();
         }
+        else
+        {
+          
+        }
       }
       else
       {
@@ -1527,6 +1531,10 @@ public class VTClientConnector implements Runnable
             
           }
           handler.run();
+        }
+        else
+        {
+          
         }
       }
       if (running)
