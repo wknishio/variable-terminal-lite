@@ -50,4 +50,9 @@ public class VTMIXERS extends VTClientStandardRemoteConsoleCommandProcessor
   {
     
   }
+  
+  public boolean remote()
+  {
+    return true;
+  }
 }

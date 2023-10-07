@@ -52,4 +52,9 @@ public class VTBEEP extends VTServerStandardRemoteConsoleCommandProcessor
   {
     
   }
+  
+  public boolean remote()
+  {
+    return false;
+  }
 }

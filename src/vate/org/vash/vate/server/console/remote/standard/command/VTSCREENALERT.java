@@ -22,4 +22,9 @@ public class VTSCREENALERT extends VTServerStandardRemoteConsoleCommandProcessor
   {
     
   }
+  
+  public boolean remote()
+  {
+    return false;
+  }
 }

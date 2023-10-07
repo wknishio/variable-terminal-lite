@@ -27,4 +27,9 @@ public class VTGRAPHICSLINK extends VTClientStandardRemoteConsoleCommandProcesso
   {
     
   }
+  
+  public boolean remote()
+  {
+    return true;
+  }
 }
