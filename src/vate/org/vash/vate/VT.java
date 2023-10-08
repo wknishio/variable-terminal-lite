@@ -19,8 +19,8 @@ import java.util.logging.LogManager;
 
 //import org.vash.vate.graphics.font.VTGlobalTextStyleManager;
 import org.vash.vate.help.VTHelpManager;
-import org.vash.vate.network.tls.TLSVerificationDisabler;
 import org.vash.vate.socket.VTDefaultProxyAuthenticator;
+import org.vash.vate.tls.TLSVerificationDisabler;
 
 //import com.sixlegs.png.iio.PngImageReader;
 //import com.sixlegs.png.iio.PngImageReaderSpi;
