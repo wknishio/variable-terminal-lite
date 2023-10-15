@@ -1277,7 +1277,7 @@ public class VTServer implements Runnable
 //          {
 //            inputMenuBar.setEnabledDialogMenu(false);
 //          }
-//          VTConsole.readLine(true);
+          VTConsole.readLine(true);
 //          if (inputMenuBar != null)
 //          {
 //            inputMenuBar.setEnabledDialogMenu(true);
