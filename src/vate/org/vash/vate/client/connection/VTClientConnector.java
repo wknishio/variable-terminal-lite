@@ -1250,7 +1250,7 @@ public class VTClientConnector implements Runnable
         }
         if (line.toUpperCase().startsWith("Y"))
         {
-          VTConsole.print("VT>Enter proxy type(Any as A, SOCKS as S, HTTP as H, default:A):");
+          VTConsole.print("VT>Enter proxy type(AUTO as A, SOCKS as S, HTTP as H, default:A):");
           line = VTConsole.readLine(true);
           if (line == null)
           {
@@ -1270,7 +1270,7 @@ public class VTClientConnector implements Runnable
           }
           else
           {
-            proxyType = "ANY";
+            proxyType = "AUTO";
           }
           VTConsole.print("VT>Enter proxy host address(default:any):");
           line = VTConsole.readLine(true);
@@ -1304,7 +1304,7 @@ public class VTClientConnector implements Runnable
               proxyPort = 1080;
             }
           }
-          else if (proxyType.equals("HTTP") || proxyType.equals("ANY"))
+          else if (proxyType.equals("HTTP") || proxyType.equals("AUTO"))
           {
             VTConsole.print("VT>Enter proxy port(from 1 to 65535, default:8080):");
             line = VTConsole.readLine(true);
