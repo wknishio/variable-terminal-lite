@@ -487,10 +487,10 @@ public class VTServerConnector implements Runnable
       {
         connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_ISAAC);
       }
-      else if (encryptionType.toUpperCase().startsWith("G"))
-      {
-        connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_GRAIN);
-      }
+//      else if (encryptionType.toUpperCase().startsWith("G"))
+//      {
+//        connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_GRAIN);
+//      }
       else
       {
         connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_NONE);
@@ -577,10 +577,10 @@ public class VTServerConnector implements Runnable
       {
         connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_ISAAC);
       }
-      else if (encryptionType.toUpperCase().startsWith("G"))
-      {
-        connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_GRAIN);
-      }
+//      else if (encryptionType.toUpperCase().startsWith("G"))
+//      {
+//        connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_GRAIN);
+//      }
       else
       {
         connection.setEncryptionType(VT.VT_CONNECTION_ENCRYPT_NONE);
