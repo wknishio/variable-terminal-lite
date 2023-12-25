@@ -2,7 +2,6 @@ package org.vash.vate.reflection;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -163,21 +162,6 @@ public class VTReflectionUtils
   
   public static boolean isAWTHeadless()
   {
-    try
-    {
-      Class<?> graphicsEnvironmentClass = Class.forName("java.awt.GraphicsEnvironment");
-      Method isHeadlessMethod = graphicsEnvironmentClass.getDeclaredMethod("isHeadless");
-      Object headless = isHeadlessMethod.invoke(null, new Object[] {});
-      if (headless instanceof Boolean)
-      {
-        Boolean result = (Boolean) headless;
-        return result;
-      }
-    }
-    catch (Throwable t)
-    {
-      
-    }
     return true;
   }
   
