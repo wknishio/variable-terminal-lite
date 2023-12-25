@@ -4,13 +4,13 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
-import org.vash.vate.VT;
 //import org.vash.vate.audio.VTAudioBeeper;
 //import org.vash.vate.nativeutils.bsd.VTBSDNativeUtils;
 //import org.vash.vate.nativeutils.linux.VTLinuxNativeUtils;
 //import org.vash.vate.nativeutils.mac.VTMacNativeUtils;
 //import org.vash.vate.nativeutils.sunos.VTSunOSNativeUtils;
 // org.vash.vate.nativeutils.win32.VTWin32NativeUtils;
+import org.vash.vate.reflection.VTReflectionUtils;
 
 //import com.sun.jna.Platform;
 
@@ -157,7 +157,7 @@ public class VTNativeUtils
       boolean nativeCD = nativeUtils.openDiscDrive();
       if (!nativeCD)
       {
-        if (!VT.detectWindows())
+        if (!VTReflectionUtils.detectWindows())
         {
           // try to call eject on non-windows
           try
@@ -178,7 +178,7 @@ public class VTNativeUtils
     }
     else
     {
-      if (!VT.detectWindows())
+      if (!VTReflectionUtils.detectWindows())
       {
         // try to call eject on non-windows
         try
@@ -203,7 +203,7 @@ public class VTNativeUtils
       boolean nativeCD = nativeUtils.closeDiscDrive();
       if (!nativeCD)
       {
-        if (!VT.detectWindows())
+        if (!VTReflectionUtils.detectWindows())
         {
           // try to call eject on non-windows
           try
@@ -225,7 +225,7 @@ public class VTNativeUtils
     }
     else
     {
-      if (!VT.detectWindows())
+      if (!VTReflectionUtils.detectWindows())
       {
         // try to call eject on non-windows
         try

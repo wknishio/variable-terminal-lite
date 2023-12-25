@@ -1,11 +1,10 @@
 package org.vash.vate.runtime;
 
-import java.io.BufferedWriter;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.concurrent.ExecutorService;
-import org.vash.vate.VT;
+import org.vash.vate.reflection.VTReflectionUtils;
 
 public class VTRuntimeProcess
 {
@@ -18,20 +17,20 @@ public class VTRuntimeProcess
   private OutputStream out;
   
   // private VTRuntimeProcessKill killer = new VTRuntimeProcessKill();
-  private VTRuntimeProcessOutputConsumer outputConsumer;
+  private VTRuntimeProcessInputRedirector inputRedirector;
   // private VTRuntimeProcessOutputConsumer errorConsumer;
   private VTRuntimeProcessExitListener exitListener;
   private VTRuntimeProcessTimeoutKill timeoutKill;
   
   private ExecutorService threads;
-  private BufferedWriter writer;
+  private OutputStream writer;
   private volatile boolean verbose;
   private volatile boolean restart;
   // private volatile boolean killed;
   private volatile long timeout;
   // private volatile long pid;
   
-  public VTRuntimeProcess(String command, ProcessBuilder builder, ExecutorService threads, BufferedWriter writer, boolean verbose, boolean restart, long timeout)
+  public VTRuntimeProcess(String command, ProcessBuilder builder, ExecutorService threads, OutputStream writer, boolean verbose, boolean restart, long timeout)
   {
     this.command = command;
     this.builder = builder;
@@ -73,10 +72,8 @@ public class VTRuntimeProcess
     
     if (writer != null)
     {
-      this.outputConsumer = new VTRuntimeProcessOutputConsumer(in, writer, verbose);
-      // this.errorConsumer = new VTRuntimeProcessOutputConsumer(err, writer,
-      // verbose);
-      threads.execute(outputConsumer);
+      this.inputRedirector = new VTRuntimeProcessInputRedirector(in, writer, verbose);
+      threads.execute(inputRedirector);
       // threads.execute(errorConsumer);
     }
     
@@ -189,11 +186,11 @@ public class VTRuntimeProcess
       killProcess(process, 0);
     }
     
-    if (outputConsumer != null)
+    if (inputRedirector != null)
     {
       try
       {
-        outputConsumer.stop();
+        inputRedirector.stop();
       }
       catch (Throwable e)
       {
@@ -256,7 +253,7 @@ public class VTRuntimeProcess
       return;
     }
     Runtime rt = Runtime.getRuntime();
-    if (VT.detectWindows())
+    if (VTReflectionUtils.detectWindows())
     {
       rt.exec("taskkill /f /PID " + pid);
     }
@@ -272,8 +269,8 @@ public class VTRuntimeProcess
     try
     {
       // for windows
-//      if (p.getClass().getName().equals("java.lang.Win32Process") || p.getClass().getName().equals("java.lang.ProcessImpl"))
-//      {
+      if (p.getClass().getName().equals("java.lang.Win32Process") || p.getClass().getName().equals("java.lang.ProcessImpl"))
+      {
 //        Field f = p.getClass().getDeclaredField("handle");
 //        f.setAccessible(true);
 //        long handl = f.getLong(p);
@@ -281,9 +278,10 @@ public class VTRuntimeProcess
 //        WinNT.HANDLE hand = new WinNT.HANDLE();
 //        hand.setPointer(Pointer.createConstant(handl));
 //        result = kernel.GetProcessId(hand);
-//      }
+        // f.setAccessible(false);
+      }
       // for unix based operating systems
-      if (p.getClass().getName().equals("java.lang.UNIXProcess"))
+      else if (p.getClass().getName().equals("java.lang.UNIXProcess"))
       {
         Field f = p.getClass().getDeclaredField("pid");
         f.setAccessible(true);
