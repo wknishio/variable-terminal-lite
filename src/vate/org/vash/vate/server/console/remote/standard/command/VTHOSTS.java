@@ -8,9 +8,9 @@ public class VTHOSTS extends VTServerStandardRemoteConsoleCommandProcessor
   public VTHOSTS()
   {
     this.setFullName("*VTHOSTS");
-    this.setAbbreviatedName("*VTHTS");
+    this.setAbbreviatedName("*VTHT");
     this.setFullSyntax("*VTHOSTS <HOST>");
-    this.setAbbreviatedSyntax("*VTHTS <HT>");
+    this.setAbbreviatedSyntax("*VTHT <HT>");
   }
   
   public void execute(String command, String[] parsed) throws Exception
