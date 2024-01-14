@@ -1,5 +1,6 @@
 package org.vash.vate.server.console.remote.standard.command;
 
+import org.vash.vate.console.VTConsole;
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.nativeutils.VTNativeUtils;
 import org.vash.vate.server.console.remote.standard.VTServerStandardRemoteConsoleCommandProcessor;
@@ -10,13 +11,19 @@ public class VTBEEP extends VTServerStandardRemoteConsoleCommandProcessor
   {
     this.setFullName("*VTBEEP");
     this.setAbbreviatedName("*VTBP");
-    this.setFullSyntax("*VTBEEP <HERTZ TIME>");
-    this.setAbbreviatedSyntax("*VTBP <HZ TM>");
+    this.setFullSyntax("*VTBEEP [HERTZ TIME] [MIXER]");
+    this.setAbbreviatedSyntax("*VTBP [HZ TM] [MX]");
   }
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    if (parsed.length >= 3)
+    if (parsed.length == 1)
+    {
+      VTConsole.bell();
+      connection.getResultWriter().write("\nVT>Beep played on server!\nVT>");
+      connection.getResultWriter().flush();
+    }
+    else if (parsed.length >= 3)
     {
       try
       {
