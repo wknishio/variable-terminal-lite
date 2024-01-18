@@ -438,6 +438,41 @@ public class VTServer implements Runnable
     }
   }
   
+  public boolean setMultipleUserCredentials(String multipleUsers)
+  {
+    userCredentials.clear();
+    boolean added = false;
+    try
+    {
+      if (multipleUsers != null && multipleUsers.length() > 0)
+      {
+        String[] users = VTArgumentParser.parseParameter(multipleUsers, ';');
+        for (String user : users)
+        {
+          String[] credentials = VTArgumentParser.parseParameter(user, '/');
+          if (credentials.length >= 2)
+          {
+            addUserCredential(credentials[0], credentials[1]);
+            added = true;
+          }
+        }
+      }
+    }
+    catch (Throwable t)
+    {
+      
+    }
+    if (added)
+    {
+      return true;
+    }
+    else
+    {
+      setUniqueUserCredential("", "");
+      return false;
+    }
+  }
+  
   public void addUserCredential(String user, String password) throws UnsupportedEncodingException
   {
     userCredentials.add(new Credential(user, password));
@@ -533,25 +568,7 @@ public class VTServer implements Runnable
     
     sessionUsers = fileServerSettings.getProperty("vate.server.session.users", null);
     
-    if (sessionUsers != null)
-    {
-      try
-      {
-        String[] users = VTArgumentParser.parseParameter(sessionUsers, ';');
-        for (String user : users)
-        {
-          String[] credentials = VTArgumentParser.parseParameter(user, '/');
-          if (credentials.length >= 2)
-          {
-            addUserCredential(credentials[0], credentials[1]);
-          }
-        }
-      }
-      catch (Throwable e)
-      {
-        
-      }
-    }
+    setMultipleUserCredentials(sessionUsers);
     
     if (fileServerSettings.getProperty("vate.server.connection.mode") != null)
     {
@@ -786,25 +803,7 @@ public class VTServer implements Runnable
       
       sessionUsers = fileServerSettings.getProperty("vate.server.session.users", null);
       
-      if (sessionUsers != null)
-      {
-        try
-        {
-          String[] users = VTArgumentParser.parseParameter(sessionUsers, ';');
-          for (String user : users)
-          {
-            String[] credentials = VTArgumentParser.parseParameter(user, '/');
-            if (credentials.length >= 2)
-            {
-              addUserCredential(credentials[0], credentials[1]);
-            }
-          }
-        }
-        catch (Throwable e)
-        {
-          
-        }
-      }
+      setMultipleUserCredentials(sessionUsers);
       
       if (fileServerSettings.getProperty("vate.server.connection.mode") != null)
       {
@@ -1021,25 +1020,7 @@ public class VTServer implements Runnable
     
     sessionUsers = properties.getProperty("vate.server.session.users", null);
     
-    if (sessionUsers != null)
-    {
-      try
-      {
-        String[] users = VTArgumentParser.parseParameter(sessionUsers, ';');
-        for (String user : users)
-        {
-          String[] credentials = VTArgumentParser.parseParameter(user, '/');
-          if (credentials.length >= 2)
-          {
-            addUserCredential(credentials[0], credentials[1]);
-          }
-        }
-      }
-      catch (Throwable e)
-      {
-        
-      }
-    }
+    setMultipleUserCredentials(sessionUsers);
     
     if (properties.getProperty("vate.server.connection.mode") != null)
     {
