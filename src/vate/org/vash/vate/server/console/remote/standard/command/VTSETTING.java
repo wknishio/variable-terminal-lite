@@ -9,7 +9,7 @@ public class VTSETTING extends VTServerStandardRemoteConsoleCommandProcessor
   public VTSETTING()
   {
     this.setFullName("*VTSETTING");
-    this.setAbbreviatedName("VTSE");
+    this.setAbbreviatedName("*VTSE");
     this.setFullSyntax("*VTSETTING [NAME] [VALUE]");
     this.setAbbreviatedSyntax("*VTSE [NM] [VL]");
   }
