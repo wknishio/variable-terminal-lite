@@ -2,13 +2,13 @@ package org.vash.vate.server.console.remote.standard.command;
 
 import org.vash.vate.server.console.remote.standard.VTServerStandardRemoteConsoleCommandProcessor;
 
-public class VTMIXERS extends VTServerStandardRemoteConsoleCommandProcessor
+public class VTMIXER extends VTServerStandardRemoteConsoleCommandProcessor
 {
-  public VTMIXERS()
+  public VTMIXER()
   {
-    this.setFullName("*VTMIXERS");
+    this.setFullName("*VTMIXER");
     this.setAbbreviatedName("*VTMX");
-    this.setFullSyntax("*VTMIXERS [SIDE]");
+    this.setFullSyntax("*VTMIXER [SIDE]");
     this.setAbbreviatedSyntax("*VTMX [SD]");
   }
   

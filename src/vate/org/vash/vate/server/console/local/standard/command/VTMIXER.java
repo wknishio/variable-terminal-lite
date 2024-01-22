@@ -3,20 +3,21 @@ package org.vash.vate.server.console.local.standard.command;
 import org.vash.vate.console.VTConsole;
 import org.vash.vate.server.console.local.standard.VTServerStandardLocalConsoleCommandProcessor;
 
-public class VTDISPLAYS extends VTServerStandardLocalConsoleCommandProcessor
+public class VTMIXER extends VTServerStandardLocalConsoleCommandProcessor
 {
-  public VTDISPLAYS()
+  public VTMIXER()
   {
-    this.setFullName("*VTDISPLAYS");
-    this.setAbbreviatedName("*VTDP");
-    this.setFullSyntax("*VTDISPLAYS");
-    this.setAbbreviatedSyntax("*VTDP");
+    this.setFullName("*VTMIXER");
+    this.setAbbreviatedName("*VTMX");
+    this.setFullSyntax("*VTMIXER");
+    this.setAbbreviatedSyntax("*VTMX");
   }
   
   public void execute(String command, String[] parsed) throws Exception
   {
     message.setLength(0);
-    message.append("\rVT>No graphical display devices found on server!\nVT>");
+    message.append("\nVT>List of server audio mixers:\nVT>");
+    message.append("\nVT>End of server audio mixers list\nVT>");
     VTConsole.print(message.toString());
   }
   

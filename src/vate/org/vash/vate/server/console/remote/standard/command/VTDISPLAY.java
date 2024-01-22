@@ -2,19 +2,19 @@ package org.vash.vate.server.console.remote.standard.command;
 
 import org.vash.vate.server.console.remote.standard.VTServerStandardRemoteConsoleCommandProcessor;
 
-public class VTPRINTERS extends VTServerStandardRemoteConsoleCommandProcessor
+public class VTDISPLAY extends VTServerStandardRemoteConsoleCommandProcessor
 {
-  public VTPRINTERS()
+  public VTDISPLAY()
   {
-    this.setFullName("*VTPRINTERS");
-    this.setAbbreviatedName("*VTPR");
-    this.setFullSyntax("*VTPRINTERS [NUMBER]");
-    this.setAbbreviatedSyntax("*VTPR [NU]");
+    this.setFullName("*VTDISPLAY");
+    this.setAbbreviatedName("*VTDP");
+    this.setFullSyntax("*VTDISPLAY");
+    this.setAbbreviatedSyntax("*VTDP");
   }
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    connection.getResultWriter().write("\nVT>No print services found on server!\nVT>");
+    connection.getResultWriter().write("\nVT>No graphical display devices found on server!\nVT>");
     connection.getResultWriter().flush();
   }
   
