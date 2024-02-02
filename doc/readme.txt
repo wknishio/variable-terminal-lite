@@ -7,7 +7,7 @@ This software is a java remote computer administration tool.
 It has various functions inspired by TELNET, FTP, SSH, NETBUS, VNC,
 but its incompatible with those tools/protocols/standards.
 
-This is the lite version intended to run in restricted environments as Android
+This is the lite version intended to run in restricted environments as android.
 
 Some of the available features are:
 
