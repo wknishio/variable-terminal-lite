@@ -16,6 +16,7 @@ package net.sourceforge.jsocks.socks;
 
 import java.io.*;
 import java.net.*;
+import java.nio.channels.SocketChannel;
 
 /**
  * SocksSocket tryies to look very similar to normal Socket,
@@ -203,6 +204,15 @@ public class SocksSocket extends Socket{
    public OutputStream getOutputStream(){
       return proxy.out;
    }
+   
+   public SocketChannel getChannel()
+   {
+     if (proxy.proxySocket != null)
+     {
+       return proxy.proxySocket.getChannel();
+     }
+     return null;
+   }
    /**
     * Same as Socket
     */
@@ -371,8 +381,8 @@ public class SocksSocket extends Socket{
          directSock.setTcpNoDelay(true);
          //directSock.setSoLinger(true, 5);
          //directSock.setReuseAddress(true);
-         //directSock.setKeepAlive(true);
-         directSock.setSoTimeout(90000);
+         directSock.setKeepAlive(true);
+         //directSock.setSoTimeout(90000);
          //directSock.setSoLinger(true, 0);
          proxy.proxySocket = directSock;
          localIP = directSock.getLocalAddress();
