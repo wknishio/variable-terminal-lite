@@ -2,9 +2,9 @@ package org.vash.vate.tunnel.session;
 
 import org.vash.vate.VT;
 import org.vash.vate.socket.VTProxy;
+import org.vash.vate.socket.VTSocksProxyServer;
 import org.vash.vate.socket.VTSocksHttpProxyAuthenticatorNone;
 import org.vash.vate.socket.VTSocksHttpProxyAuthenticatorUsernamePassword;
-import org.vash.vate.socket.VTSocksProxyServer;
 import org.vash.vate.socket.VTSocksSingleUserValidation;
 import org.vash.vate.tunnel.channel.VTTunnelChannel;
 
@@ -29,7 +29,7 @@ public class VTTunnelSocksSessionHandler extends VTTunnelSessionHandler
     this.session = session;
     this.channel = channel;
     this.proxy = proxy;
-    if (socksUsername != null && socksPassword != null)
+    if (socksUsername != null && socksPassword != null && socksUsername.length() > 0 && socksPassword.length() > 0)
     {
       this.validation = new VTSocksSingleUserValidation(socksUsername, socksPassword);
     }
