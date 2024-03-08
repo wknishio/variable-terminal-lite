@@ -60,10 +60,10 @@ public class VTClient implements Runnable
   private List<VTClientSessionListener> listeners = new ArrayList<VTClientSessionListener>();
   private static final String VT_CLIENT_SETTINGS_COMMENTS = 
   "Variable-Terminal client settings file, supports UTF-8\r\n" + 
-  "#vate.client.connection.mode      values: default active(A), passive(P)\r\n" + 
-  "#vate.client.proxy.type           values: default none, DIRECT(D), SOCKS(S), HTTP(H), ANY(A)\r\n" + 
-  "#vate.client.encryption.type      values: default none/RC4(R)/ISAAC(I)/SALSA(S)/HC256(H)/LEA(L)\r\n" + 
-  "#vate.client.session.commands     format: cmd1*;cmd2*;cmd3*;...\r\n";
+  "#vate.client.connection.mode     values: default active(A), passive(P)\r\n" + 
+  "#vate.client.proxy.type          values: default none, DIRECT(D), SOCKS(S), HTTP(H), ANY(A)\r\n" + 
+  "#vate.client.encryption.type     values: default none/RC4(R)/ISAAC(I)/SALSA(S)/HC256(H)/ZUC256(Z)\r\n" + 
+  "#vate.client.session.commands    format: cmd1*;cmd2*;cmd3*;...\r\n";
   // "#vate.client.session.lines format: file1;file2;file3;...";
   
   static
@@ -1356,7 +1356,7 @@ public class VTClient implements Runnable
             }
             if (line.toUpperCase().startsWith("Y"))
             {
-              VTConsole.print("VT>Enter encryption type(RC4(R)/ISAAC(I)/SALSA(S)/HC256(H)/LEA(L)):");
+              VTConsole.print("VT>Enter encryption type(RC4(R)/ISAAC(I)/SALSA(S)/HC256(H)/ZUC256(Z)):");
               line = VTConsole.readLine(false);
               if (line == null)
               {
@@ -1367,9 +1367,9 @@ public class VTClient implements Runnable
                 return;
               }
               encryptionType = "RC4";
-              if (line.toUpperCase().startsWith("L"))
+              if (line.toUpperCase().startsWith("Z"))
               {
-                encryptionType = "LEA";
+                encryptionType = "ZUC256";
               }
               // if (line.toUpperCase().startsWith("B"))
               // {
@@ -1621,7 +1621,7 @@ public class VTClient implements Runnable
             }
             if (line.toUpperCase().startsWith("Y"))
             {
-              VTConsole.print("VT>Enter encryption type(RC4(R)/ISAAC(I)/SALSA(S)/HC256(H)/LEA(L)):");
+              VTConsole.print("VT>Enter encryption type(RC4(R)/ISAAC(I)/SALSA(S)/HC256(H)/ZUC256(Z)):");
               line = VTConsole.readLine(false);
               if (line == null)
               {
@@ -1632,9 +1632,9 @@ public class VTClient implements Runnable
                 return;
               }
               encryptionType = "RC4";
-              if (line.toUpperCase().startsWith("L"))
+              if (line.toUpperCase().startsWith("Z"))
               {
-                encryptionType = "LEA";
+                encryptionType = "ZUC256";
               }
               // if (line.toUpperCase().startsWith("B"))
               // {
