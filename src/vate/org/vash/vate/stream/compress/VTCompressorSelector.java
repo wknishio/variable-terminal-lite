@@ -34,7 +34,7 @@ import net.jpountz.lz4.LZ4FrameOutputStream.BLOCKSIZE;
 import net.jpountz.xxhash.XXHashFactory;
 
 @SuppressWarnings(
-{ "unused" })
+{ "unused", "deprecation" })
 public class VTCompressorSelector
 {
   public static OutputStream createDirectZlibOutputStream(OutputStream out)
@@ -278,5 +278,5 @@ public class VTCompressorSelector
     // return createFlushBufferedSyncFlushInflaterInputStream(in);
     return new BufferedInputStream(new LZ4BlockInputStream(in, LZ4Factory.safeInstance().fastDecompressor(), XXHashFactory.disabledInstance().newStreamingHash32(0x9747b28c).asChecksum(), false), VT.VT_COMPRESSION_BUFFER_SIZE_BYTES);
     //return new BufferedInputStream(new LZ4FrameInputStream(in, false), VT.VT_COMPRESSED_DATA_BUFFER_SIZE);
-  }
+  }  
 }
