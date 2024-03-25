@@ -65,7 +65,7 @@ public class VT
   public static final int VT_CONNECTION_PROXY_HTTP = 2;
   
   public static final int VT_CONNECTION_ENCRYPT_NONE = 0;
-  public static final int VT_CONNECTION_ENCRYPT_RC4 = 1;
+  public static final int VT_CONNECTION_ENCRYPT_VMPC = 1;
   //public static final int VT_CONNECTION_ENCRYPT_AES = 2;
   public static final int VT_CONNECTION_ENCRYPT_ISAAC = 2;
   public static final int VT_CONNECTION_ENCRYPT_SALSA = 3;
