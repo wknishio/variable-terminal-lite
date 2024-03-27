@@ -53,7 +53,7 @@ public class VTClient implements Runnable
 //  private VTClientRemoteGraphicalConsoleMenuBar inputMenuBar;
 //  private VTAudioSystem audioSystem;
 //  private VTClientConfigurationDialog connectionDialog;
-  private ExecutorService threads;
+  private ExecutorService executor;
   // private VTTrayIconInterface trayIconInterface;
   private boolean skipConfiguration;
   private boolean retry = false;
@@ -74,7 +74,7 @@ public class VTClient implements Runnable
   public VTClient()
   {
     // VTClientRemoteConsoleCommandSelector.initialize();
-    this.threads = Executors.newCachedThreadPool(new ThreadFactory()
+    this.executor = Executors.newCachedThreadPool(new ThreadFactory()
     {
       public Thread newThread(Runnable runnable)
       {
@@ -83,7 +83,7 @@ public class VTClient implements Runnable
         return created;
       }
     });
-//    this.audioSystem = new VTAudioSystem(threads);
+//    this.audioSystem = new VTAudioSystem(executor);
     loadClientSettingsFile();
   }
   
@@ -104,7 +104,7 @@ public class VTClient implements Runnable
     
     try
     {
-      threads.shutdownNow();
+      executor.shutdownNow();
     }
     catch (Throwable t)
     {
@@ -114,7 +114,7 @@ public class VTClient implements Runnable
   
   public ExecutorService getClientThreads()
   {
-    return threads;
+    return executor;
   }
   
   public void setSkipConfiguration(boolean skipConfiguration)
@@ -1902,7 +1902,7 @@ public class VTClient implements Runnable
   
   public void startThread()
   {
-    threads.execute(new Runnable()
+    executor.execute(new Runnable()
     {
       public void run()
       {

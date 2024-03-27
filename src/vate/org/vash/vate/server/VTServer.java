@@ -66,7 +66,7 @@ public class VTServer implements Runnable
 //  private VTServerLocalGraphicalConsoleMenuBar inputMenuBar;
 //  private VTAudioSystem[] audioSystem;
 //  private VTServerSettingsDialog connectionDialog;
-  private ExecutorService threads;
+  private ExecutorService executor;
 //  private VTTrayIconInterface trayIconInterface;
   private boolean skipConfiguration;
   private boolean echoCommands = false;
@@ -123,7 +123,7 @@ public class VTServer implements Runnable
     //byte[] seed = new byte[64];
     //new SecureRandom().nextBytes(seed);
     //this.blake3Digest.setSeed(seed);
-    this.threads = Executors.newCachedThreadPool(new ThreadFactory()
+    this.executor = Executors.newCachedThreadPool(new ThreadFactory()
     {
       public Thread newThread(Runnable runnable)
       {
@@ -133,11 +133,11 @@ public class VTServer implements Runnable
       }
     });
 //    this.audioSystem = new VTAudioSystem[5];
-//    this.audioSystem[0] = new VTAudioSystem(threads);
-//    this.audioSystem[1] = new VTAudioSystem(threads);
-//    this.audioSystem[2] = new VTAudioSystem(threads);
-//    this.audioSystem[3] = new VTAudioSystem(threads);
-//    this.audioSystem[4] = new VTAudioSystem(threads);
+//    this.audioSystem[0] = new VTAudioSystem(executor);
+//    this.audioSystem[1] = new VTAudioSystem(executor);
+//    this.audioSystem[2] = new VTAudioSystem(executor);
+//    this.audioSystem[3] = new VTAudioSystem(executor);
+//    this.audioSystem[4] = new VTAudioSystem(executor);
     
     loadServerSettingsFile();
   }
@@ -152,7 +152,7 @@ public class VTServer implements Runnable
 //        trayIconInterface.remove();
 //      }
       serverConnector.stop();
-      threads.shutdownNow();
+      executor.shutdownNow();
     }
     catch (Throwable t)
     {
@@ -167,7 +167,7 @@ public class VTServer implements Runnable
   
   public ExecutorService getServerThreads()
   {
-    return threads;
+    return executor;
   }
   
   public void setSkipConfiguration(boolean skipConfiguration)
@@ -2059,7 +2059,7 @@ public class VTServer implements Runnable
   
   public void startThread()
   {
-    threads.execute(new Runnable()
+    executor.execute(new Runnable()
     {
       public void run()
       {
