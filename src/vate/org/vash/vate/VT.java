@@ -18,7 +18,7 @@ import java.util.logging.LogManager;
 
 //import org.vash.vate.graphics.font.VTGlobalTextStyleManager;
 import org.vash.vate.help.VTHelpManager;
-import org.vash.vate.tls.TLSVerificationDisabler;
+import org.vash.vate.tls.VTTLSVerificationDisabler;
 
 //import com.sixlegs.png.iio.PngImageReader;
 //import com.sixlegs.png.iio.PngImageReaderSpi;
@@ -195,7 +195,7 @@ public class VT
     System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
     System.setProperty("jdk.http.auth.proxying.disabledSchemes", "");
     //Authenticator.setDefault(VTProxyAuthenticator.getInstance());
-    TLSVerificationDisabler.install();
+    VTTLSVerificationDisabler.install();
     VTHelpManager.initialize();
     
     try
