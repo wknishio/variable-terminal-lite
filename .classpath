@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/aircompressor"/>
 	<classpathentry kind="src" path="src/bouncycastle"/>
+	<classpathentry kind="src" path="src/commons-codec"/>
 	<classpathentry kind="src" path="src/commons-httpclient"/>
 	<classpathentry kind="src" path="src/commons-rng"/>
 	<classpathentry kind="src" path="src/compat"/>
