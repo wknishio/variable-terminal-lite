@@ -342,15 +342,30 @@ public class VTClient implements Runnable
     return runtime;
   }
   
-//  public VTClientRemoteGraphicalConsoleMenuBar getInputMenuBar()
-//  {
-//    return inputMenuBar;
-//  }
+  public void enableInputMenuBar()
+  {
+    
+  }
   
-//  public VTClientConfigurationDialog getConnectionDialog()
-//  {
-//    return connectionDialog;
-//  }
+  public void disableInputMenuBar()
+  {
+    
+  }
+  
+  public boolean hasConnectionDialog()
+  {
+    return false;
+  }
+  
+  public void openConnectionDialog()
+  {
+    
+  }
+  
+  public void closeConnectionDialog()
+  {
+    
+  }
   
   public void saveClientSettingsFile(String settingsFile) throws Exception
   {

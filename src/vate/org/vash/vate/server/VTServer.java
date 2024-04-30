@@ -413,15 +413,10 @@ public class VTServer implements Runnable
     this.serverConnector = serverConnector;
   }
   
-//  public void setInputMenuBar(VTServerLocalGraphicalConsoleMenuBar inputMenuBar)
-//  {
-//    this.inputMenuBar = inputMenuBar;
-//  }
-//  
-//  public VTServerLocalGraphicalConsoleMenuBar getInputMenuBar()
-//  {
-//    return inputMenuBar;
-//  }
+  public void enableInputMenuBar()
+  {
+    
+  }
   
   public void setUniqueUserCredential(String user, String password)
   {
