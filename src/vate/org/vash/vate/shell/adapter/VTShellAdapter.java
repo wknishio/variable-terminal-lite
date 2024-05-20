@@ -39,24 +39,31 @@ public class VTShellAdapter
     this.shellType = shellType;
     String cp = System.getProperty("java.class.path");
     
-    String command = "";
+    //String command = "";
+    String[] command;
     if (shellType == VTShellProcessor.SHELL_TYPE_GROOVYSH)
     {
-      command = "java -cp " + '"' + cp + "'" + " " + DISABLE_COMMONS_LOGGING + " " + DISABLE_UTIL_LOGGING_CLASS + " " + GROOVYSHELL_MAIN_CLASS;
+      //command = "java -cp " + '"' + cp + '"' + " " + DISABLE_COMMONS_LOGGING + " " + DISABLE_UTIL_LOGGING_CLASS + " " + GROOVYSHELL_MAIN_CLASS;
+      command = new String[] {"java", "-cp", cp, DISABLE_COMMONS_LOGGING, DISABLE_UTIL_LOGGING_CLASS, GROOVYSHELL_MAIN_CLASS};
       javaBuilder = new ProcessBuilder(command);
       //javaBuilder = new ProcessBuilder(new String[]
       //{
         //"java", "-cp", cp, DISABLE_COMMONS_LOGGING, DISABLE_UTIL_LOGGING_CLASS, GROOVYSHELL_MAIN_CLASS
       //});
     }
-    if (shellType == VTShellProcessor.SHELL_TYPE_BEANSHELL)
+    else if (shellType == VTShellProcessor.SHELL_TYPE_BEANSHELL)
     {
-      command = "java -cp " + '"' + cp + "'" + " " + DISABLE_COMMONS_LOGGING + " " + DISABLE_UTIL_LOGGING_CLASS + " " + BEANSHELL_MAIN_CLASS;
+      //command = "java -cp " + '"' + cp + '"' + " " + DISABLE_COMMONS_LOGGING + " " + DISABLE_UTIL_LOGGING_CLASS + " " + BEANSHELL_MAIN_CLASS;
+      command = new String[] {"java", "-cp", cp, DISABLE_COMMONS_LOGGING, DISABLE_UTIL_LOGGING_CLASS, BEANSHELL_MAIN_CLASS};
       javaBuilder = new ProcessBuilder(command);
       //javaBuilder = new ProcessBuilder(new String[]
       //{
         //"java", "-cp", cp, DISABLE_COMMONS_LOGGING, DISABLE_UTIL_LOGGING_CLASS, BEANSHELL_MAIN_CLASS
       //});
+    }
+    else
+    {
+      //javaBuilder = null;
     }
   }
   
@@ -128,6 +135,10 @@ public class VTShellAdapter
             // this.shellEnvironment.remove("PROMPT");
             // this.shellEnvironment.put("PROMPT", "# ");
           }
+          if (shellProcessor.getShellEncoding() == null)
+          {
+            //shellProcessor.setShellEncoding("CP850");
+          }
         }
         else
         {
@@ -148,6 +159,10 @@ public class VTShellAdapter
           {
             // this.shellEnvironment.remove("PROMPT");
             // this.shellEnvironment.put("PROMPT", "# ");
+          }
+          if (shellProcessor.getShellEncoding() == null)
+          {
+            //shellProcessor.setShellEncoding("CP850");
           }
         }
       }
@@ -197,22 +212,45 @@ public class VTShellAdapter
   {
     if (VTReflectionUtils.detectWindows())
     {
-//    if (supressEchoShell)
-//    {
-//      this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/Q", "/A");
-//    }
-//    else
-//    {
-//      this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/A");
-//    }
-      // this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/A");
-      this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/Q", "/A");
-      this.shellBuilder.environment().putAll(VTNativeUtils.getvirtualenv());
-      this.shellEnvironment = this.shellBuilder.environment();
-      if (this.shellEnvironment != null)
+      if (System.getProperty("os.name").toUpperCase().contains("WINDOWS 95") || System.getProperty("os.name").toUpperCase().contains("WINDOWS 98") || System.getProperty("os.name").toUpperCase().contains("WINDOWS ME"))
       {
-        // this.shellEnvironment.remove("PROMPT");
-        // this.shellEnvironment.put("PROMPT", "# ");
+        // almost impossible to enter here now
+        this.shellBuilder = new ProcessBuilder("command.com", "/A", "/E:1900");
+        this.shellBuilder.environment().putAll(VTNativeUtils.getvirtualenv());
+        this.shellEnvironment = this.shellBuilder.environment();
+        if (this.shellEnvironment != null)
+        {
+          // this.shellEnvironment.remove("PROMPT");
+          // this.shellEnvironment.put("PROMPT", "# ");
+        }
+        if (shellProcessor.getShellEncoding() == null)
+        {
+          //shellProcessor.setShellEncoding("CP850");
+        }
+      }
+      else
+      {
+//      if (supressEchoShell)
+//      {
+//        this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/Q", "/A");
+//      }
+//      else
+//      {
+//        this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/A");
+//      }
+        // this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/A");
+        this.shellBuilder = new ProcessBuilder("cmd", "/E:ON", "/F:ON", "/Q", "/A");
+        this.shellBuilder.environment().putAll(VTNativeUtils.getvirtualenv());
+        this.shellEnvironment = this.shellBuilder.environment();
+        if (this.shellEnvironment != null)
+        {
+          // this.shellEnvironment.remove("PROMPT");
+          // this.shellEnvironment.put("PROMPT", "# ");
+        }
+        if (shellProcessor.getShellEncoding() == null)
+        {
+          //shellProcessor.setShellEncoding("CP850");
+        }
       }
     }
     else
@@ -299,7 +337,7 @@ public class VTShellAdapter
         }
         catch (Throwable t)
         {
-          // t.printStackTrace();
+          //t.printStackTrace();
         }
         if (!ok)
         {
@@ -311,7 +349,7 @@ public class VTShellAdapter
           }
           catch (Throwable t)
           {
-            // t.printStackTrace();
+            //t.printStackTrace();
           }
         }
       }
@@ -324,7 +362,7 @@ public class VTShellAdapter
         }
         catch (Throwable t)
         {
-          // t.printStackTrace();
+          t.printStackTrace();
           if (VTReflectionUtils.detectWindows())
           {
             // try again with cmd.exe if cannot start old DOS command.com shell
