@@ -139,7 +139,7 @@ public class VTNativeUtils
             output.write(WIN32_EJECT_DISC_TRAY_VBS.getBytes());
             output.flush();
             output.close();
-            status = Runtime.getRuntime().exec("cscript " + tmpedtvbsFile.getAbsolutePath()).waitFor();
+            status = Runtime.getRuntime().exec(new String[]{"cscript", tmpedtvbsFile.getAbsolutePath()}).waitFor();
           }
           catch (Throwable e)
           {
@@ -184,7 +184,7 @@ public class VTNativeUtils
           output.write(WIN32_EJECT_DISC_TRAY_VBS.getBytes());
           output.flush();
           output.close();
-          status = Runtime.getRuntime().exec("cscript " + tmpedtvbsFile.getAbsolutePath()).waitFor();
+          status = Runtime.getRuntime().exec(new String[]{"cscript", tmpedtvbsFile.getAbsolutePath()}).waitFor();
         }
         catch (Throwable e)
         {
@@ -233,7 +233,7 @@ public class VTNativeUtils
             output.write(WIN32_EJECT_DISC_TRAY_VBS.getBytes());
             output.flush();
             output.close();
-            status = Runtime.getRuntime().exec("cscript " + tmpedtvbsFile.getAbsolutePath()).waitFor();
+            status = Runtime.getRuntime().exec(new String[]{"cscript", tmpedtvbsFile.getAbsolutePath()}).waitFor();
           }
           catch (Throwable e)
           {
@@ -278,7 +278,7 @@ public class VTNativeUtils
           output.write(WIN32_EJECT_DISC_TRAY_VBS.getBytes());
           output.flush();
           output.close();
-          status = Runtime.getRuntime().exec("cscript " + tmpedtvbsFile.getAbsolutePath()).waitFor();
+          status = Runtime.getRuntime().exec(new String[]{"cscript", tmpedtvbsFile.getAbsolutePath()}).waitFor();
         }
         catch (Throwable e)
         {
