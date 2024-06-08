@@ -40,7 +40,8 @@
 	</target>
 	
 	<target name="compile_sources">
-		
+		<delete file="build/keep"/>
+		<delete file="dist/keep"/>
 		<javac fork="yes" executable="javac" srcdir="src" destdir="build" includes="**/*.java" source="${javac-spec}" target="${javac-spec}">
 			<classpath>
 				<fileset dir="lib">
@@ -73,9 +74,6 @@
 			</manifest>
 			<fileset dir="build"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 		<jar destfile="dist/lib-lite/vate-util.jar" update="false">
@@ -87,9 +85,6 @@
 			</manifest>
 			<fileset dir="build" excludes="org/vash/vate/client/startup/**,org/vash/vate/startup/**,org/vash/vate/server/startup/**"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 	</target>
@@ -116,9 +111,6 @@
 			</manifest>
 			<fileset dir="build"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 		<jar destfile="dist/all-lite/vate-all-shell.jar" filesetmanifest="mergewithoutmain" update="false">
@@ -131,9 +123,6 @@
 			</manifest>
 			<fileset dir="build"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 		<delete dir="dist/client-lite"/>
@@ -200,9 +189,6 @@
 			</manifest>
 			<fileset dir="build" excludes="org/vash/vate/client/**,org/vash/vate/startup/**"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 		<jar destfile="dist/server-lite/vate-server-shell.jar" filesetmanifest="mergewithoutmain" update="false">
@@ -215,9 +201,6 @@
 			</manifest>
 			<fileset dir="build" excludes="org/vash/vate/client/**,org/vash/vate/startup/**"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 		<jar destfile="dist/server-lite/vate-server-daemon.jar" filesetmanifest="mergewithoutmain" update="false">
@@ -230,9 +213,6 @@
 			</manifest>
 			<fileset dir="build" excludes="org/vash/vate/client/**,org/vash/vate/startup/**"/>
 			<zipgroupfileset dir="lib" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			<!--
-			<zipgroupfileset dir="groovy" excludes="META-INF/*.SF,META-INF/*.DSA,META-INF/*.RSA"/>
-			-->
 		</jar>
 		
 	</target>
