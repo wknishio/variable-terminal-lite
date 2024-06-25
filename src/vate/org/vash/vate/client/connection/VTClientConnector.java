@@ -57,7 +57,7 @@ public class VTClientConnector implements Runnable
     this.secureRandom = secureRandom;
     this.connection = new VTClientConnection();
     this.handler = new VTClientConnectionHandler(client, connection);
-    portMappingManager = new VTNATSinglePortMappingManagerMKII(3, 300);
+    portMappingManager = new VTNATSinglePortMappingManagerMKII(3, 300, client.getExecutorService());
     portMappingManager.start();
   }
   
@@ -92,7 +92,7 @@ public class VTClientConnector implements Runnable
       // finished = false;
       // timeoutThread = new Thread(this, getClass().getSimpleName());
       // timeoutThread.start();
-      client.getClientThreads().execute(this);
+      client.getExecutorService().execute(this);
     }
     
     public void run()
@@ -142,13 +142,7 @@ public class VTClientConnector implements Runnable
             VTConsole.print("\nVT>Retrying connection with server...");
             // retry = true;
           }
-//          if (client.getConnectionDialog() != null)
-//          {
-//            if (client.getConnectionDialog().isVisible())
-//            {
-//              client.getConnectionDialog().close();
-//            }
-//          }
+          client.closeConnectionDialog();
         }
       }
       catch (Throwable e)
@@ -566,7 +560,7 @@ public class VTClientConnector implements Runnable
       {
         portMappingManager.deletePortMapping();
       }
-      VTConsole.createInterruptibleReadline(false, new Runnable()
+      VTConsole.createInterruptibleReadline(false, client.getExecutorService(), new Runnable()
       {
         public void run()
         {
@@ -811,13 +805,13 @@ public class VTClientConnector implements Runnable
 //      {
 //        client.getInputMenuBar().setEnabledDialogMenu(true);
 //      }
-//      if (client.getConnectionDialog() != null && !client.getConnectionDialog().isVisible())
-//      {
-//        // dialogLine = true;
-//        dialog = true;
-//        // retry = false;
-//        client.getConnectionDialog().open();
-//      }
+      if (client.hasConnectionDialog())
+      {
+        // dialogLine = true;
+        dialog = true;
+        // retry = false;
+        client.openConnectionDialog();
+      }
       if (skipConfiguration)
       {
         // System.out.println("skipConfiguration");
@@ -1434,17 +1428,7 @@ public class VTClientConnector implements Runnable
       {
         if (establishConnection(connection, hostAddress, hostPort != null && hostPort > 0 ? hostPort : 6060))
         {
-//          try
-//          {
-//            if (client.getConnectionDialog() != null && client.getConnectionDialog().isVisible())
-//            {
-//              client.getConnectionDialog().close();
-//            }
-//          }
-//          catch (Throwable t)
-//          {
-//            
-//          }
+          client.closeConnectionDialog();
           handler.run();
         }
         else
@@ -1456,17 +1440,7 @@ public class VTClientConnector implements Runnable
       {
         if (listenConnection(connection))
         {
-//          try
-//          {
-//            if (client.getConnectionDialog() != null && client.getConnectionDialog().isVisible())
-//            {
-//              client.getConnectionDialog().close();
-//            }
-//          }
-//          catch (Throwable t)
-//          {
-//            
-//          }
+          client.closeConnectionDialog();
           handler.run();
         }
         else

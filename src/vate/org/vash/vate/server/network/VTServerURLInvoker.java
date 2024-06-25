@@ -19,14 +19,15 @@ public class VTServerURLInvoker extends VTTask
   private String fileOutput;
   private VTServerSession session;
   // private StringBuilder message;
-  // private VTURLInvoker invoker;
+  //private VTURLInvoker invoker;
   
   public VTServerURLInvoker(VTServerSession session)
   {
+    super(session.getExecutorService());
     this.session = session;
     // this.message = new StringBuilder();
     this.finished = true;
-    // this.invoker = new VTURLInvoker();
+    //this.invoker = new VTURLInvoker();
   }
   
   public boolean isFinished()
