@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 // import java.io.Console;
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
-//import java.awt.Frame;
 // import java.io.FileInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -786,44 +785,38 @@ public class VTStandardConsole implements VTConsoleImplementation
     inputStream.interruptRead();
   }
   
-//  public Frame getFrame()
-//  {
-//    return null;
-//  }
-  
   public void toggleScrollMode()
   {
-    // TODO Auto-generated method stub
+    
   }
   
   public void toggleInputMode()
   {
-    // TODO Auto-generated method stub
+    
   }
   
   public void input(String text)
   {
-    // TODO Auto-generated method stub
+    
   }
   
   public void copyText()
   {
-    // TODO Auto-generated method stub
+    
   }
   
   public void pasteText()
   {
-    // TODO Auto-generated method stub
+    
   }
   
   public void clearInput()
   {
-    // TODO Auto-generated method stub
+    
   }
   
   public String getSelectedText()
   {
-    // TODO Auto-generated method stub
     return null;
   }
   
@@ -834,61 +827,51 @@ public class VTStandardConsole implements VTConsoleImplementation
   
   public boolean isCommandEcho()
   {
-    // TODO Auto-generated method stub
     return false;
   }
   
   public void setCommandEcho(boolean commandEcho)
   {
-    // TODO Auto-generated method stub
     
   }
   
   public String getAllText()
   {
-    // TODO Auto-generated method stub
     return null;
   }
   
   public void copyAllText()
   {
-    // TODO Auto-generated method stub
     
   }
   
   public void setIgnoreClose(boolean ignoreClose)
   {
-    // TODO Auto-generated method stub
     
   }
   
   public void setRemoteIcon(boolean remote)
   {
-    // TODO Auto-generated method stub
     
   }
   
   public void addToggleFlushInterruptNotify(VTConsoleBooleanToggleNotify notify)
   {
-    // TODO Auto-generated method stub
     
   }
   
   public void addToggleReplaceInputNotify(VTConsoleBooleanToggleNotify notify)
   {
-    // TODO Auto-generated method stub
     
   }
   
   public void requestFocus()
   {
-    // TODO Auto-generated method stub
     
   }
   
   public void closeConsole()
   {
-    // TODO Auto-generated method stub
     
   }
   
@@ -973,9 +956,4 @@ public class VTStandardConsole implements VTConsoleImplementation
       readLineLog = null;
     }
   }
-  
-  // public boolean isReadingLine()
-  // {
-  // return inputStream.usingRead();
-  // }
 }
