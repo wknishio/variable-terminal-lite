@@ -478,29 +478,20 @@ public class VTServer implements Runnable
     userCredentials.add(new Credential(user, password));
   }
   
-//  public void displayTrayIconMessage(String caption, String text)
-//  {
-//    if (trayIconInterface != null)
-//    {
-//      trayIconInterface.displayMessage(caption, text);
-//    }
-//  }
-//  
-//  public void enableTrayIcon()
-//  {
-//    if (trayIconInterface != null)
-//    {
-//      trayIconInterface.install(VTConsole.getFrame(), "Variable-Terminal - Server");
-//    }
-//  }
-//  
-//  public void disableTrayIcon()
-//  {
-//    if (trayIconInterface != null)
-//    {
-//      trayIconInterface.remove();
-//    }
-//  }
+  public void displayTrayIconMessage(String caption, String text)
+  {
+    
+  }
+  
+  public void enableTrayIcon()
+  {
+    
+  }
+  
+  public void disableTrayIcon()
+  {
+    
+  }
   
   public void saveServerSettingsFile(String settingsFile) throws Exception
   {
