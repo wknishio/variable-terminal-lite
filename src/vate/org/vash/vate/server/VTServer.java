@@ -36,13 +36,13 @@ public class VTServer implements Runnable
   private String hostAddress = "";
   private Integer hostPort = null;
   private Integer natPort = null;
-  private String proxyType = "None";
+  private String proxyType = "NONE";
   private String proxyAddress = "";
   private Integer proxyPort = null;
   //private boolean useProxyAuthentication = false;
   private String proxyUser = "";
   private String proxyPassword = "";
-  private String encryptionType = "None";
+  private String encryptionType = "NONE";
   private byte[] encryptionKey = new byte[] {};
   private boolean daemon = false;
   private String sessionAccounts = "";
@@ -1587,7 +1587,7 @@ public class VTServer implements Runnable
               }
               else
               {
-                proxyType = "None";
+                proxyType = "NONE";
               }
             }
             VTConsole.print("VT>Use encryption in connection?(Y/N, default:N):");
@@ -1643,7 +1643,7 @@ public class VTServer implements Runnable
             }
             else
             {
-              encryptionType = "None";
+              encryptionType = "NONE";
             }
           }
         }
@@ -1779,7 +1779,7 @@ public class VTServer implements Runnable
             }
             else
             {
-              encryptionType = "None";
+              encryptionType = "NONE";
             }
             VTConsole.print("VT>Enter session shell(null for default):");
             line = VTConsole.readLine(false);
@@ -2139,18 +2139,10 @@ public class VTServer implements Runnable
       //serverConnector.setUseProxyAuthentication(useProxyAuthentication);
       serverConnector.setProxyUser(proxyUser);
       serverConnector.setProxyPassword(proxyPassword);
+      serverConnector.setEncryptionType(encryptionType);
+      serverConnector.setEncryptionKey(encryptionKey);
       serverConnector.setSessionsMaximum(sessionsMaximum);
       serverConnector.setSessionShell(sessionShell);
-      if (encryptionType != null && encryptionKey != null)
-      {
-        serverConnector.setEncryptionType(encryptionType);
-        serverConnector.setEncryptionKey(encryptionKey);
-      }
-      else
-      {
-        serverConnector.setEncryptionType("None");
-        serverConnector.setEncryptionKey(encryptionKey);
-      }
       if (!(userCredentials.size() > 0))
       {
         this.setUniqueUserCredential("", "");
@@ -2171,18 +2163,10 @@ public class VTServer implements Runnable
     //serverConnector.setUseProxyAuthentication(useProxyAuthentication);
     serverConnector.setProxyUser(proxyUser);
     serverConnector.setProxyPassword(proxyPassword);
+    serverConnector.setEncryptionType(encryptionType);
+    serverConnector.setEncryptionKey(encryptionKey);
     serverConnector.setSessionsMaximum(sessionsMaximum);
     serverConnector.setSessionShell(sessionShell);
-    if (encryptionType != null && encryptionKey != null)
-    {
-      serverConnector.setEncryptionType(encryptionType);
-      serverConnector.setEncryptionKey(encryptionKey);
-    }
-    else
-    {
-      serverConnector.setEncryptionType("None");
-      serverConnector.setEncryptionKey(encryptionKey);
-    }
     if (!(userCredentials.size() > 0))
     {
       this.setUniqueUserCredential("", "");
