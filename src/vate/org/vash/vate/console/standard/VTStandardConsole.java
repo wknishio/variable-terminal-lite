@@ -797,7 +797,14 @@ public class VTStandardConsole implements VTConsoleImplementation
   
   public void input(String text)
   {
-    
+    if (text != null)
+    {
+      if (inputStream.getEcho())
+      {
+        print(text);
+      }
+      inputStream.input(text);
+    }
   }
   
   public void copyText()
@@ -955,5 +962,10 @@ public class VTStandardConsole implements VTConsoleImplementation
       }
       readLineLog = null;
     }
+  }
+  
+  public String getLastOutputLine()
+  {
+    return "";
   }
 }
