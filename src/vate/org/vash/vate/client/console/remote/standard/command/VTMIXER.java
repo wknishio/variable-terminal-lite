@@ -1,8 +1,5 @@
 package org.vash.vate.client.console.remote.standard.command;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Mixer;
-
 import org.vash.vate.client.console.remote.standard.VTClientStandardRemoteConsoleCommandProcessor;
 import org.vash.vate.console.VTConsole;
 import org.vash.vate.help.VTHelpManager;
@@ -30,15 +27,6 @@ public class VTMIXER extends VTClientStandardRemoteConsoleCommandProcessor
       {
         message.setLength(0);
         message.append("\nVT>List of client audio mixers:\nVT>");
-        Mixer.Info[] mixers = AudioSystem.getMixerInfo();
-        int number = 0;
-        for (Mixer.Info info : mixers)
-        {
-          message.append("\nVT>Number: [" + number++ + "]");
-          message.append("\nVT>Name: [" + info.getName() + "]");
-          message.append("\nVT>Description: [" + info.getDescription() + "]");
-          message.append("\nVT>");
-        }
         message.append("\nVT>End of client audio mixers list\nVT>");
         VTConsole.print(message.toString());
       }
@@ -51,15 +39,6 @@ public class VTMIXER extends VTClientStandardRemoteConsoleCommandProcessor
     {
       message.setLength(0);
       message.append("\nVT>List of client audio mixers:\nVT>");
-      Mixer.Info[] mixers = AudioSystem.getMixerInfo();
-      int number = 0;
-      for (Mixer.Info info : mixers)
-      {
-        message.append("\nVT>Number: [" + number++ + "]");
-        message.append("\nVT>Name: [" + info.getName() + "]");
-        message.append("\nVT>Description: [" + info.getDescription() + "]");
-        message.append("\nVT>");
-      }
       message.append("\nVT>End of client audio mixers list\nVT>");
       VTConsole.print(message.toString());
       connection.getCommandWriter().writeLine(command);
