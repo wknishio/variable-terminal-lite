@@ -7,6 +7,7 @@
 	<classpathentry kind="src" path="src/commons-httpclient"/>
 	<classpathentry kind="src" path="src/commons-rng"/>
 	<classpathentry kind="src" path="src/compat"/>
+	<classpathentry kind="src" path="src/jsap"/>
 	<classpathentry kind="src" path="src/jsocks"/>
 	<classpathentry kind="src" path="src/jzlib"/>
 	<classpathentry kind="src" path="src/lz4"/>
@@ -20,7 +21,6 @@
 	<classpathentry kind="lib" path="lib/commons-io-2.2.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/jsap.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-nop-1.7.25.jar"/>
 	<classpathentry kind="output" path="bin"/>
