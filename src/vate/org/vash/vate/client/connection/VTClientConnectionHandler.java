@@ -1,6 +1,6 @@
 package org.vash.vate.client.connection;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.vash.vate.client.VTClient;
 import org.vash.vate.client.session.VTClientSessionHandler;
@@ -9,7 +9,7 @@ import org.vash.vate.console.VTConsole;
 
 public class VTClientConnectionHandler implements Runnable
 {
-  //private VTClient client;
+  private VTClient client;
   private VTClientConnection connection;
   private VTClientSessionHandler handler;
   // private VTClientAuthenticator authenticator;
@@ -17,7 +17,7 @@ public class VTClientConnectionHandler implements Runnable
   
   public VTClientConnectionHandler(VTClient client, VTClientConnection connection)
   {
-    //this.client = client;
+    this.client = client;
     this.connection = connection;
     this.handler = new VTClientSessionHandler(client, connection);
     // this.session = new VTClientSession(client, connection);
@@ -65,9 +65,10 @@ public class VTClientConnectionHandler implements Runnable
     handler.getAuthenticator().stopTimeoutThread();
     System.runFinalization();
     System.gc();
+    client.disableInputMenuBar();
   }
   
-  public void setSessionListeners(List<VTClientSessionListener> listeners)
+  public void setSessionListeners(Collection<VTClientSessionListener> listeners)
   {
     handler.setSessionListeners(listeners);
   }

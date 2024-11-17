@@ -7,15 +7,11 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 
 import org.vash.vate.console.VTConsole;
-//import org.vash.vate.graphics.capture.VTAWTScreenCaptureProvider;
-//import org.vash.vate.graphics.clipboard.VTClipboardTransferTask;
-//import org.vash.vate.graphics.control.VTAWTControlProvider;
 import org.vash.vate.ping.VTNanoPingListener;
 import org.vash.vate.ping.VTNanoPingService;
 import org.vash.vate.server.VTServer;
@@ -28,15 +24,10 @@ import org.vash.vate.server.filesystem.VTServerFileModifyOperation;
 import org.vash.vate.server.filesystem.VTServerFileScanOperation;
 import org.vash.vate.server.filesystem.VTServerFileSystemRootsResolver;
 import org.vash.vate.server.filetransfer.VTFileTransferServer;
-//import org.vash.vate.server.graphicsdevices.VTServerGraphicsDeviceResolver;
-//import org.vash.vate.server.graphicsmode.VTGraphicsModeServer;
 import org.vash.vate.server.network.VTServerHostResolver;
 import org.vash.vate.server.network.VTServerNetworkInterfaceResolver;
 import org.vash.vate.server.opticaldrive.VTServerOpticalDriveOperation;
-//import org.vash.vate.server.print.VTServerPrintDataTask;
-//import org.vash.vate.server.print.VTServerPrintServiceResolver;
 import org.vash.vate.server.runtime.VTServerRuntimeExecutor;
-//import org.vash.vate.server.screenshot.VTServerScreenshotTask;
 import org.vash.vate.shell.adapter.VTShellAdapter;
 import org.vash.vate.shell.adapter.VTShellProcessor;
 import org.vash.vate.tunnel.connection.VTTunnelConnection;
@@ -56,9 +47,9 @@ public class VTServerSession
   private String user;
   private VTServer server;
   private VTServerConnection connection;
-//  private VTAWTControlProvider controlProvider;
-//  private VTAWTScreenCaptureProvider viewProvider;
-//  private VTAWTScreenCaptureProvider screenshotProvider;
+  //private VTAWTControlProvider controlProvider;
+  //private VTAWTScreenCaptureProvider viewProvider;
+  //private VTAWTScreenCaptureProvider screenshotProvider;
   private VTServerRemoteConsoleReader clientReader;
   private VTServerShellOutputWriter shellOutputWriter;
   // private VTServerShellErrorWriter shellErrorWriter;
@@ -72,7 +63,7 @@ public class VTServerSession
   // private VTServerZipFileOperation zipFileOperation;
   private VTServerHostResolver hostResolver;
   private VTServerNetworkInterfaceResolver networkInterfaceResolver;
-  //private VTServerURLInvoker urlInvoker;
+//  private VTServerURLInvoker urlInvoker;
   //private VTServerPrintServiceResolver printServiceResolver;
   private VTServerOpticalDriveOperation opticalDriveOperation;
   private VTServerSessionListViewer connectionListViewer;
@@ -81,8 +72,8 @@ public class VTServerSession
   // private VTServerPrintFileTask printFileTask;
   //private VTServerPrintDataTask printDataTask;
   // private VTServerDefaultPrintServiceResolver defaultPrintServiceResolver;
-//  private VTClipboardTransferTask clipboardTransferTask;
-//  private VTServerGraphicsDeviceResolver graphicsDeviceResolver;
+  //private VTClipboardTransferTask clipboardTransferTask;
+  //private VTServerGraphicsDeviceResolver graphicsDeviceResolver;
   private VTTunnelConnectionHandler tunnelsHandler;
   // private VTTunnelConnectionHandler socksTunnelsHandler;
   private VTNanoPingService pingServiceClient;
@@ -95,7 +86,7 @@ public class VTServerSession
     this.server = server;
     this.connection = connection;
     this.executorService = server.getExecutorService();
-    this.sessionCloseables = Collections.synchronizedCollection(new LinkedList<Closeable>());
+    this.sessionCloseables = new ConcurrentLinkedQueue<Closeable>();
     this.shellAdapter = new VTShellAdapter(executorService);
   }
   
@@ -115,13 +106,13 @@ public class VTServerSession
     // this.shellErrorWriter = new VTServerShellErrorWriter(this);
     this.shellExitListener = new VTServerShellExitListener(this);
     
-//    this.controlProvider = new VTAWTControlProvider();
-//    this.viewProvider = new VTAWTScreenCaptureProvider();
-//    this.screenshotProvider = new VTAWTScreenCaptureProvider();
+    //this.controlProvider = new VTAWTControlProvider();
+    //this.viewProvider = new VTAWTScreenCaptureProvider();
+    //this.screenshotProvider = new VTAWTScreenCaptureProvider();
     this.fileTransferServer = new VTFileTransferServer(this);
-//    this.screenshotTask = new VTServerScreenshotTask(this);
+    //this.screenshotTask = new VTServerScreenshotTask(this);
     this.runtimeExecutor = new VTServerRuntimeExecutor(this);
-//    this.graphicsServer = new VTGraphicsModeServer(this);
+    //this.graphicsServer = new VTGraphicsModeServer(this);
     this.fileScanOperation = new VTServerFileScanOperation(this);
     this.fileModifyOperation = new VTServerFileModifyOperation(this);
     // this.zipFileOperation = new VTServerZipFileOperation(this);
@@ -129,14 +120,14 @@ public class VTServerSession
     this.hostResolver = new VTServerHostResolver(this);
 //    this.urlInvoker = new VTServerURLInvoker(this);
     this.networkInterfaceResolver = new VTServerNetworkInterfaceResolver(this);
-//    this.printServiceResolver = new VTServerPrintServiceResolver(this);
+    //this.printServiceResolver = new VTServerPrintServiceResolver(this);
     this.connectionListViewer = new VTServerSessionListViewer(this);
     this.fileSystemRootsResolver = new VTServerFileSystemRootsResolver(this);
-//    this.clipboardTransferTask = new VTClipboardTransferTask();
-//    this.graphicsDeviceResolver = new VTServerGraphicsDeviceResolver(this);
+    //this.clipboardTransferTask = new VTClipboardTransferTask(executorService);
+    //this.graphicsDeviceResolver = new VTServerGraphicsDeviceResolver(this);
     // this.printTextTask = new VTServerPrintTextTask(this);
     // this.printFileTask = new VTServerPrintFileTask(this);
-//    this.printDataTask = new VTServerPrintDataTask(this);
+    //this.printDataTask = new VTServerPrintDataTask(this);
     this.tunnelsHandler = new VTTunnelConnectionHandler(new VTTunnelConnection(executorService, sessionCloseables));
     // this.socksTunnelsHandler = new VTTunnelConnectionHandler(new
     // VTTunnelConnection(executor), executor);
@@ -446,13 +437,13 @@ public class VTServerSession
     fileTransferServer.getHandler().getSession().getTransaction().setStopped(true);
     // System.out.println("fileTransferServer.setStopped");
     // runtimeExecutor.setStopped(stopped);
-//    graphicsServer.setStopped(true);
+    //graphicsServer.setStopped(true);
     // System.out.println("graphicsServer.setStopped");
     // printTextTask.setStopped(stopped);
     // System.out.println("printTextTask.setStopped");
     // printFileTask.setStopped(stopped);
     // System.out.println("printFileTask.setStopped");
-//    printDataTask.setStopped(true);
+    //printDataTask.setStopped(true);
     pingServiceClient.setStopped(true);
     pingServiceServer.setStopped(true);
     pingServiceClient.ping();
@@ -637,6 +628,7 @@ public class VTServerSession
   {
     pingServiceServer.startThread();
     pingServiceClient.startThread();
+    
     clientReader.startThread();
     shellOutputWriter.startThread();
     // shellErrorWriter.startThread();
@@ -703,6 +695,7 @@ public class VTServerSession
     shellExitListener.setStopped(true);
   }
   
+  @SuppressWarnings("unchecked")
   public void tryStopSessionThreads()
   {
     // System.out.println("tryStopSessionThreads start");
@@ -710,7 +703,7 @@ public class VTServerSession
     // System.out.println("tryStopSessionThreads middle");
     try
     {
-      for (Closeable closeable : sessionCloseables.toArray(new Closeable[] {}))
+      for (Closeable closeable : sessionCloseables)
       {
         try
         {
@@ -847,11 +840,11 @@ public class VTServerSession
       // System.out.println("shellExitListener.joinThread()");
       fileTransferServer.joinThread();
       // System.out.println("fileTransferServer.joinThread()");
-//      screenshotTask.joinThread();
+      //screenshotTask.joinThread();
       // System.out.println("screenshotTask.joinThread()");
       runtimeExecutor.joinThread();
       // System.out.println("runtimeExecutor.joinThread()");
-//      graphicsServer.joinThread();
+      //graphicsServer.joinThread();
       // System.out.println("graphicsServer.joinThread()");
       fileScanOperation.joinThread();
       // System.out.println("fileScanOperation.joinThread()");
@@ -864,7 +857,7 @@ public class VTServerSession
       // System.out.println("hostResolver.joinThread()");
       networkInterfaceResolver.joinThread();
       // System.out.println("networkInterfaceResolver.joinThread()");
-//      printServiceResolver.joinThread();
+      //printServiceResolver.joinThread();
       // System.out.println("printServiceResolver.joinThread()");
       // this.cdOperationThread.join();
       connectionListViewer.joinThread();
@@ -875,9 +868,10 @@ public class VTServerSession
       // System.out.println("printTextTask.joinThread()");
       // this.printFileTask.joinThread();
       // System.out.println("printFileTask.joinThread()");
-//      printDataTask.joinThread();
-//      graphicsDeviceResolver.joinThread();
-//      clipboardTransferTask.joinThread();
+      //printDataTask.joinThread();
+      //graphicsDeviceResolver.joinThread();
+      // System.out.println("graphicsDeviceResolver.joinThread()");
+      //clipboardTransferTask.joinThread();
       // System.out.println("clipboardTransferTask.joinThread()");
       tunnelsHandler.joinThread();
       // socksTunnelsHandler.joinThread();
@@ -890,10 +884,10 @@ public class VTServerSession
       // e.printStackTrace();
       // return;
     }
-//    controlProvider.dispose();
-//    viewProvider.dispose();
-//    screenshotProvider.dispose();
-//    screenshotTask.dispose();
+    //controlProvider.dispose();
+    //viewProvider.dispose();
+    //screenshotProvider.dispose();
+    //screenshotTask.dispose();
   }
   
   public void waitShellThreads()

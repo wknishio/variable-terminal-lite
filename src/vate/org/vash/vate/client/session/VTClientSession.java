@@ -6,8 +6,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 
 import org.vash.vate.client.VTClient;
@@ -32,8 +31,8 @@ public class VTClientSession
   private VTClientRemoteConsoleReader serverReader;
   private VTClientRemoteConsoleWriter clientWriter;
   private VTFileTransferClient fileTransferClient;
-//  private VTGraphicsModeClient graphicsClient;
-//  private VTClipboardTransferTask clipboardTransferTask;
+  //private VTGraphicsModeClient graphicsClient;
+  //private VTClipboardTransferTask clipboardTransferTask;
   // private VTClientZipFileOperation zipFileOperation;
   private VTTunnelConnectionHandler tunnelsHandler;
   // private VTTunnelConnectionHandler socksTunnelsHandler;
@@ -47,7 +46,7 @@ public class VTClientSession
     this.client = client;
     this.connection = connection;
     this.executorService = client.getExecutorService();
-    this.sessionCloseables = Collections.synchronizedCollection(new LinkedList<Closeable>());
+    this.sessionCloseables = new ConcurrentLinkedQueue<Closeable>();
   }
   
   public void initialize()
@@ -56,8 +55,8 @@ public class VTClientSession
     this.serverReader = new VTClientRemoteConsoleReader(this);
     this.clientWriter = new VTClientRemoteConsoleWriter(this);
     this.fileTransferClient = new VTFileTransferClient(this);
-//    this.graphicsClient = new VTGraphicsModeClient(this);
-//    this.clipboardTransferTask = new VTClipboardTransferTask();
+    //this.graphicsClient = new VTGraphicsModeClient(this);
+    //this.clipboardTransferTask = new VTClipboardTransferTask(executorService);
     // this.zipFileOperation = new VTClientZipFileOperation(this);
     this.tunnelsHandler = new VTTunnelConnectionHandler(new VTTunnelConnection(executorService, sessionCloseables));
     // this.socksTunnelsHandler = new VTTunnelConnectionHandler(new
@@ -202,11 +201,11 @@ public class VTClientSession
   public void stopTasks()
   {
     connection.closeSockets();
-//    client.getAudioSystem().stop();
+    //client.getAudioSystem().stop();
     serverReader.setStopped(true);
     clientWriter.setStopped(true);
     fileTransferClient.getHandler().getSession().getTransaction().setStopped(true);
-//    graphicsClient.setStopped(true);
+    //graphicsClient.setStopped(true);
     pingServiceClient.setStopped(true);
     pingServiceServer.setStopped(true);
     pingServiceClient.ping();
@@ -242,10 +241,7 @@ public class VTClientSession
     clientWriter.startThread();
     tunnelsHandler.startThread();
     // socksTunnelsHandler.startThread();
-//    if (client.getInputMenuBar() != null)
-//    {
-//      client.getInputMenuBar().setEnabled(true);
-//    }
+    client.enableInputMenuBar();
   }
   
   public void waitSession()
@@ -270,6 +266,7 @@ public class VTClientSession
     }
   }
   
+  @SuppressWarnings("unchecked")
   public void tryStopSessionThreads()
   {
     // VTTerminal.println("\nSession over!");
@@ -285,7 +282,7 @@ public class VTClientSession
     // }
     try
     {
-      for (Closeable closeable : sessionCloseables.toArray(new Closeable[] {}))
+      for (Closeable closeable : sessionCloseables)
       {
         try
         {
@@ -332,9 +329,9 @@ public class VTClientSession
       //System.out.println("clientWriter.joinThread()");
       fileTransferClient.joinThread();
       //System.out.println("fileTransferClient.joinThread()");
-//      graphicsClient.joinThread();
+      //graphicsClient.joinThread();
       //System.out.println("graphicsClient.joinThread()");
-//      clipboardTransferTask.joinThread();
+      //clipboardTransferTask.joinThread();
       //System.out.println("clipboardTransferTask.joinThread()");
       // zipFileOperation.joinThread();
       tunnelsHandler.joinThread();

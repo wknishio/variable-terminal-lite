@@ -5,9 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Properties;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -53,7 +53,7 @@ public class VTServer implements Runnable
   //private VTBlake3MessageDigest blake3Digest;
   // private File userDatabaseFile;
   private File serverSettingsFile;
-  private final List<Credential> userCredentials = new ArrayList<Credential>();
+  private final Collection<Credential> userCredentials = new ConcurrentLinkedQueue<Credential>();
   // private Properties fileUserCredentials;
   // private Properties argumentsServerSettings = new Properties();
   private VTConfigurationProperties fileServerSettings;
@@ -72,7 +72,7 @@ public class VTServer implements Runnable
   private boolean echoCommands = false;
   private boolean running = true;
   private boolean reconfigure = false;
-  private List<VTServerSessionListener> listeners = new ArrayList<VTServerSessionListener>();
+  private Collection<VTServerSessionListener> listeners = new ConcurrentLinkedQueue<VTServerSessionListener>();
   private int pingLimit = 0;
   private int pingInterval = 0;
   private int reconnectTimeout = 0;
@@ -215,7 +215,7 @@ public class VTServer implements Runnable
     return runtime;
   }
   
-  public List<Credential> getUserCredentials()
+  public Collection<Credential> getUserCredentials()
   {
     return userCredentials;
   }
@@ -2388,7 +2388,7 @@ public class VTServer implements Runnable
       consoleReader = new VTServerLocalConsoleReader(this);
       consoleReader.startThread();
     }
-    for (VTServerSessionListener listener : listeners.toArray(new VTServerSessionListener[] {}))
+    for (VTServerSessionListener listener : listeners)
     {
       serverConnector.addSessionListener(listener);
     }
