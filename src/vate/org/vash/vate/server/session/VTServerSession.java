@@ -628,13 +628,10 @@ public class VTServerSession
   {
     pingServiceServer.startThread();
     pingServiceClient.startThread();
-    
     clientReader.startThread();
     shellOutputWriter.startThread();
-    // shellErrorWriter.startThread();
     shellExitListener.startThread();
     tunnelsHandler.startThread();
-    // socksTunnelsHandler.startThread();
   }
   
   public void restartShellThreads()
