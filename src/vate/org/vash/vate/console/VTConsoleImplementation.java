@@ -1,6 +1,5 @@
 package org.vash.vate.console;
 
-//import java.awt.Frame;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Locale;
@@ -36,7 +35,7 @@ public interface VTConsoleImplementation
   
   public abstract void setTitle(String title);
   
-  public abstract void setColors(int backgroundColor, int foregroundColor);
+  public abstract void setColors(int foregroundColor, int backgroundColor);
   
   public abstract void setBold(boolean bold);
   
@@ -54,7 +53,7 @@ public interface VTConsoleImplementation
   
   public abstract PrintStream getSystemErr();
   
-//  public abstract Frame getFrame();
+  //public abstract Frame getFrame();
   
   public abstract void toggleScrollMode();
   

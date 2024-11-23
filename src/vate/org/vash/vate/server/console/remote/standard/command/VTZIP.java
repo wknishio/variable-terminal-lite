@@ -124,6 +124,6 @@ public class VTZIP extends VTServerStandardRemoteConsoleCommandProcessor
   
   public boolean remote()
   {
-    return false;
+    return true;
   }
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -456,7 +455,7 @@ public class VTServer implements Runnable
     }
   }
   
-  public void addUserCredential(String user, String password) throws UnsupportedEncodingException
+  public void addUserCredential(String user, String password)
   {
     userCredentials.add(new VTCredential(user, password));
   }
