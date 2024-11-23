@@ -40,6 +40,7 @@
 	</target>
 	
 	<target name="compile_sources">
+		
 		<delete file="build/keep"/>
 		<delete file="dist/keep"/>
 		<javac fork="yes" executable="javac" srcdir="src" destdir="build" includes="**/*.java" source="${javac-spec}" target="${javac-spec}">
@@ -65,6 +66,10 @@
 		
 		<delete dir="dist/lib-lite"/>
 		<mkdir dir="dist/lib-lite"/>
+		<copy todir="dist/lib-lite" overwrite="true">
+			<fileset dir="script/lib"/>
+		</copy>
+		
 		<jar destfile="dist/lib-lite/vate-lib.jar" update="false">
 			<manifest>
 				<attribute name="Built-By" value="William Kendi Nishio"/>
