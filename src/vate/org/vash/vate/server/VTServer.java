@@ -24,6 +24,7 @@ import org.vash.vate.parser.VTConfigurationProperties;
 import org.vash.vate.parser.VTPropertiesBuilder;
 import org.vash.vate.runtime.VTRuntimeExit;
 import org.vash.vate.security.VTBlake3SecureRandom;
+import org.vash.vate.security.VTCredential;
 import org.vash.vate.server.connection.VTServerConnector;
 import org.vash.vate.server.console.local.VTServerLocalConsoleReader;
 //import org.vash.vate.server.console.local.VTServerLocalGraphicalConsoleMenuBar;
@@ -53,7 +54,7 @@ public class VTServer implements Runnable
   //private VTBlake3MessageDigest blake3Digest;
   // private File userDatabaseFile;
   private File serverSettingsFile;
-  private final Collection<Credential> userCredentials = new ConcurrentLinkedQueue<Credential>();
+  private final Collection<VTCredential> userCredentials = new ConcurrentLinkedQueue<VTCredential>();
   // private Properties fileUserCredentials;
   // private Properties argumentsServerSettings = new Properties();
   private VTConfigurationProperties fileServerSettings;
@@ -87,28 +88,6 @@ public class VTServer implements Runnable
   static
   {
     VT.initialize();
-  }
-  
-  public class Credential
-  {
-    private String user;
-    private String password;
-    
-    public Credential(String user, String password)
-    {
-      this.user = user;
-      this.password = password;
-    }
-    
-    public String getUser()
-    {
-      return user;
-    }
-    
-    public String getPassword()
-    {
-      return password;
-    }
   }
   
   public VTServer()
@@ -215,7 +194,7 @@ public class VTServer implements Runnable
     return runtime;
   }
   
-  public Collection<Credential> getUserCredentials()
+  public Collection<VTCredential> getUserCredentials()
   {
     return userCredentials;
   }
@@ -434,7 +413,7 @@ public class VTServer implements Runnable
     try
     {
       userCredentials.clear();
-      userCredentials.add(new Credential(user, password));
+      userCredentials.add(new VTCredential(user, password));
     }
     catch (Throwable e)
     {
@@ -479,7 +458,7 @@ public class VTServer implements Runnable
   
   public void addUserCredential(String user, String password) throws UnsupportedEncodingException
   {
-    userCredentials.add(new Credential(user, password));
+    userCredentials.add(new VTCredential(user, password));
   }
   
   public void displayTrayIconMessage(String caption, String text)
