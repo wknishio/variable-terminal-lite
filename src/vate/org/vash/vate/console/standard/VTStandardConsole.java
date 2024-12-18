@@ -862,12 +862,12 @@ public class VTStandardConsole implements VTConsoleImplementation
     
   }
   
-  public void addToggleFlushInterruptNotify(VTConsoleBooleanToggleNotify notify)
+  public void addToggleFlushModePauseNotify(VTConsoleBooleanToggleNotify notify)
   {
     
   }
   
-  public void addToggleReplaceInputNotify(VTConsoleBooleanToggleNotify notify)
+  public void addToggleInputModeReplaceNotify(VTConsoleBooleanToggleNotify notify)
   {
     
   }

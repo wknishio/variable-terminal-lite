@@ -715,19 +715,19 @@ public final class VTConsole
     VTConsole.remoteIcon = remoteIcon;
   }
   
-  public static void addToggleReplaceInputNotify(VTConsoleBooleanToggleNotify notifyReplaceInput)
+  public static void addToggleFlushModePauseNotify(VTConsoleBooleanToggleNotify notifyFlushInterrupted)
   {
     if (checkConsole())
     {
-      console.addToggleReplaceInputNotify(notifyReplaceInput);
+      console.addToggleFlushModePauseNotify(notifyFlushInterrupted);
     }
   }
   
-  public static void addToggleFlushInterruptNotify(VTConsoleBooleanToggleNotify notifyFlushInterrupted)
+  public static void addToggleInputModeReplaceNotify(VTConsoleBooleanToggleNotify notifyReplaceInput)
   {
     if (checkConsole())
     {
-      console.addToggleFlushInterruptNotify(notifyFlushInterrupted);
+      console.addToggleInputModeReplaceNotify(notifyReplaceInput);
     }
   }
   
@@ -837,8 +837,8 @@ public final class VTConsole
   {
     if (checkConsole())
     {
-      console.closeConsole();
       console.interruptReadLine();
+      console.closeConsole();
     }
   }
   
@@ -885,5 +885,14 @@ public final class VTConsole
       return console.isInputModeReplace();
     }
     return false;
+  }
+  
+  public static VTConsoleImplementation getConsoleImplementation()
+  {
+    if (checkConsole())
+    {
+      return console;
+    }
+    return null;
   }
 }
