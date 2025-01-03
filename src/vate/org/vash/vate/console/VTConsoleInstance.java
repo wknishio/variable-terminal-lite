@@ -8,7 +8,6 @@ public interface VTConsoleInstance
 {
   public abstract String readLine(boolean echo) throws InterruptedException;
   
-  // public abstract boolean isReadingLine();
   public abstract void interruptReadLine();
   
   public abstract void print(String str);
@@ -52,9 +51,7 @@ public interface VTConsoleInstance
   public abstract PrintStream getSystemOut();
   
   public abstract PrintStream getSystemErr();
-  
-  //public abstract Frame getFrame();
-  
+    
   public abstract void toggleFlushMode();
   
   public abstract void toggleInputMode();
@@ -100,4 +97,8 @@ public interface VTConsoleInstance
   public abstract boolean isFlushModePause();
   
   public abstract boolean isInputModeReplace();
+  
+  //public abstract Frame getFrame();
+  
+  //public abstract Panel getPanel();
 }

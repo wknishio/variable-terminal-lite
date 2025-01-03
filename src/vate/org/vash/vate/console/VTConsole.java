@@ -594,15 +594,6 @@ public final class VTConsole
     return console != null;
   }
   
-//  public static Frame getFrame()
-//  {
-//    if (checkConsole())
-//    {
-//      return console.getFrame();
-//    }
-//    return null;
-//  }
-  
   public static void toggleFlushMode()
   {
     if (checkConsole())
@@ -895,4 +886,22 @@ public final class VTConsole
     }
     return null;
   }
+  
+//  public static Frame getFrame()
+//  {
+//    if (checkConsole())
+//    {
+//      return console.getFrame();
+//    }
+//    return null;
+//  }
+  
+//  public static Panel getPanel()
+//  {
+//    if (console != null)
+//    {
+//      return console.getPanel();
+//    }
+//    return null;
+//  }
 }
