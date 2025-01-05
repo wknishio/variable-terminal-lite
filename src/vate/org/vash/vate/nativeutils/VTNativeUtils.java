@@ -23,7 +23,7 @@ public class VTNativeUtils
   private static String[] virtualEnvironmentVariablesBackup;
   private static String[] virtualEnvironmentVariables;
   private static Properties systemPropertiesBackup;
-  private static VTNativeUtilsImplementation nativeUtils;
+  private static VTNativeUtilsInstance nativeUtils;
   
   private static final String WIN32_EJECT_DISC_TRAY_VBS = "On Error Resume Next\r\n" + 
   "For Each d in CreateObject(\"Scripting.FileSystemObject\").Drives\r\n" + 
