@@ -20,7 +20,7 @@ import org.vash.vate.client.connection.VTClientConnector;
 import org.vash.vate.client.session.VTClientSessionListener;
 import org.vash.vate.console.VTConsole;
 import org.vash.vate.exception.VTUncaughtExceptionHandler;
-import org.vash.vate.monitoring.VTDataMonitorService;
+import org.vash.vate.monitor.VTDataMonitorService;
 import org.vash.vate.parser.VTConfigurationProperties;
 import org.vash.vate.parser.VTPropertiesBuilder;
 import org.vash.vate.runtime.VTRuntimeExit;

@@ -18,7 +18,7 @@ import org.vash.vate.VT;
 //import org.vash.vate.audio.VTAudioSystem;
 import org.vash.vate.console.VTConsole;
 import org.vash.vate.exception.VTUncaughtExceptionHandler;
-import org.vash.vate.monitoring.VTDataMonitorService;
+import org.vash.vate.monitor.VTDataMonitorService;
 //import org.vash.vate.graphics.message.VTTrayIconInterface;
 import org.vash.vate.parser.VTArgumentParser;
 import org.vash.vate.parser.VTConfigurationProperties;
