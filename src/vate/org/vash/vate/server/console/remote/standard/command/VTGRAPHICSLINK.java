@@ -15,7 +15,7 @@ public class VTGRAPHICSLINK extends VTServerStandardRemoteConsoleCommandProcesso
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    session.getConnection().getGraphicsControlDataOutputStream().write(VT.VT_GRAPHICS_MODE_SESSION_UNSTARTED);
+    session.getConnection().getGraphicsControlDataOutputStream().write(VT.VT_GRAPHICS_LINK_SESSION_UNSTARTED);
     session.getConnection().getGraphicsControlDataOutputStream().flush();
     session.getConnection().getGraphicsControlDataInputStream().read();
   }
