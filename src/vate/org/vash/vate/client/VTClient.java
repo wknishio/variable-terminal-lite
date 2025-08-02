@@ -28,6 +28,7 @@ import org.vash.vate.security.VTBlake3SecureRandom;
 
 public class VTClient implements Runnable
 {
+  private static final Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new VTUncaughtExceptionHandler();
   private boolean active = true;
   private String hostAddress = "";
   private Integer hostPort = null;
@@ -87,12 +88,13 @@ public class VTClient implements Runnable
       {
         Thread created = new Thread(null, runnable, runnable.getClass().getSimpleName());
         created.setDaemon(true);
+        created.setUncaughtExceptionHandler(uncaughtExceptionHandler);
         return created;
       }
     });
-//    this.audioSystem = new VTAudioSystem(executor);
+    // this.audioSystem = new VTAudioSystem(executor);
     
-    //loadClientSettingsFile();
+    // loadClientSettingsFile();
   }
   
   public VTDataMonitorService getMonitorService()
@@ -2134,7 +2136,6 @@ public class VTClient implements Runnable
   
   private void runClient()
   {
-    Thread.setDefaultUncaughtExceptionHandler(new VTUncaughtExceptionHandler());
     loadClientSettingsFile();
     monitorService = new VTDataMonitorService(executorService);
     if (!VTConsole.isDaemon() && VTConsole.isGraphical())

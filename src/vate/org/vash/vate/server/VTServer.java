@@ -34,6 +34,7 @@ import org.vash.vate.server.session.VTServerSessionListener;
 
 public class VTServer implements Runnable
 {
+  private static final Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new VTUncaughtExceptionHandler();
   private boolean passive = true;
   private String hostAddress = "";
   private Integer hostPort = null;
@@ -114,17 +115,18 @@ public class VTServer implements Runnable
       {
         Thread created = new Thread(null, runnable, runnable.getClass().getSimpleName());
         created.setDaemon(true);
+        created.setUncaughtExceptionHandler(uncaughtExceptionHandler);
         return created;
       }
     });
-//    this.audioSystem = new VTAudioSystem[5];
-//    this.audioSystem[0] = new VTAudioSystem(executor);
-//    this.audioSystem[1] = new VTAudioSystem(executor);
-//    this.audioSystem[2] = new VTAudioSystem(executor);
-//    this.audioSystem[3] = new VTAudioSystem(executor);
-//    this.audioSystem[4] = new VTAudioSystem(executor);
+    // this.audioSystem = new VTAudioSystem[5];
+    // this.audioSystem[0] = new VTAudioSystem(executor);
+    // this.audioSystem[1] = new VTAudioSystem(executor);
+    // this.audioSystem[2] = new VTAudioSystem(executor);
+    // this.audioSystem[3] = new VTAudioSystem(executor);
+    // this.audioSystem[4] = new VTAudioSystem(executor);
     
-    //loadServerSettingsFile();
+    // loadServerSettingsFile();
   }
   
   public VTDataMonitorService getMonitorService()
@@ -2260,7 +2262,6 @@ public class VTServer implements Runnable
   
   private void runServer()
   {
-    Thread.setDefaultUncaughtExceptionHandler(new VTUncaughtExceptionHandler());
     loadServerSettingsFile();
     monitorService = new VTDataMonitorService(executorService);
     if (!VTConsole.isDaemon() && VTConsole.isGraphical())
