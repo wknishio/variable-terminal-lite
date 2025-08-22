@@ -1,6 +1,6 @@
 package org.vash.vate.server.console.remote.standard.command;
 
-import org.vash.vate.console.VTConsole;
+import org.vash.vate.console.VTSystemConsole;
 import org.vash.vate.server.console.remote.standard.VTServerStandardRemoteConsoleCommandProcessor;
 
 public class VTCOVER extends VTServerStandardRemoteConsoleCommandProcessor
@@ -22,17 +22,17 @@ public class VTCOVER extends VTServerStandardRemoteConsoleCommandProcessor
     }
     else
     {
-      if (VTConsole.isDaemon())
+      if (VTSystemConsole.isDaemon())
       {
         //session.getServer().enableTrayIcon();
-        VTConsole.setDaemon(false);
+        VTSystemConsole.setDaemon(false);
         connection.getResultWriter().write("\nVT>Server console interface enabled\nVT>");
         connection.getResultWriter().flush();
       }
       else
       {
         //session.getServer().disableTrayIcon();
-        VTConsole.setDaemon(true);
+        VTSystemConsole.setDaemon(true);
         connection.getResultWriter().write("\nVT>Server console interface disabled\nVT>");
         connection.getResultWriter().flush();
       }

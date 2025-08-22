@@ -1,6 +1,6 @@
 package org.vash.vate.server.console.local.standard.command;
 
-import org.vash.vate.console.VTConsole;
+import org.vash.vate.console.VTSystemConsole;
 import org.vash.vate.server.console.local.standard.VTServerStandardLocalConsoleCommandProcessor;
 
 public class VTDISPLAY extends VTServerStandardLocalConsoleCommandProcessor
@@ -17,7 +17,7 @@ public class VTDISPLAY extends VTServerStandardLocalConsoleCommandProcessor
   {
     message.setLength(0);
     message.append("\rVT>No graphical display devices found on server!\nVT>");
-    VTConsole.print(message.toString());
+    VTSystemConsole.print(message.toString());
   }
   
   public void close()

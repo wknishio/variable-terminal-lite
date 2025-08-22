@@ -1,6 +1,6 @@
 package org.vash.vate.server.console.local.standard.command;
 
-import org.vash.vate.console.VTConsole;
+import org.vash.vate.console.VTSystemConsole;
 import org.vash.vate.server.console.local.standard.VTServerStandardLocalConsoleCommandProcessor;
 
 public class VTPRINTER extends VTServerStandardLocalConsoleCommandProcessor
@@ -15,7 +15,7 @@ public class VTPRINTER extends VTServerStandardLocalConsoleCommandProcessor
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    VTConsole.print("\rVT>No print services found on server!\nVT>");
+    VTSystemConsole.print("\rVT>No print services found on server!\nVT>");
   }
   
   public void close()
