@@ -1,7 +1,5 @@
 package org.vash.vate.console;
 
-//import java.awt.EventQueue;
-//import java.awt.Frame;
 import java.io.FileDescriptor;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -10,25 +8,19 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 
 import org.vash.vate.VT;
-//import org.vash.vate.console.graphical.VTGraphicalConsole;
-//import org.vash.vate.console.graphical.menu.VTGraphicalConsoleMenuBar;
-//import org.vash.vate.console.lanterna.separated.VTLanternaConsole;
 import org.vash.vate.console.standard.VTStandardConsole;
 import org.vash.vate.nativeutils.VTSystemNativeUtils;
 import org.vash.vate.reflection.VTReflectionUtils;
 
 public final class VTSystemConsole
 {
-  // private static boolean initialized;  
-  private static boolean lanterna = true;
-  private static boolean graphical = false;
-  private static boolean ansi = false;
-  private static boolean daemon = false;
-  private static boolean remoteIcon = false;
-  // private static boolean split;
+  // private static boolean initialized;
+  private static volatile boolean lanterna = true;
+  private static volatile boolean graphical = false;
+  private static volatile boolean ansi = false;
+  private static volatile boolean daemon = false;
+  private static volatile boolean remoteIcon = false;
   private static VTConsole console;
-  
-  private static Object synchronizationObject = new Object();
   
   static
   {
@@ -36,9 +28,63 @@ public final class VTSystemConsole
     VTSystemNativeUtils.initialize();
   }
   
-  public static Object getSynchronizationObject()
+  public static boolean hasTerminal()
   {
-    return synchronizationObject;
+    try
+    {
+      if (!checkIOConsole())
+      {
+        try
+        {
+          if (FileDescriptor.in.valid())
+          {
+            FileDescriptor.in.sync();
+          }
+          else
+          {
+            return false;
+          }
+        }
+        catch (Throwable e)
+        {
+          return false;
+        }
+      }
+    }
+    catch (Throwable e)
+    {
+      try
+      {
+        if (FileDescriptor.in.valid())
+        {
+          FileDescriptor.in.sync();
+        }
+        else
+        {
+          return false;
+        }
+      }
+      catch (Throwable e2)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public static boolean isHeadless()
+  {
+    return VTReflectionUtils.isAWTHeadless();
+  }
+  
+  public static VTConsole createConsole(boolean graphical, boolean ansi)
+  {
+    VTConsole console = null;
+    console = VTStandardConsole.getInstance();
+    console.setRemoteIcon(true);
+    resetAttributes();
+    setColors(VTConsole.VT_CONSOLE_COLOR_LIGHT_GREEN, VTConsole.VT_CONSOLE_COLOR_DARK_BLACK);
+    return console;
   }
   
   public synchronized static void initialize()
@@ -242,11 +288,6 @@ public final class VTSystemConsole
         {
           VTSystemConsole.daemon = daemon;
           VTSystemNativeUtils.attachConsole();
-          Object waiter = VTSystemConsole.getSynchronizationObject();
-          synchronized (waiter)
-          {
-            waiter.notifyAll();
-          }
           // if using a tty console, it may be unable to reattach
         }
       }

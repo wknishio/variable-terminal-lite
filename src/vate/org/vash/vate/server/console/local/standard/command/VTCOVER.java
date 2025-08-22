@@ -32,14 +32,6 @@ public class VTCOVER extends VTServerStandardLocalConsoleCommandProcessor
         //server.disableTrayIcon();
         VTSystemConsole.print("\rVT>Server console interface disabled\nVT>");
         VTSystemConsole.setDaemon(true);
-        Object waiter = VTSystemConsole.getSynchronizationObject();
-        synchronized (waiter)
-        {
-          while (VTSystemConsole.isDaemon())
-          {
-            waiter.wait();
-          }
-        }
       }
     }
   }
