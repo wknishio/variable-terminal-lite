@@ -96,7 +96,7 @@ public final class VTSystemConsole
         if (graphical)
         {
           // VTGraphicalConsole.setSplit(split);
-          VTSystemNativeUtils.hideConsole();
+          //VTSystemNativeUtils.hideConsole();
           if (lanterna)
           {
 //            console = new VTLanternaConsole(graphical, remoteIcon);
@@ -125,7 +125,7 @@ public final class VTSystemConsole
       }
       else
       {
-        VTSystemNativeUtils.hideConsole();
+        //VTSystemNativeUtils.hideConsole();
       }
     }
   }
@@ -282,12 +282,12 @@ public final class VTSystemConsole
         if (daemon == true)
         {
           VTSystemConsole.daemon = daemon;
-          VTSystemNativeUtils.hideConsole();
+          //VTSystemNativeUtils.hideConsole();
         }
         else
         {
           VTSystemConsole.daemon = daemon;
-          VTSystemNativeUtils.attachConsole();
+          //VTSystemNativeUtils.attachConsole();
           // if using a tty console, it may be unable to reattach
         }
       }
