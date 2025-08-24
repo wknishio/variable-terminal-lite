@@ -15,9 +15,8 @@ import org.vash.vate.reflection.VTReflectionUtils;
 public final class VTSystemConsole
 {
   // private static boolean initialized;
-  private static volatile boolean lanterna = true;
   private static volatile boolean graphical = false;
-  private static volatile boolean ansi = false;
+  private static volatile boolean separated = false;
   private static volatile boolean daemon = false;
   private static volatile boolean remoteIcon = false;
   private static VTConsole console;
@@ -77,55 +76,16 @@ public final class VTSystemConsole
     return VTReflectionUtils.isAWTHeadless();
   }
   
-  public static VTConsole createConsole(boolean graphical, boolean ansi)
-  {
-    VTConsole console = null;
-    console = VTStandardConsole.getInstance();
-    console.setRemoteIcon(true);
-    resetAttributes();
-    setColors(VTConsole.VT_CONSOLE_COLOR_LIGHT_GREEN, VTConsole.VT_CONSOLE_COLOR_DARK_BLACK);
-    return console;
-  }
-  
   public synchronized static void initialize()
   {
     if (console == null)
     {
       if (!daemon)
       {
-        if (graphical)
-        {
-          // VTGraphicalConsole.setSplit(split);
-          //VTSystemNativeUtils.hideConsole();
-          if (lanterna)
-          {
-//            console = new VTLanternaConsole(graphical, remoteIcon);
-          }
-          else
-          {
-//            console = VTGraphicalConsole.getInstance(remoteIcon);
-          }
-//          console.getFrame().setMenuBar(new VTGraphicalConsoleMenuBar());
-//          console.getFrame().pack();
-        }
-        else
-        {
-          if (lanterna && ansi && VTSystemNativeUtils.checkANSI())
-          {
-//            console = new VTLanternaConsole(graphical, remoteIcon);
-          }
-          else
-          {
-            console = VTStandardConsole.getInstance();
-            console.setRemoteIcon(remoteIcon);
-            resetAttributes();
-            setColors(VTConsole.VT_CONSOLE_COLOR_LIGHT_GREEN, VTConsole.VT_CONSOLE_COLOR_DARK_BLACK);
-          }
-        }
-      }
-      else
-      {
-        //VTSystemNativeUtils.hideConsole();
+        console = VTStandardConsole.getInstance();
+        console.setRemoteIcon(remoteIcon);
+        console.resetAttributes();
+        console.setColors(VTConsole.VT_CONSOLE_COLOR_LIGHT_GREEN, VTConsole.VT_CONSOLE_COLOR_DARK_BLACK);
       }
     }
   }
@@ -135,19 +95,14 @@ public final class VTSystemConsole
     return graphical;
   }
   
-  public synchronized static boolean isANSI()
+  public synchronized static boolean isSeparated()
   {
-    return ansi;
+    return separated;
   }
   
-  public synchronized static void setANSI(boolean ansi)
+  public synchronized static void setSeparated(boolean separated)
   {
-    VTSystemConsole.ansi = ansi;
-  }
-  
-  public synchronized static void setLanterna(boolean lanterna)
-  {
-    VTSystemConsole.lanterna = lanterna;
+    VTSystemConsole.separated = separated;
   }
   
   public synchronized static void setGraphical(boolean graphical)
@@ -753,7 +708,7 @@ public final class VTSystemConsole
     }
   }
   
-  public static boolean checkIOConsole()
+  private static boolean checkIOConsole()
   {
     try
     {

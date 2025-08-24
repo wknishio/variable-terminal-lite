@@ -1,10 +1,15 @@
 package org.vash.vate.console;
 
+import java.io.FileDescriptor;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Method;
 import java.util.Locale;
 
-public interface VTConsole
+import org.vash.vate.console.standard.VTStandardConsole;
+import org.vash.vate.reflection.VTReflectionUtils;
+
+public abstract class VTConsole
 {
   public static final int VT_CONSOLE_COLOR_DARK_BLACK = 0;
   public static final int VT_CONSOLE_COLOR_DARK_RED = 1;
@@ -23,6 +28,102 @@ public interface VTConsole
   public static final int VT_CONSOLE_COLOR_LIGHT_CYAN = 16;
   public static final int VT_CONSOLE_COLOR_LIGHT_WHITE = 17;
   public static final int VT_CONSOLE_COLOR_DEFAULT = 9;
+  
+  private static boolean checkIOConsole()
+  {
+    try
+    {
+      Class.forName("java.io.Console");
+      Class<?> systemClass = Class.forName("java.lang.System");
+      Method consoleMethod = systemClass.getDeclaredMethod("console");
+      Object consoleObject = consoleMethod.invoke(null);
+      if (consoleObject != null)
+      {
+        try
+        {
+          Method isTermninalMethod = consoleObject.getClass().getDeclaredMethod("isTerminal");
+          Object isTerminal = isTermninalMethod.invoke(consoleObject);
+          if (isTerminal instanceof Boolean)
+          {
+            return (Boolean) isTerminal;
+          }
+        }
+        catch (Throwable e)
+        {
+          
+        }
+        return true;
+      }
+    }
+    catch (Throwable e)
+    {
+      
+    }
+    return false;
+  }
+  
+  public static boolean hasTerminal()
+  {
+    try
+    {
+      if (!checkIOConsole())
+      {
+        try
+        {
+          if (FileDescriptor.in.valid())
+          {
+            FileDescriptor.in.sync();
+          }
+          else
+          {
+            return false;
+          }
+        }
+        catch (Throwable e)
+        {
+          return false;
+        }
+      }
+      else
+      {
+        return true;
+      }
+    }
+    catch (Throwable e)
+    {
+      try
+      {
+        if (FileDescriptor.in.valid())
+        {
+          FileDescriptor.in.sync();
+        }
+        else
+        {
+          return false;
+        }
+      }
+      catch (Throwable e2)
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+  
+  public static boolean isHeadless()
+  {
+    return VTReflectionUtils.isAWTHeadless();
+  }
+  
+  public static VTConsole createConsole(boolean graphical, boolean separated)
+  {
+    VTConsole console = null;
+    console = VTStandardConsole.getInstance();
+    console.setRemoteIcon(true);
+    console.resetAttributes();
+    console.setColors(VTConsole.VT_CONSOLE_COLOR_LIGHT_GREEN, VTConsole.VT_CONSOLE_COLOR_DARK_BLACK);
+    return console;
+  }
   
   public abstract String readLine(boolean echo) throws InterruptedException;
   
