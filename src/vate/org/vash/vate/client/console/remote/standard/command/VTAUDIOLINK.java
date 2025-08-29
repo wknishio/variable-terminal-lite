@@ -1,7 +1,7 @@
 package org.vash.vate.client.console.remote.standard.command;
 
 import org.vash.vate.client.console.remote.standard.VTClientStandardRemoteConsoleCommandProcessor;
-import org.vash.vate.console.VTSystemConsole;
+import org.vash.vate.console.VTMainConsole;
 
 public class VTAUDIOLINK extends VTClientStandardRemoteConsoleCommandProcessor
 {
@@ -17,7 +17,7 @@ public class VTAUDIOLINK extends VTClientStandardRemoteConsoleCommandProcessor
   {
     try
     {
-      VTSystemConsole.print("\nVT>Remote audio link start on client failed!\nVT>");
+      VTMainConsole.print("\nVT>Remote audio link start on client failed!\nVT>");
       return;
     }
     catch (Throwable t)

@@ -1,7 +1,7 @@
 package org.vash.vate.client.console.remote.standard.command;
 
 import org.vash.vate.client.console.remote.standard.VTClientStandardRemoteConsoleCommandProcessor;
-import org.vash.vate.console.VTSystemConsole;
+import org.vash.vate.console.VTMainConsole;
 import org.vash.vate.reflection.VTReflectionUtils;
 
 public class VTGRAPHICSLINK extends VTClientStandardRemoteConsoleCommandProcessor
@@ -18,7 +18,7 @@ public class VTGRAPHICSLINK extends VTClientStandardRemoteConsoleCommandProcesso
   {
     if (VTReflectionUtils.isAWTHeadless())
     {
-      VTSystemConsole.print("\nVT>Remote graphics link start on client failed!\nVT>");
+      VTMainConsole.print("\nVT>Remote graphics link start on client failed!\nVT>");
       return;
     }
   }

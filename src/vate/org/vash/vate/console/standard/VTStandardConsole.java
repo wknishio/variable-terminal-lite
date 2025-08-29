@@ -15,7 +15,7 @@ import java.io.PrintStream;
 import java.util.Locale;
 import org.vash.vate.console.VTConsoleBooleanToggleNotify;
 import org.vash.vate.console.VTConsole;
-import org.vash.vate.nativeutils.VTSystemNativeUtils;
+import org.vash.vate.nativeutils.VTMainNativeUtils;
 import org.vash.vate.reflection.VTReflectionUtils;
 import org.vash.vate.stream.filter.VTDoubledOutputStream;
 
@@ -56,7 +56,7 @@ public class VTStandardConsole extends VTConsole
     // InputStreamReader(System.in));
     
     // bright = true;
-    isatty = VTSystemNativeUtils.isatty(1) != 0;
+    isatty = VTMainNativeUtils.isatty(1) != 0;
     // System.out.println(isatty);
 //		if (!isatty)
 //		{
@@ -273,7 +273,7 @@ public class VTStandardConsole extends VTConsole
     {
       // System.out.print("\u001B[2J");
       // System.out.print("\u001B[H");
-      VTSystemNativeUtils.system("cls");
+      VTMainNativeUtils.system("cls");
     }
     else
     {
@@ -299,7 +299,7 @@ public class VTStandardConsole extends VTConsole
     if (VTReflectionUtils.detectWindows())
     {
       // System.out.print("\u001B]0;" + title + "\u0007");
-      VTSystemNativeUtils.system("title " + title);
+      VTMainNativeUtils.system("title " + title);
     }
     else
     {
@@ -489,7 +489,7 @@ public class VTStandardConsole extends VTConsole
           break;
         }
       }
-      VTSystemNativeUtils.system("color " + colorCode.toString());
+      VTMainNativeUtils.system("color " + colorCode.toString());
       // System.out.print("\u001B[" + getUnixForegroundColor(foregroundColor) +
       // "m");
       // System.out.print("\u001B[" + getUnixBackgroundColor(backgroundColor) +
@@ -732,7 +732,7 @@ public class VTStandardConsole extends VTConsole
       // setColors(VTConsole.VT_CONSOLE_COLOR_LIGHT_GREEN,
       // VTConsole.VT_CONSOLE_COLOR_NORMAL_BLACK);
       // setBold(true);
-      VTSystemNativeUtils.system("color");
+      VTMainNativeUtils.system("color");
       // System.out.print("\u001B[0m");
     }
     else

@@ -1,6 +1,6 @@
 package org.vash.vate.server.console.remote.standard.command;
 
-import org.vash.vate.VT;
+import org.vash.vate.VTSystem;
 import org.vash.vate.server.console.remote.standard.VTServerStandardRemoteConsoleCommandProcessor;
 
 public class VTGRAPHICSLINK extends VTServerStandardRemoteConsoleCommandProcessor
@@ -15,7 +15,7 @@ public class VTGRAPHICSLINK extends VTServerStandardRemoteConsoleCommandProcesso
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    session.getConnection().getGraphicsControlDataOutputStream().write(VT.VT_GRAPHICS_LINK_SESSION_UNSTARTED);
+    session.getConnection().getGraphicsControlDataOutputStream().write(VTSystem.VT_GRAPHICS_LINK_SESSION_UNSTARTED);
     session.getConnection().getGraphicsControlDataOutputStream().flush();
     session.getConnection().getGraphicsControlDataInputStream().read();
   }

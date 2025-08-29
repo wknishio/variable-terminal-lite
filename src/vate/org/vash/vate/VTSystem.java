@@ -12,7 +12,7 @@ import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.tls.VTTLSVerificationDisabler;
 
 @SuppressWarnings("deprecation")
-public class VT
+public class VTSystem
 {
   public static final int VT_MAJOR_VERSION = 1;
   public static final int VT_MINOR_VERSION = 4;
@@ -228,7 +228,7 @@ public class VT
   public static final int VT_AUDIO_LINE_CAPTURE_BUFFER_MILLISECONDS = 500;
   public static final int VT_AUDIO_LINE_PLAYBACK_BUFFER_MILLISECONDS = 500;
   
-  public static final String VT_VERSION = "v" + VT.VT_MAJOR_VERSION + "." + VT.VT_MINOR_VERSION + "." + VT.VT_REVISION_VERSION;
+  public static final String VT_VERSION = "v" + VTSystem.VT_MAJOR_VERSION + "." + VTSystem.VT_MINOR_VERSION + "." + VTSystem.VT_REVISION_VERSION;
   public static final String VT_YEAR = VT_ERA_DATEFORMAT.format(VT_YEAR_CALENDAR.getTime()) + " " + String.valueOf(VT_YEAR_CALENDAR.get(Calendar.YEAR));
   
 //  public static BufferedImage remoteIcon;

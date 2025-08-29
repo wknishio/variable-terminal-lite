@@ -1,6 +1,6 @@
 package org.vash.vate.server.console.local.standard.command;
 
-import org.vash.vate.console.VTSystemConsole;
+import org.vash.vate.console.VTMainConsole;
 import org.vash.vate.server.console.local.standard.VTServerStandardLocalConsoleCommandProcessor;
 
 public class VTCOVER extends VTServerStandardLocalConsoleCommandProcessor
@@ -21,17 +21,17 @@ public class VTCOVER extends VTServerStandardLocalConsoleCommandProcessor
     }
     else
     {
-      if (VTSystemConsole.isDaemon())
+      if (VTMainConsole.isDaemon())
       {
         //server.enableTrayIcon();
-        VTSystemConsole.print("\rVT>Server console interface enabled\nVT>");
-        VTSystemConsole.setDaemon(false);
+        VTMainConsole.print("\rVT>Server console interface enabled\nVT>");
+        VTMainConsole.setDaemon(false);
       }
       else
       {
         //server.disableTrayIcon();
-        VTSystemConsole.print("\rVT>Server console interface disabled\nVT>");
-        VTSystemConsole.setDaemon(true);
+        VTMainConsole.print("\rVT>Server console interface disabled\nVT>");
+        VTMainConsole.setDaemon(true);
       }
     }
   }
