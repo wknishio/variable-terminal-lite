@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 
+import org.vash.vate.filesystem.VTFileUtils;
 //import org.vash.vate.audio.VTAudioBeeper;
 //import org.vash.vate.nativeutils.bsd.VTBSDNativeUtils;
 //import org.vash.vate.nativeutils.linux.VTLinuxNativeUtils;
@@ -148,7 +149,8 @@ public class VTMainNativeUtils
           }
           if (tmpedtvbsFile != null)
           {
-            tmpedtvbsFile.delete();
+            VTFileUtils.truncateThenDeleteQuietly(tmpedtvbsFile);
+            //tmpedtvbsFile.delete();
           }
           return status == 0;
         }
@@ -193,7 +195,8 @@ public class VTMainNativeUtils
         }
         if (tmpedtvbsFile != null)
         {
-          tmpedtvbsFile.delete();
+          VTFileUtils.truncateThenDeleteQuietly(tmpedtvbsFile);
+          //tmpedtvbsFile.delete();
         }
         return status == 0;
       }
@@ -242,7 +245,8 @@ public class VTMainNativeUtils
           }
           if (tmpedtvbsFile != null)
           {
-            tmpedtvbsFile.delete();
+            VTFileUtils.truncateThenDeleteQuietly(tmpedtvbsFile);
+            //tmpedtvbsFile.delete();
           }
           return status == 0;
         }
@@ -287,7 +291,8 @@ public class VTMainNativeUtils
         }
         if (tmpedtvbsFile != null)
         {
-          tmpedtvbsFile.delete();
+          VTFileUtils.truncateThenDeleteQuietly(tmpedtvbsFile);
+          //tmpedtvbsFile.delete();
         }
         return status == 0;
       }
