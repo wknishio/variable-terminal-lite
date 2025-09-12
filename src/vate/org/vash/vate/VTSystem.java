@@ -1,5 +1,9 @@
 package org.vash.vate;
 
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CodingErrorAction;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -292,4 +296,58 @@ public class VTSystem
 //  {
 //    return System.getProperty("os.name").toLowerCase().contains("windows");
 //  }
+  
+  public static CharsetEncoder getCharsetEncoder(String charsetName)
+  {
+    CharsetEncoder encoder = null;
+    
+    if (charsetName != null)
+    {
+      try
+      {
+        encoder = Charset.forName(charsetName).newEncoder();
+      }
+      catch (Throwable t)
+      {
+        encoder = Charset.forName(charsetName).newEncoder();
+      }
+    }
+    else
+    {
+      encoder = Charset.defaultCharset().newEncoder();
+    }
+    
+    encoder.replaceWith("_".getBytes());
+    encoder.onMalformedInput(CodingErrorAction.REPLACE);
+    encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+    
+    return encoder;
+  }
+  
+  public static CharsetDecoder getCharsetDecoder(String charsetName)
+  {
+    CharsetDecoder decoder = null;
+    
+    if (charsetName != null)
+    {
+      try
+      {
+        decoder = Charset.forName(charsetName).newDecoder();
+      }
+      catch (Throwable t)
+      {
+        decoder = Charset.defaultCharset().newDecoder();
+      }
+    }
+    else
+    {
+      decoder = Charset.defaultCharset().newDecoder();
+    }
+    
+    decoder.replaceWith("_");
+    decoder.onMalformedInput(CodingErrorAction.REPLACE);
+    decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+    
+    return decoder;
+  }
 }
