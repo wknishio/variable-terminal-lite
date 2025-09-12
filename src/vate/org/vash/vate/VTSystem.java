@@ -309,7 +309,7 @@ public class VTSystem
       }
       catch (Throwable t)
       {
-        encoder = Charset.forName(charsetName).newEncoder();
+        encoder = Charset.defaultCharset().newEncoder();
       }
     }
     else
@@ -317,9 +317,9 @@ public class VTSystem
       encoder = Charset.defaultCharset().newEncoder();
     }
     
-    encoder.replaceWith("_".getBytes());
-    encoder.onMalformedInput(CodingErrorAction.REPLACE);
-    encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+    //encoder.replaceWith("_".getBytes());
+    encoder.onMalformedInput(CodingErrorAction.IGNORE);
+    encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
     
     return encoder;
   }
@@ -344,9 +344,9 @@ public class VTSystem
       decoder = Charset.defaultCharset().newDecoder();
     }
     
-    decoder.replaceWith("_");
-    decoder.onMalformedInput(CodingErrorAction.REPLACE);
-    decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
+    //decoder.replaceWith("_");
+    decoder.onMalformedInput(CodingErrorAction.IGNORE);
+    decoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
     
     return decoder;
   }
