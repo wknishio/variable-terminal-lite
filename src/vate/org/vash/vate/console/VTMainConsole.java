@@ -269,6 +269,10 @@ public final class VTMainConsole
         return "";
       }
     }
+    if (daemon)
+    {
+      return console.readLine(echo);
+    }
     return null;
   }
   
