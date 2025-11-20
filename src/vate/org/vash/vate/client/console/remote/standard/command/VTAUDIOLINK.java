@@ -17,7 +17,7 @@ public class VTAUDIOLINK extends VTClientStandardRemoteConsoleCommandProcessor
   {
     try
     {
-      VTMainConsole.print("\nVT>Remote audio link start on client failed!\nVT>");
+      VTMainConsole.print("\rVT>Remote audio link start on client failed!\nVT>");
       return;
     }
     catch (Throwable t)

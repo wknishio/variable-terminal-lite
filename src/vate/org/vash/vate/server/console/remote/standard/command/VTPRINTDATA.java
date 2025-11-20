@@ -14,7 +14,7 @@ public class VTPRINTDATA extends VTServerStandardRemoteConsoleCommandProcessor
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    connection.getResultWriter().write("\nVT>Data printing not supported in server!\nVT>");
+    connection.getResultWriter().write("\rVT>Data printing not supported in server!\nVT>");
     connection.getResultWriter().flush();
   }
   

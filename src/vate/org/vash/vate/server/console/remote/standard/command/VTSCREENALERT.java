@@ -14,7 +14,7 @@ public class VTSCREENALERT extends VTServerStandardRemoteConsoleCommandProcessor
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    connection.getResultWriter().write("\nVT>Graphical alert not supported in server!\nVT>");
+    connection.getResultWriter().write("\rVT>Graphical alert not supported in server!\nVT>");
     connection.getResultWriter().flush();
   }
   

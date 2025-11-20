@@ -14,7 +14,7 @@ public class VTDISPLAY extends VTServerStandardRemoteConsoleCommandProcessor
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    connection.getResultWriter().write("\nVT>No graphical display devices found on server!\nVT>");
+    connection.getResultWriter().write("\rVT>No graphical display devices found on server!\nVT>");
     connection.getResultWriter().flush();
   }
   

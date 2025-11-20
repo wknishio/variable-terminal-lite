@@ -17,23 +17,23 @@ public class VTCOVER extends VTServerStandardRemoteConsoleCommandProcessor
   {
     if (session.getServer().isDaemon())
     {
-      connection.getResultWriter().write("\nVT>Server console interface is unavailable\nVT>");
+      connection.getResultWriter().write("\rVT>Server console interface is unavailable\nVT>");
       connection.getResultWriter().flush();
     }
     else
     {
       if (VTMainConsole.isDaemon())
       {
-        //session.getServer().enableTrayIcon();
         VTMainConsole.setDaemon(false);
-        connection.getResultWriter().write("\nVT>Server console interface enabled\nVT>");
+        session.getServer().enableTrayIcon();
+        connection.getResultWriter().write("\rVT>Server console interface enabled\nVT>");
         connection.getResultWriter().flush();
       }
       else
       {
-        //session.getServer().disableTrayIcon();
         VTMainConsole.setDaemon(true);
-        connection.getResultWriter().write("\nVT>Server console interface disabled\nVT>");
+        session.getServer().disableTrayIcon();
+        connection.getResultWriter().write("\rVT>Server console interface disabled\nVT>");
         connection.getResultWriter().flush();
       }
     }

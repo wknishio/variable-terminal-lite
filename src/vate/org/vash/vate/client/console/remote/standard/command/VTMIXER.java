@@ -26,19 +26,19 @@ public class VTMIXER extends VTClientStandardRemoteConsoleCommandProcessor
       else if (parsed[1].toUpperCase().startsWith("L"))
       {
         message.setLength(0);
-        message.append("\nVT>List of client audio mixers:\nVT>");
+        message.append("\rVT>List of client audio mixers:\nVT>");
         message.append("\nVT>End of client audio mixers list\nVT>");
         VTMainConsole.print(message.toString());
       }
       else
       {
-        VTMainConsole.print("\nVT>Invalid command syntax!" + VTHelpManager.getHelpForClientCommand(parsed[0]));
+        VTMainConsole.print("\rVT>Invalid command syntax!" + VTHelpManager.getHelpForClientCommand(parsed[0]));
       }
     }
     else
     {
       message.setLength(0);
-      message.append("\nVT>List of client audio mixers:\nVT>");
+      message.append("\rVT>List of client audio mixers:\nVT>");
       message.append("\nVT>End of client audio mixers list\nVT>");
       VTMainConsole.print(message.toString());
       connection.getCommandWriter().writeLine(command);

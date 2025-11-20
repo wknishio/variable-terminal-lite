@@ -18,7 +18,7 @@ public class VTGRAPHICSLINK extends VTClientStandardRemoteConsoleCommandProcesso
   {
     if (VTReflectionUtils.isAWTHeadless())
     {
-      VTMainConsole.print("\nVT>Remote graphics link start on client failed!\nVT>");
+      VTMainConsole.print("\rVT>Remote graphics link start on client failed!\nVT>");
       return;
     }
   }

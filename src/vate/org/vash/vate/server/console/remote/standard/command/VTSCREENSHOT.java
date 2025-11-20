@@ -14,7 +14,7 @@ public class VTSCREENSHOT extends VTServerStandardRemoteConsoleCommandProcessor
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    connection.getResultWriter().write("\nVT>Screen capture not supported in server!\nVT>");
+    connection.getResultWriter().write("\rVT>Screen capture not supported in server!\nVT>");
     connection.getResultWriter().flush();
   }
   

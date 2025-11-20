@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
+import java.util.concurrent.ExecutorService;
 
 import org.vash.vate.filesystem.VTFileUtils;
 //import org.vash.vate.audio.VTAudioBeeper;
@@ -88,7 +89,7 @@ public class VTMainNativeUtils
     }
   }
   
-  public static boolean beep(int freq, int dur, boolean block)
+  public static boolean beep(int freq, int dur, boolean block, ExecutorService executorService)
   {
     if (checkNativeUtils())
     {

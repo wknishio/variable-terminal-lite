@@ -14,7 +14,7 @@ public class VTPRINTER extends VTServerStandardRemoteConsoleCommandProcessor
   
   public void execute(String command, String[] parsed) throws Exception
   {
-    connection.getResultWriter().write("\nVT>No print services found on server!\nVT>");
+    connection.getResultWriter().write("\rVT>No print services found on server!\nVT>");
     connection.getResultWriter().flush();
   }
   

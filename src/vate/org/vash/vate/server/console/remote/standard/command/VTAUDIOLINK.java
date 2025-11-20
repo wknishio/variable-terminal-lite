@@ -19,7 +19,7 @@ public class VTAUDIOLINK extends VTServerStandardRemoteConsoleCommandProcessor
       connection.getAudioControlInputStream().read();
       connection.getAudioControlOutputStream().write(0);
       connection.getAudioControlOutputStream().flush();
-      connection.getResultWriter().write("\nVT>Remote audio link start on server failed!\nVT>");
+      connection.getResultWriter().write("\rVT>Remote audio link start on server failed!\nVT>");
       connection.getResultWriter().flush();
     }
     catch (Throwable t)
