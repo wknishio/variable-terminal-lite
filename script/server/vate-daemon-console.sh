@@ -1,2 +1,1 @@
-#/bin/sh
-nohup java -cp vate-server-daemon.jar org.vash.vate.server.startup.VTServerDaemonGraphicalStart $* &
+nohup java -cp vate-lite-server-daemon.jar org.vash.vate.server.startup.VTServerDaemonGraphicalStart $* &

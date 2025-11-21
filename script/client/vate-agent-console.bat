@@ -1,1 +1,1 @@
-java -cp vate-client-agent.jar org.vash.vate.client.startup.VTClientAgentGraphicalStart %*
+java -cp vate-lite-client-agent.jar org.vash.vate.client.startup.VTClientAgentGraphicalStart %*

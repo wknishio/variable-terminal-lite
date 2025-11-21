@@ -1,1 +1,1 @@
-java -cp vate-lib.jar org.vash.vate.proxy.server.launcher.VTSocksPlusHttpProxyServerLauncher %*
+java -cp vate-lite-lib.jar org.vash.vate.proxy.server.launcher.VTSocksPlusHttpProxyServerLauncher %*
