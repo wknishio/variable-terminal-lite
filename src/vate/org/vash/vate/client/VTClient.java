@@ -1371,7 +1371,7 @@ public class VTClient implements Runnable
 //          {
 //            inputMenuBar.setEnabledDialogMenu(false);
 //          }
-//          VTConsole.readLine(true);
+          VTMainConsole.readLine(true);
 //          
 //          if (inputMenuBar != null)
 //          {

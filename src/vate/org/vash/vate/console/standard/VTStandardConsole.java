@@ -43,7 +43,7 @@ public class VTStandardConsole extends VTConsole
   
   private VTStandardConsole()
   {
-    isatty = VTMainNativeUtils.isatty(1) != 0;
+    isatty = VTConsole.hasTerminal();
     
     outputStandard = new VTStandardConsoleOutputStream(this, FileDescriptor.out);
     errorStandard = new VTStandardConsoleOutputStream(this, FileDescriptor.err);
@@ -161,11 +161,11 @@ public class VTStandardConsole extends VTConsole
     {
       return;
     }
-    if (VTReflectionUtils.detectWindows())
+    if (VTReflectionUtils.detectWindows() && VTMainNativeUtils.isAvailable())
     {
       VTMainNativeUtils.system("cls");
     }
-    else
+    else if (!VTReflectionUtils.detectWindows())
     {
       // VT100 here
       printStream.print("\u001B[2J");
@@ -184,11 +184,11 @@ public class VTStandardConsole extends VTConsole
     {
       return;
     }
-    if (VTReflectionUtils.detectWindows())
+    if (VTReflectionUtils.detectWindows() && VTMainNativeUtils.isAvailable())
     {
       VTMainNativeUtils.system("title " + title);
     }
-    else
+    else if (!VTReflectionUtils.detectWindows())
     {
       printStream.print("\u001B]0;" + title + "\u0007");
     }
@@ -200,7 +200,7 @@ public class VTStandardConsole extends VTConsole
     {
       return;
     }
-    if (VTReflectionUtils.detectWindows())
+    if (VTReflectionUtils.detectWindows() && VTMainNativeUtils.isAvailable())
     {
       // Windows 2000 and beyond only
       colorCode.setLength(0);
@@ -372,7 +372,7 @@ public class VTStandardConsole extends VTConsole
       }
       VTMainNativeUtils.system("color " + colorCode.toString());
     }
-    else
+    else if (!VTReflectionUtils.detectWindows())
     {
       // Unix
       // VT100 here
@@ -563,22 +563,22 @@ public class VTStandardConsole extends VTConsole
     }
     if (bold)
     {
-      if (VTReflectionUtils.detectWindows())
+      if (VTReflectionUtils.detectWindows() && VTMainNativeUtils.isAvailable())
       {
         // printStream.print("\u001B[1m");
       }
-      else
+      else if (!VTReflectionUtils.detectWindows())
       {
         printStream.print("\u001B[1m");
       }
     }
     else
     {
-      if (VTReflectionUtils.detectWindows())
+      if (VTReflectionUtils.detectWindows() && VTMainNativeUtils.isAvailable())
       {
         // printStream.print("\u001B[21m");
       }
-      else
+      else if (!VTReflectionUtils.detectWindows())
       {
         printStream.print("\u001B[21m");
       }
@@ -591,11 +591,11 @@ public class VTStandardConsole extends VTConsole
     {
       return;
     }
-    if (VTReflectionUtils.detectWindows())
+    if (VTReflectionUtils.detectWindows() && VTMainNativeUtils.isAvailable())
     {
       VTMainNativeUtils.system("color");
     }
-    else
+    else if (!VTReflectionUtils.detectWindows())
     {
       printStream.print("\u001B[0m");
     }
