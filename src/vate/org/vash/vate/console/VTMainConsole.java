@@ -60,6 +60,11 @@ public final class VTMainConsole
     return false;
   }
   
+  public static boolean hasConsole()
+  {
+    return checkIOConsole();
+  }
+  
   public static boolean hasTerminal()
   {
     if (VTReflectionUtils.getJavaVersion() >= 6)
