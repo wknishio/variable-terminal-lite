@@ -15,8 +15,8 @@ import java.util.logging.LogManager;
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.tls.VTTLSVerificationDisabler;
 
-import io.airlift.compress.zstd.ZstdUtil;
-import net.jpountz.lz4vt.LZ4Utils;
+import vate.io.airlift.compress.zstd.ZstdUtil;
+import vate.net.jpountz.lz4.LZ4Utils;
 
 @SuppressWarnings("deprecation")
 public class VTSystem
