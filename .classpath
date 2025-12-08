@@ -16,12 +16,12 @@
 	<classpathentry kind="src" path="src/lz4"/>
 	<classpathentry kind="src" path="src/minimalftp"/>
 	<classpathentry kind="src" path="src/portmapper"/>
+	<classpathentry kind="src" path="src/slf4j-api"/>
+	<classpathentry kind="src" path="src/slf4j-nop"/>
 	<classpathentry kind="src" path="src/snappy"/>
 	<classpathentry kind="src" path="src/throttle"/>
 	<classpathentry kind="src" path="src/vate"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/beanshell-2.1.8-interpreter.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.25.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-nop-1.7.25.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
