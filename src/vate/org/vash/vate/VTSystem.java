@@ -12,7 +12,6 @@ import java.util.Locale;
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.io.airlift.compress.zstd.ZstdUtil;
 import org.vash.vate.net.jpountz.lz4.LZ4Utils;
-//import org.vash.vate.tls.VTTLSVerificationDisabler;
 
 @SuppressWarnings("deprecation")
 public class VTSystem
@@ -170,13 +169,13 @@ public class VTSystem
   
   static
   {
-    VT_ERA_DATEFORMAT = new SimpleDateFormat("G", Locale.ENGLISH);
-    VT_YEAR_CALENDAR = Calendar.getInstance();
-    
     if (!initialized)
     {
       initialize();
     }
+    
+    VT_ERA_DATEFORMAT = new SimpleDateFormat("G", Locale.ENGLISH);
+    VT_YEAR_CALENDAR = Calendar.getInstance();
   }
   
   public static void initialize()
