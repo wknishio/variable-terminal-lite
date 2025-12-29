@@ -15,9 +15,11 @@ public class VTGRAPHICSLINK extends VTServerStandardRemoteConsoleCommandProcesso
   
   public void execute(String command, String[] parsed) throws Exception
   {
+    connection.resetGraphicsStreams();
     session.getConnection().getGraphicsControlDataOutputStream().write(VTSystem.VT_GRAPHICS_LINK_SESSION_UNSTARTED);
     session.getConnection().getGraphicsControlDataOutputStream().flush();
     session.getConnection().getGraphicsControlDataInputStream().read();
+    connection.closeGraphicsStreams();
   }
   
   public void close()
