@@ -577,6 +577,10 @@ public class VTServerConnector implements Runnable
       {
         connection.setEncryptionType(VTSystem.VT_CONNECTION_ENCRYPTION_THREEFISH);
       }
+      else if (encryptionType.toUpperCase().startsWith("L"))
+      {
+        connection.setEncryptionType(VTSystem.VT_CONNECTION_ENCRYPTION_LEA);
+      }
 //      else if (encryptionType.toUpperCase().startsWith("R"))
 //      {
 //        connection.setEncryptionType(VTSystem.VT_CONNECTION_ENCRYPTION_RABBIT);
