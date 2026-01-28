@@ -5,7 +5,6 @@
 */
 
 import javax.swing.ImageIcon;
-import java.awt.*;
 import bsh.Interpreter;
 import bsh.Capabilities;
 import bsh.util.JConsole;
@@ -23,11 +22,11 @@ printBanner()
 
 	    this.jconsole = bsh.console;
 	    jconsole.println( 
-			new ImageIcon( getResource("/bsh/util/lib/small_bean_shell.gif")) );
+			new java.awt.ImageIcon( getResource("/bsh/util/lib/small_bean_shell.gif")) );
 	    jconsole.print(
 			Interpreter.VERSION + " - https://github.com/beanshell/beanshell",
-			new Font("SansSerif", Font.BOLD, 12), 
-			new Color(20,100,20) );
+			new java.awt.Font("SansSerif", Font.BOLD, 12), 
+			new java.awt.Color(20,100,20) );
 	    jconsole.println();
 
 	} else
