@@ -33,6 +33,7 @@
 		<mkdir dir="dist"/>
 		<touch file="build/keep"/>
 		<touch file="dist/keep"/>
+		<touch file="lib/keep"/>
 		
 	</target>
 	
@@ -49,6 +50,7 @@
 		
 		<delete file="build/keep"/>
 		<delete file="dist/keep"/>
+		<delete file="lib/keep"/>
 		<javac fork="yes" executable="javac" srcdir="src" destdir="build" includes="**/*.java" source="${javac-spec}" target="${javac-spec}">
 			<classpath>
 				<fileset dir="lib">
