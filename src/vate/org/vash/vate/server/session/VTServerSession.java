@@ -172,6 +172,7 @@ public class VTServerSession
   
   public boolean setShellEncoding(String shellEncoding)
   {
+    shellOutputWriter.setShellEncoding(shellEncoding);
     return shellAdapter.setShellEncoding(shellEncoding);
   }
   
@@ -807,7 +808,8 @@ public class VTServerSession
   
   public void negotiateShell() throws IOException
   {
-    String clientShell = connection.getCommandReader().readLine();
+    String clientShell = connection.getCommandReader().readUTF();
+    connection.setSilent(connection.getCommandReader().readBoolean());
     String serverShell = server.getServerConnector().getSessionShell();
     if (clientShell != null && clientShell.length() > 0)
     {
