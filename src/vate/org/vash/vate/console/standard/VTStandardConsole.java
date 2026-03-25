@@ -56,8 +56,8 @@ public class VTStandardConsole extends VTConsole
     
     inputStream = new VTStandardConsoleInterruptibleInputStream(this);
     
-    inputReader = new BufferedReader(new InputStreamReader(inputStream, VTSystem.getCharsetDecoder(null)));
-    outputWriter = new BufferedWriter(new OutputStreamWriter(outputDoubled, VTSystem.getCharsetEncoder(null)));
+    inputReader = new BufferedReader(new InputStreamReader(inputStream, VTSystem.getFlexibleCharsetDecoder(null)));
+    outputWriter = new BufferedWriter(new OutputStreamWriter(outputDoubled, VTSystem.getFlexibleCharsetEncoder(null)));
     
     colorCode = new StringBuilder();
   }
@@ -769,7 +769,7 @@ public class VTStandardConsole extends VTConsole
     {
       try
       {
-        readLineLog = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, true), VTSystem.getCharsetEncoder("UTF-8")));
+        readLineLog = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, true), VTSystem.getFlexibleCharsetEncoder("UTF-8")));
         return true;
       }
       catch (Throwable t)

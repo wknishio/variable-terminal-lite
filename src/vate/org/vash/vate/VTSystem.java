@@ -295,7 +295,7 @@ public class VTSystem
 //    return System.getProperty("os.name").toLowerCase().contains("windows");
 //  }
   
-  public static CharsetEncoder getCharsetEncoder(String charsetName)
+  public static CharsetEncoder getFlexibleCharsetEncoder(String charsetName)
   {
     CharsetEncoder encoder = null;
     
@@ -315,14 +315,14 @@ public class VTSystem
       encoder = Charset.defaultCharset().newEncoder();
     }
     
-    //encoder.replaceWith("_".getBytes());
+    encoder.replaceWith("_".getBytes());
     encoder.onMalformedInput(CodingErrorAction.IGNORE);
     encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
     
     return encoder;
   }
   
-  public static CharsetDecoder getCharsetDecoder(String charsetName)
+  public static CharsetDecoder getFlexibleCharsetDecoder(String charsetName)
   {
     CharsetDecoder decoder = null;
     
@@ -342,7 +342,7 @@ public class VTSystem
       decoder = Charset.defaultCharset().newDecoder();
     }
     
-    //decoder.replaceWith("_");
+    decoder.replaceWith("_");
     decoder.onMalformedInput(CodingErrorAction.IGNORE);
     decoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
     
@@ -369,7 +369,7 @@ public class VTSystem
       encoder = Charset.defaultCharset().newEncoder();
     }
     
-    //encoder.replaceWith("_".getBytes());
+    encoder.replaceWith("_".getBytes());
     encoder.onMalformedInput(CodingErrorAction.REPORT);
     encoder.onUnmappableCharacter(CodingErrorAction.REPORT);
     
@@ -396,7 +396,7 @@ public class VTSystem
       decoder = Charset.defaultCharset().newDecoder();
     }
     
-    //decoder.replaceWith("_");
+    decoder.replaceWith("_");
     decoder.onMalformedInput(CodingErrorAction.REPORT);
     decoder.onUnmappableCharacter(CodingErrorAction.REPORT);
     
