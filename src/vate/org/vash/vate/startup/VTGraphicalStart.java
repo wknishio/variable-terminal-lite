@@ -163,6 +163,8 @@ public final class VTGraphicalStart
           VTRuntimeExit.exit(-1);
         }
         client.setDaemon(true);
+        client.setDataInputStream(System.in);
+        client.setDataOutputStream(System.out);
         client.start();
       }
       else
