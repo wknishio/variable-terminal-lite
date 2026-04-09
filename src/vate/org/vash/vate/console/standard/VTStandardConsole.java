@@ -175,7 +175,7 @@ public class VTStandardConsole extends VTConsole
       }
       else
       {
-        VTMainNativeUtils.executeProcess(true, "cmd", "/c", "cls");
+        VTMainNativeUtils.executeProcess(true, null, null, "cmd", "/c", "cls");
       }
     }
     else if (!VTReflectionUtils.detectWindows())
@@ -205,7 +205,7 @@ public class VTStandardConsole extends VTConsole
       }
       else
       {
-        VTMainNativeUtils.executeProcess(true, "cmd", "/c", "title " + title);
+        VTMainNativeUtils.executeProcess(true, null, null, "cmd", "/c", "title " + title);
       }
     }
     else if (!VTReflectionUtils.detectWindows())
@@ -396,7 +396,7 @@ public class VTStandardConsole extends VTConsole
       }
       else
       {
-        VTMainNativeUtils.executeProcess(true, "cmd", "/c", "color " + colorCode.toString());
+        VTMainNativeUtils.executeProcess(true, null, null, "cmd", "/c", "color " + colorCode.toString());
       }
     }
     else if (!VTReflectionUtils.detectWindows())
@@ -626,7 +626,7 @@ public class VTStandardConsole extends VTConsole
       }
       else
       {
-        VTMainNativeUtils.executeProcess(true, "cmd", "/c", "color");
+        VTMainNativeUtils.executeProcess(true, null, null, "cmd", "/c", "color");
       }
     }
     else if (!VTReflectionUtils.detectWindows())
