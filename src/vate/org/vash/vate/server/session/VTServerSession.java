@@ -411,9 +411,9 @@ public class VTServerSession
     return tunnelsHandler;
   }
   
-  public VTRemotePipedSocketFactory getRemotePipedSocketFactory()
+  public VTRemotePipedSocketFactory createRemotePipedSocketFactory(int type)
   {
-    return tunnelsHandler.getConnection().getRemotePipedSocketFactory();
+    return tunnelsHandler.getConnection().createRemotePipedSocketFactory(type);
   }
   
   // public VTTunnelConnectionHandler getSOCKSTunnelsHandler()
