@@ -19,6 +19,7 @@ public final class VTMainConsole
   private static volatile boolean separated = false;
   private static volatile boolean daemon = false;
   private static volatile boolean remoteIcon = false;
+  private static volatile boolean commandEcho = true;
   private static VTConsole console;
   
   static
@@ -644,7 +645,10 @@ public final class VTMainConsole
     {
       return console.isCommandEcho();
     }
-    return true;
+    else
+    {
+      return commandEcho;
+    }
   }
   
   public static void setCommandEcho(boolean commandEcho)
@@ -652,6 +656,18 @@ public final class VTMainConsole
     if (checkConsole())
     {
       console.setCommandEcho(commandEcho);
+    }
+    else
+    {
+      VTMainConsole.commandEcho = commandEcho;
+      if (commandEcho)
+      {
+        VTMainNativeUtils.restoreTerminalEcho();
+      }
+      else
+      {
+        VTMainNativeUtils.disableTerminalEcho();
+      }
     }
   }
   

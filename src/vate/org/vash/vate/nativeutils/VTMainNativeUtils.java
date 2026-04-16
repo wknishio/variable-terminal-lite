@@ -544,7 +544,7 @@ public class VTMainNativeUtils
     return false;
   }
   
-  public static void echo(boolean enabled)
+  private static void echo(boolean enabled)
   {
     if (checkNativeUtils())
     {
@@ -552,15 +552,7 @@ public class VTMainNativeUtils
     }
   }
   
-  public static void icanon(boolean enabled)
-  {
-    if (checkNativeUtils())
-    {
-      nativeUtils.icanon(enabled);
-    }
-  }
-  
-  public static void raw()
+  private static void raw()
   {
     if (checkNativeUtils())
     {
@@ -568,7 +560,7 @@ public class VTMainNativeUtils
     }
   }
   
-  public static void sane()
+  private static void sane()
   {
     if (checkNativeUtils())
     {
@@ -732,6 +724,70 @@ public class VTMainNativeUtils
       {
         Runtime.getRuntime().removeShutdownHook(restoreTerminalNativeHook);
         sane();
+      }
+    }
+  }
+  
+  private static final Thread restoreTerminalEchoNativeHook = new Thread()
+  {
+    public void run()
+    {
+      try
+      {
+        echo(false);
+      }
+      catch (Throwable t)
+      {
+        
+      }
+    }
+  };
+  
+  private static final Thread restoreTerminalEchoSystemHook = new Thread()
+  {
+    public void run()
+    {
+      try
+      {
+        executeSystem("stty echo");
+      }
+      catch (Throwable t)
+      {
+        
+      }
+    }
+  };
+  
+  public static void disableTerminalEcho()
+  {
+    if ((executeRuntime("tty -s") != -1) && (executeSystem("tty -s") == 0))
+    {
+      Runtime.getRuntime().addShutdownHook(restoreTerminalEchoSystemHook);
+      executeSystem("stty -echo");
+    }
+    else
+    {
+      if (VTConsole.hasTerminal())
+      {
+        Runtime.getRuntime().addShutdownHook(restoreTerminalEchoNativeHook);
+        echo(false);
+      }
+    }
+  }
+  
+  public static void restoreTerminalEcho()
+  {
+    if ((executeRuntime("tty -s") != -1) && (executeSystem("tty -s") == 0))
+    {
+      Runtime.getRuntime().removeShutdownHook(restoreTerminalEchoSystemHook);
+      executeSystem("stty echo");
+    }
+    else
+    {
+      if (VTConsole.hasTerminal())
+      {
+        Runtime.getRuntime().removeShutdownHook(restoreTerminalEchoNativeHook);
+        echo(true);
       }
     }
   }
