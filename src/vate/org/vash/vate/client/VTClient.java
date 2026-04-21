@@ -40,7 +40,6 @@ public class VTClient implements Runnable
   private String proxyType = "NONE";
   private String proxyAddress = "";
   private Integer proxyPort = null;
-  //private boolean useProxyAuthentication = false;
   private String proxyUser = "";
   private String proxyPassword = "";
   private String encryptionType = "NONE";
@@ -48,7 +47,6 @@ public class VTClient implements Runnable
   private String sessionUser = "";
   private String sessionPassword = "";
   private String sessionCommands = "";
-  // private String sessionLines = "";
   private String sessionShell = "";
   private boolean daemon = false;
   private final String vtURL = System.getenv("VT_PATH");
@@ -100,8 +98,7 @@ public class VTClient implements Runnable
       }
     });
     // this.audioSystem = new VTAudioSystem(executor);
-    
-    // loadClientSettingsFile();
+    loadClientSettingsFile();
   }
   
   public VTClient(VTProxy proxy, boolean managed)
@@ -119,8 +116,7 @@ public class VTClient implements Runnable
       }
     });
     // this.audioSystem = new VTAudioSystem(executor);
-    
-    // loadClientSettingsFile();
+    loadClientSettingsFile();
   }
   
   public InputStream getCommandInputStream()
@@ -251,11 +247,6 @@ public class VTClient implements Runnable
     this.proxyPort = proxyPort;
   }
   
-//  public void setUseProxyAuthentication(boolean useProxyAuthentication)
-//  {
-//    this.useProxyAuthentication = useProxyAuthentication;
-//  }
-  
   public void setProxyUser(String proxyUser)
   {
     this.proxyUser = proxyUser;
@@ -305,16 +296,6 @@ public class VTClient implements Runnable
   {
     this.sessionCommands = sessionCommands;
   }
-  
-  // public String getSessionLines()
-  // {
-  // return sessionLines;
-  // }
-  
-  // public void setSessionLines(String sessionLines)
-  // {
-  // this.sessionLines = sessionLines;
-  // }
   
   /* public MessageDigest getSha256Digester() { return sha256Digester; } */
   
@@ -368,11 +349,6 @@ public class VTClient implements Runnable
   {
     return proxyPort;
   }
-  
-//  public boolean isUseProxyAuthentication()
-//  {
-//    return useProxyAuthentication;
-//  }
   
   public String getProxyUser()
   {
@@ -688,25 +664,6 @@ public class VTClient implements Runnable
       }
     }
     
-//    if (fileClientSettings.getProperty("vate.client.proxy.authentication") != null)
-//    {
-//      try
-//      {
-//        if (fileClientSettings.getProperty("vate.client.proxy.authentication").toUpperCase().startsWith("E"))
-//        {
-//          useProxyAuthentication = true;
-//        }
-//        else
-//        {
-//          useProxyAuthentication = false;
-//        }
-//      }
-//      catch (Throwable e)
-//      {
-//        
-//      }
-//    }
-    
     if (fileClientSettings.getProperty("vate.client.proxy.user") != null)
     {
       found = true;
@@ -745,19 +702,6 @@ public class VTClient implements Runnable
         
       }
     }
-    
-    // if (fileClientSettings.getProperty("vate.client.session.lines") != null)
-    // {
-    // try
-    // {
-    // sessionLines =
-    // fileClientSettings.getProperty("vate.client.session.lines");
-    // }
-    // catch (Throwable e)
-    // {
-    
-    // }
-    // }
     
     if (fileClientSettings.getProperty("vate.client.session.shell") != null)
     {
@@ -986,25 +930,6 @@ public class VTClient implements Runnable
           
         }
       }
-      
-//      if (fileClientSettings.getProperty("vate.client.proxy.authentication") != null)
-//      {
-//        try
-//        {
-//          if (fileClientSettings.getProperty("vate.client.proxy.authentication").toUpperCase().startsWith("E"))
-//          {
-//            useProxyAuthentication = true;
-//          }
-//          else
-//          {
-//            useProxyAuthentication = false;
-//          }
-//        }
-//        catch (Throwable e)
-//        {
-//          
-//        }
-//      }
       
       if (fileClientSettings.getProperty("vate.client.proxy.user") != null)
       {
@@ -1261,25 +1186,6 @@ public class VTClient implements Runnable
         
       }
     }
-    
-//    if (properties.getProperty("vate.client.proxy.authentication") != null)
-//    {
-//      try
-//      {
-//        if (properties.getProperty("vate.client.proxy.authentication").toUpperCase().startsWith("E"))
-//        {
-//          useProxyAuthentication = true;
-//        }
-//        else
-//        {
-//          useProxyAuthentication = false;
-//        }
-//      }
-//      catch (Throwable e)
-//      {
-//        
-//      }
-//    }
     
     if (properties.getProperty("vate.client.proxy.user") != null)
     {
@@ -1745,7 +1651,6 @@ public class VTClient implements Runnable
               }
               if (line.toUpperCase().startsWith("Y"))
               {
-                //useProxyAuthentication = true;
                 VTMainConsole.print("VT>Enter proxy username:");
                 line = VTMainConsole.readLine(false);
                 if (line == null)
@@ -1773,14 +1678,12 @@ public class VTClient implements Runnable
               {
                 proxyUser = null;
                 proxyPassword = null;
-                //useProxyAuthentication = false;
               }
             }
             else
             {
               proxyUser = null;
               proxyPassword = null;
-              //useProxyAuthentication = false;
             }
           }
           else
@@ -2072,18 +1975,6 @@ public class VTClient implements Runnable
           
         }
       }
-//      if (parameterName.contains("-PA"))
-//      {
-//        parameterValue = parameters[++i];
-//        if (parameterValue.toUpperCase().startsWith("E"))
-//        {
-//          useProxyAuthentication = true;
-//        }
-//        else
-//        {
-//          useProxyAuthentication = false;
-//        }
-//      }
       if (parameterName.contains("-PU"))
       {
         parameterValue = parameters[++i];
@@ -2186,7 +2077,6 @@ public class VTClient implements Runnable
   
   private void runClient()
   {
-    loadClientSettingsFile();
     monitorService = new VTDataMonitorService(executorService);
     if (!VTMainConsole.isDaemon() && VTMainConsole.isGraphical())
     {
@@ -2246,13 +2136,11 @@ public class VTClient implements Runnable
       this.proxyType = clientConnector.getProxyType();
       this.proxyAddress = clientConnector.getProxyAddress();
       this.proxyPort = clientConnector.getProxyPort();
-      //this.useProxyAuthentication = clientConnector.isUseProxyAuthentication();
       this.proxyUser = clientConnector.getProxyUser();
       this.proxyPassword = clientConnector.getProxyPassword();
       this.encryptionType = clientConnector.getEncryptionType();
       this.encryptionKey = clientConnector.getEncryptionKey();
       this.sessionCommands = clientConnector.getSessionCommands();
-      // this.sessionLines = clientConnector.getSessionLines();
       this.sessionShell = clientConnector.getSessionShell();
     }
   }
@@ -2268,13 +2156,11 @@ public class VTClient implements Runnable
       clientConnector.setProxyType(proxyType);
       clientConnector.setProxyAddress(proxyAddress);
       clientConnector.setProxyPort(proxyPort);
-      //clientConnector.setUseProxyAuthentication(useProxyAuthentication);
       clientConnector.setProxyUser(proxyUser);
       clientConnector.setProxyPassword(proxyPassword);
       clientConnector.setEncryptionType(encryptionType);
       clientConnector.setEncryptionKey(encryptionKey);
       clientConnector.setSessionCommands(sessionCommands);
-      // clientConnector.setSessionLines(sessionLines);
       clientConnector.setSessionShell(sessionShell);
     }
   }
@@ -2298,13 +2184,11 @@ public class VTClient implements Runnable
     clientConnector.setProxyType(proxyType);
     clientConnector.setProxyAddress(proxyAddress);
     clientConnector.setProxyPort(proxyPort);
-    //clientConnector.setUseProxyAuthentication(useProxyAuthentication);
     clientConnector.setProxyUser(proxyUser);
     clientConnector.setProxyPassword(proxyPassword);
     clientConnector.setEncryptionType(encryptionType);
     clientConnector.setEncryptionKey(encryptionKey);
     clientConnector.setSessionCommands(sessionCommands);
-    // clientConnector.setSessionLines(sessionLines);
     clientConnector.setSessionShell(sessionShell);
     for (VTClientSessionListener listener : listeners)
     {

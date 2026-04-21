@@ -45,7 +45,6 @@ public class VTServer implements Runnable
   private String proxyType = "NONE";
   private String proxyAddress = "";
   private Integer proxyPort = null;
-  //private boolean useProxyAuthentication = false;
   private String proxyUser = "";
   private String proxyPassword = "";
   private String encryptionType = "NONE";
@@ -116,8 +115,7 @@ public class VTServer implements Runnable
     // this.audioSystem[2] = new VTAudioSystem(executor);
     // this.audioSystem[3] = new VTAudioSystem(executor);
     // this.audioSystem[4] = new VTAudioSystem(executor);
-    
-    // loadServerSettingsFile();
+    loadServerSettingsFile();
   }
   
   public VTServer(VTProxy proxy, boolean managed)
@@ -140,8 +138,7 @@ public class VTServer implements Runnable
     // this.audioSystem[2] = new VTAudioSystem(executor);
     // this.audioSystem[3] = new VTAudioSystem(executor);
     // this.audioSystem[4] = new VTAudioSystem(executor);
-    
-    // loadServerSettingsFile();
+    loadServerSettingsFile();
   }
   
   public VTDataMonitorService getMonitorService()
@@ -289,11 +286,6 @@ public class VTServer implements Runnable
     this.proxyPort = proxyPort;
   }
   
-//  public void setUseProxyAuthentication(boolean useProxyAuthentication)
-//  {
-//    this.useProxyAuthentication = useProxyAuthentication;
-//  }
-  
   public void setProxyUser(String proxyUser)
   {
     this.proxyUser = proxyUser;
@@ -397,11 +389,6 @@ public class VTServer implements Runnable
   {
     return proxyPort;
   }
-  
-//  public boolean isUseProxyAuthentication()
-//  {
-//    return useProxyAuthentication;
-//  }
   
   public String getProxyUser()
   {
@@ -736,25 +723,6 @@ public class VTServer implements Runnable
       }
     }
     
-//    if (fileServerSettings.getProperty("vate.server.proxy.authentication") != null)
-//    {
-//      try
-//      {
-//        if (fileServerSettings.getProperty("vate.server.proxy.authentication").toUpperCase().startsWith("E"))
-//        {
-//          useProxyAuthentication = true;
-//        }
-//        else
-//        {
-//          useProxyAuthentication = false;
-//        }
-//      }
-//      catch (Throwable e)
-//      {
-//        
-//      }
-//    }
-    
     if (fileServerSettings.getProperty("vate.server.proxy.user") != null)
     {
       found = true;
@@ -1010,25 +978,6 @@ public class VTServer implements Runnable
         }
       }
       
-//      if (fileServerSettings.getProperty("vate.server.proxy.authentication") != null)
-//      {
-//        try
-//        {
-//          if (fileServerSettings.getProperty("vate.server.proxy.authentication").toUpperCase().startsWith("E"))
-//          {
-//            useProxyAuthentication = true;
-//          }
-//          else
-//          {
-//            useProxyAuthentication = false;
-//          }
-//        }
-//        catch (Throwable e)
-//        {
-//          
-//        }
-//      }
-      
       if (fileServerSettings.getProperty("vate.server.proxy.user") != null)
       {
         try
@@ -1258,25 +1207,6 @@ public class VTServer implements Runnable
         
       }
     }
-    
-//    if (properties.getProperty("vate.server.proxy.authentication") != null)
-//    {
-//      try
-//      {
-//        if (properties.getProperty("vate.server.proxy.authentication").toUpperCase().startsWith("E"))
-//        {
-//          useProxyAuthentication = true;
-//        }
-//        else
-//        {
-//          useProxyAuthentication = false;
-//        }
-//      }
-//      catch (Throwable e)
-//      {
-//        
-//      }
-//    }
     
     if (properties.getProperty("vate.server.proxy.user") != null)
     {
@@ -1716,7 +1646,6 @@ public class VTServer implements Runnable
               }
               if (line.toUpperCase().startsWith("Y"))
               {
-                //useProxyAuthentication = true;
                 VTMainConsole.print("VT>Enter proxy username:");
                 line = VTMainConsole.readLine(false);
                 if (line == null)
@@ -1744,14 +1673,12 @@ public class VTServer implements Runnable
               {
                 proxyUser = null;
                 proxyPassword = null;
-                //useProxyAuthentication = false;
               }
             }
             else
             {
               proxyUser = null;
               proxyPassword = null;
-              //useProxyAuthentication = false;
             }
           }
           else
@@ -2005,7 +1932,6 @@ public class VTServer implements Runnable
         //VTConsole.print("VT>Invalid port!\n");
         //hostPort = null;
         //proxyPort = null;
-        //useProxyAuthentication = false;
       }
       catch (Throwable e)
       {
@@ -2153,18 +2079,6 @@ public class VTServer implements Runnable
           
         }
       }
-//      if (parameterName.contains("-PA"))
-//      {
-//        parameterValue = parameters[++i];
-//        if (parameterValue.toUpperCase().startsWith("E"))
-//        {
-//          useProxyAuthentication = true;
-//        }
-//        else
-//        {
-//          useProxyAuthentication = false;
-//        }
-//      }
       if (parameterName.contains("-PU"))
       {
         parameterValue = parameters[++i];
@@ -2281,7 +2195,6 @@ public class VTServer implements Runnable
   
   private void runServer()
   {
-    loadServerSettingsFile();
     monitorService = new VTDataMonitorService(executorService);
     if (!VTMainConsole.isDaemon() && VTMainConsole.isGraphical())
     {
@@ -2335,7 +2248,6 @@ public class VTServer implements Runnable
       this.proxyType = serverConnector.getProxyType();
       this.proxyAddress = serverConnector.getProxyAddress();
       this.proxyPort = serverConnector.getProxyPort();
-      //this.useProxyAuthentication = serverConnector.isUseProxyAuthentication();
       this.proxyUser = serverConnector.getProxyUser();
       this.proxyPassword = serverConnector.getProxyPassword();
       this.encryptionType = serverConnector.getEncryptionType();
@@ -2356,7 +2268,6 @@ public class VTServer implements Runnable
       serverConnector.setProxyType(proxyType);
       serverConnector.setProxyAddress(proxyAddress);
       serverConnector.setProxyPort(proxyPort);
-      //serverConnector.setUseProxyAuthentication(useProxyAuthentication);
       serverConnector.setProxyUser(proxyUser);
       serverConnector.setProxyPassword(proxyPassword);
       serverConnector.setEncryptionType(encryptionType);
@@ -2389,7 +2300,6 @@ public class VTServer implements Runnable
     serverConnector.setProxyType(proxyType);
     serverConnector.setProxyAddress(proxyAddress);
     serverConnector.setProxyPort(proxyPort);
-    //serverConnector.setUseProxyAuthentication(useProxyAuthentication);
     serverConnector.setProxyUser(proxyUser);
     serverConnector.setProxyPassword(proxyPassword);
     serverConnector.setEncryptionType(encryptionType);
