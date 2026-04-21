@@ -11,9 +11,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 
-import org.vash.vate.com.martiansoftware.jsap.CommandLineTokenizerMKII;
+import org.vash.vate.nativeutils.VTMainNativeUtils;
 import org.vash.vate.ping.VTNanoPingListener;
 import org.vash.vate.ping.VTNanoPingService;
+import org.vash.vate.reflection.VTReflectionUtils;
 import org.vash.vate.server.VTServer;
 import org.vash.vate.server.connection.VTServerConnection;
 import org.vash.vate.server.console.remote.VTServerRemoteConsoleReader;
@@ -176,7 +177,7 @@ public class VTServerSession
     return shellAdapter.setShellEncoding(shellEncoding);
   }
   
-  public void setShellBuilder(String[] command, String[] names, String[] values)
+  public void setShellBuilder(String command, String[] names, String[] values)
   {
     shellAdapter.setShellBuilder(command, names, values);
   }
@@ -809,7 +810,13 @@ public class VTServerSession
   public void negotiateShell() throws IOException
   {
     String clientShell = connection.getCommandReader().readUTF();
-    connection.setSilent(connection.getCommandReader().readBoolean());
+    connection.setQuiet(connection.getCommandReader().readBoolean());
+    boolean requestPTY = connection.getCommandReader().readBoolean();
+    boolean hasPTY = requestPTY && (!VTReflectionUtils.detectWindows()
+    || (VTMainNativeUtils.checkShAvailable() && (VTMainNativeUtils.checkWinptyAvailable() || VTMainNativeUtils.checkScriptAvailable()))
+    || (VTMainNativeUtils.checkWSLShAvailable() && VTMainNativeUtils.checkWSLScriptAvailable()));
+    connection.getShellWriter().writeBoolean(hasPTY);
+    shellAdapter.setAttachPTY(requestPTY && hasPTY);
     String serverShell = server.getServerConnector().getSessionShell();
     if (clientShell != null && clientShell.length() > 0)
     {
@@ -819,11 +826,11 @@ public class VTServerSession
       }
       else if (clientShell.trim().equalsIgnoreCase("N"))
       {
-        setShellBuilder(new String[] {}, null, null);
+        setShellBuilder("", null, null);
       }
       else
       {
-        setShellBuilder(CommandLineTokenizerMKII.tokenize(clientShell), null, null);
+        setShellBuilder(clientShell, null, null);
       }
     }
     else if (serverShell != null && serverShell.length() > 0)
@@ -834,12 +841,16 @@ public class VTServerSession
       }
       else if (serverShell.trim().equalsIgnoreCase("N"))
       {
-        setShellBuilder(new String[] {}, null, null);
+        setShellBuilder("", null, null);
       }
       else
       {
-        setShellBuilder(CommandLineTokenizerMKII.tokenize(serverShell), null, null);
+        setShellBuilder(serverShell, null, null);
       }
+    }
+    else
+    {
+      
     }
   }
 }
