@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 
 import org.vash.vate.VTSystem;
 import org.vash.vate.console.standard.VTStandardConsole;
+import org.vash.vate.console.standard.VTStandardConsoleInterruptibleInputStreamByte;
 import org.vash.vate.nativeutils.VTMainNativeUtils;
 import org.vash.vate.reflection.VTReflectionUtils;
 
@@ -26,6 +27,11 @@ public final class VTMainConsole
   {
     VTSystem.initialize();
     VTMainNativeUtils.initialize();
+  }
+  
+  public static InputStream getInterruptibleStandardInputStream()
+  {
+    return new VTStandardConsoleInterruptibleInputStreamByte(null);
   }
   
   private static boolean checkIOConsole()

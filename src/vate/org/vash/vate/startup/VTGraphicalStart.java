@@ -3,7 +3,6 @@ package org.vash.vate.startup;
 import org.vash.vate.VTSystem;
 import org.vash.vate.client.VTClient;
 import org.vash.vate.console.VTMainConsole;
-import org.vash.vate.console.standard.VTStandardConsoleInterruptibleInputStreamByte;
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.runtime.VTRuntimeExit;
 import org.vash.vate.server.VTServer;
@@ -166,7 +165,7 @@ public final class VTGraphicalStart
         client.setDaemon(true);
         VTMainConsole.setGraphical(false);
         client.setAgent(true);
-        client.setCommandInputStream(new VTStandardConsoleInterruptibleInputStreamByte(null));
+        client.setCommandInputStream(VTMainConsole.getInterruptibleStandardInputStream());
         client.setCommandOutputStream(System.out);
         client.start();
       }
