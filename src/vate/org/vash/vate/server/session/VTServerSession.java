@@ -854,7 +854,7 @@ public class VTServerSession
     }
     else
     {
-      
+      setShellBuilder(null, null, null);
     }
   }
 }
