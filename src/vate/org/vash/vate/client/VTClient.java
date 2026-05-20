@@ -102,7 +102,7 @@ public class VTClient implements Runnable
     loadClientSettingsFile();
   }
   
-  public VTClient(VTProxy proxy, boolean managed)
+  public VTClient(boolean managed, VTProxy proxy)
   {
     this.managed = managed;
     this.proxy = proxy;

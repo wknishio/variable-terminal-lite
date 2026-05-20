@@ -118,7 +118,7 @@ public class VTServer implements Runnable
     loadServerSettingsFile();
   }
   
-  public VTServer(VTProxy proxy, boolean managed)
+  public VTServer(boolean managed, VTProxy proxy)
   {
     this.managed = managed;
     this.proxy = proxy;
