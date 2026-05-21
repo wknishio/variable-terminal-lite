@@ -60,8 +60,8 @@ public class VTSystem
   public static final int VT_CONNECTION_ENCRYPTION_HC = 2;
   //public static final int VT_CONNECTION_ENCRYPTION_GRAIN = 3;
   //public static final int VT_CONNECTION_ENCRYPTION_RABBIT = 4;
-  public static final int VT_CONNECTION_ENCRYPTION_ZUC = 5;
-  public static final int VT_CONNECTION_ENCRYPTION_LEA = 6;
+  public static final int VT_CONNECTION_ENCRYPTION_ZUC = 3;
+  public static final int VT_CONNECTION_ENCRYPTION_LEA = 4;
   
   public static final int VT_FILE_TRANSFER_STATUS_INEXISTENT = 0;
   public static final int VT_FILE_TRANSFER_STATUS_NORMAL = 1;
