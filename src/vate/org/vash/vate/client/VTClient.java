@@ -22,7 +22,7 @@ import org.vash.vate.client.connection.VTClientConnector;
 import org.vash.vate.client.session.VTClientSessionListener;
 import org.vash.vate.console.VTMainConsole;
 import org.vash.vate.exception.VTUncaughtExceptionHandler;
-import org.vash.vate.monitor.VTDataMonitorService;
+import org.vash.vate.monitor.VTTrafficMonitorService;
 import org.vash.vate.parser.VTConfigurationProperties;
 import org.vash.vate.parser.VTPropertiesBuilder;
 import org.vash.vate.proxy.client.VTProxy;
@@ -68,7 +68,7 @@ public class VTClient implements Runnable
   private int pingInterval = 0;
   private int reconnectTimeout = 0;
   private Future<?> runThread;
-  private VTDataMonitorService monitorService;
+  private VTTrafficMonitorService trafficMonitorService;
   private VTProxy proxy;
   private InputStream commandInputStream;
   private OutputStream commandOutputStream;
@@ -145,9 +145,9 @@ public class VTClient implements Runnable
     commandOutputStream = stream;
   }
   
-  public VTDataMonitorService getMonitorService()
+  public VTTrafficMonitorService getTrafficMonitorService()
   {
-    return monitorService;
+    return trafficMonitorService;
   }
   
   public void stop()
@@ -166,9 +166,9 @@ public class VTClient implements Runnable
     
     try
     {
-      if (monitorService != null)
+      if (trafficMonitorService != null)
       {
-        monitorService.close();
+        trafficMonitorService.close();
       }
     }
     catch (Throwable t)
@@ -2093,7 +2093,7 @@ public class VTClient implements Runnable
   
   private void runClient()
   {
-    monitorService = new VTDataMonitorService(executorService);
+    trafficMonitorService = new VTTrafficMonitorService(executorService);
     if (!VTMainConsole.isDaemon() && VTMainConsole.isGraphical())
     {
       VTMainConsole.initialize();
@@ -2188,9 +2188,9 @@ public class VTClient implements Runnable
   
   public void run()
   {
-    if (monitorService != null)
+    if (trafficMonitorService != null)
     {
-      executorService.execute(monitorService);
+      executorService.execute(trafficMonitorService);
     }
     clientConnector = new VTClientConnector(this, new VTBlake3SecureRandom(new SecureRandom()), proxy, managed);
     clientConnector.setActive(active);
