@@ -51,7 +51,9 @@
 		<delete file="build/keep"/>
 		<delete file="dist/keep"/>
 		<delete file="lib/keep"/>
-		<javac fork="yes" executable="javac" srcdir="src" destdir="build" includes="**/*.java" source="${javac-spec}" target="${javac-spec}">
+		<javac fork="yes" executable="javac" destdir="build" includes="**/*.java" source="${javac-spec}" target="${javac-spec}">
+			<src path="shared"/>
+			<src path="src"/>
 			<classpath>
 				<fileset dir="lib">
 					<include name="**/*.jar"/>
@@ -65,7 +67,7 @@
 		</javac>
 		<copy todir="build">
 			<fileset dir="src/vate" includes="**/*.png,**/*.properties,**/*.ttf"/>
-			<fileset dir="src/jsocks" includes="**/*.png,**/*.properties,**/*.ttf"/>
+			<fileset dir="shared/jsocks" includes="**/*.png,**/*.properties,**/*.ttf"/>
 		</copy>
 		
 	</target>
