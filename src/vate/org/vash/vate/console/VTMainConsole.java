@@ -455,7 +455,7 @@ public final class VTMainConsole
     if (checkConsole())
     {
       console.setColors(foregroundColor, backgroundColor);
-      console.clear();
+      console.refreshText();
     }
   }
   
@@ -472,6 +472,7 @@ public final class VTMainConsole
     if (checkConsole())
     {
       console.resetAttributes();
+      console.refreshText();
     }
   }
   
@@ -532,7 +533,7 @@ public final class VTMainConsole
     {
       return;
     }
-    Thread thread = new Thread("VTConsole")
+    Thread thread = new Thread("VTMainConsole")
     {
       public void run()
       {

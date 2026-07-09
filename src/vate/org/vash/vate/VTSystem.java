@@ -145,6 +145,7 @@ public class VTSystem
   
   public static final String VT_CONNECTION_PROXY_NONE_STRING = "NONE";
   public static final String VT_CONNECTION_PROXY_SOCKS_STRING = "SOCKS";
+  public static final String VT_CONNECTION_PROXY_HTTP_STRING = "HTTP";
   public static final String VT_CONNECTION_PROXY_PLUS_STRING = "PLUS";
   
   public static final String VT_CONNECTION_ENCRYPTION_NONE_STRING = "NONE";
@@ -316,8 +317,8 @@ public class VTSystem
     }
     
     encoder.replaceWith("_".getBytes());
-    encoder.onMalformedInput(CodingErrorAction.IGNORE);
-    encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
+    encoder.onMalformedInput(CodingErrorAction.REPLACE);
+    encoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
     
     return encoder;
   }
@@ -343,8 +344,8 @@ public class VTSystem
     }
     
     decoder.replaceWith("_");
-    decoder.onMalformedInput(CodingErrorAction.IGNORE);
-    decoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
+    decoder.onMalformedInput(CodingErrorAction.REPLACE);
+    decoder.onUnmappableCharacter(CodingErrorAction.REPLACE);
     
     return decoder;
   }

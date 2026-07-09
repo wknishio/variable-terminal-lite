@@ -157,7 +157,7 @@ public abstract class VTConsole
   public abstract PrintStream getSystemOut();
   
   public abstract PrintStream getSystemErr();
-    
+  
   public abstract void toggleFlushMode();
   
   public abstract void toggleInputMode();

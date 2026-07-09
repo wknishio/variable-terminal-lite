@@ -8,9 +8,8 @@ import java.lang.reflect.Method;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Map.Entry;
 import java.util.concurrent.ExecutorService;
-
+import java.util.Map.Entry;
 import org.vash.vate.com.martiansoftware.jsap.CommandLineTokenizerMKII;
 import org.vash.vate.console.VTConsole;
 import org.vash.vate.filesystem.VTFileUtils;
@@ -936,7 +935,7 @@ public class VTMainNativeUtils
   public static int executeSystem(boolean inherit, String command, String... commands)
   {
     int status = -1;
-    if (commands.length == 0)
+    if (commands == null || commands.length == 0)
     {
       commands = CommandLineTokenizerMKII.tokenize(command);
     }
@@ -1114,7 +1113,7 @@ public class VTMainNativeUtils
         {
           if (!isNativeAvailable() && checkPowershell2Available() && checkSystemAvailable())
           {
-            if (!disabledTerminalSanity)
+            if (disabledTerminalSanity)
             {
               Runtime.getRuntime().removeShutdownHook(restoreTerminalSanityPowershellHook);
               executeSystem(true, "", "powershell", "-Command", WIN32_RESTORE_CANONICAL_INPUT_POWERSHELL);
@@ -1188,7 +1187,7 @@ public class VTMainNativeUtils
       {
         if (!isNativeAvailable() && checkPowershell2Available() && checkSystemAvailable())
         {
-          if (!disabledTerminalEcho)
+          if (disabledTerminalEcho)
           {
             Runtime.getRuntime().removeShutdownHook(restoreTerminalEchoPowershellHook);
             executeSystem(true, "", "powershell", "-Command", WIN32_RESTORE_ECHO_INPUT_POWERSHELL);

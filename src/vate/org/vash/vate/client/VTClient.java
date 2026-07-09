@@ -467,12 +467,12 @@ public class VTClient implements Runnable
       fileClientSettings.setProperty("vate.client.proxy.password", proxyPassword);
       fileClientSettings.setProperty("vate.client.encryption.type", encryptionType);
       fileClientSettings.setProperty("vate.client.encryption.password", new String(encryptionKey, "UTF-8"));
+      fileClientSettings.setProperty("vate.client.ping.limit", pingLimit > 0 ? String.valueOf(pingLimit) : "");
+      fileClientSettings.setProperty("vate.client.ping.interval", pingInterval > 0 ? String.valueOf(pingInterval) : "");
       fileClientSettings.setProperty("vate.client.session.commands", sessionCommands);
       fileClientSettings.setProperty("vate.client.session.shell", sessionShell);
       fileClientSettings.setProperty("vate.client.session.user", sessionUser);
       fileClientSettings.setProperty("vate.client.session.password", sessionPassword);
-      fileClientSettings.setProperty("vate.client.ping.interval", pingInterval > 0 ? String.valueOf(pingInterval) : "");
-      fileClientSettings.setProperty("vate.client.ping.limit", pingLimit > 0 ? String.valueOf(pingLimit) : "");
       
       FileOutputStream out = new FileOutputStream(settingsFile);
       VTPropertiesBuilder.saveProperties(out, fileClientSettings, VT_CLIENT_SETTINGS_COMMENTS, "UTF-8");
@@ -983,20 +983,6 @@ public class VTClient implements Runnable
         }
       }
       
-      // if (fileClientSettings.getProperty("vate.client.session.lines") !=
-      // null)
-      // {
-      // try
-      // {
-      // sessionLines =
-      // fileClientSettings.getProperty("vate.client.session.lines");
-      // }
-      // catch (Throwable e)
-      // {
-      
-      // }
-      // }
-      
       if (fileClientSettings.getProperty("vate.client.session.shell") != null)
       {
         try
@@ -1238,18 +1224,6 @@ public class VTClient implements Runnable
         
       }
     }
-    
-    // if (properties.getProperty("vate.client.session.lines") != null)
-    // {
-    // try
-    // {
-    // sessionLines = properties.getProperty("vate.client.session.lines");
-    // }
-    // catch (Throwable e)
-    // {
-    
-    // }
-    // }
     
     if (properties.getProperty("vate.client.session.shell") != null)
     {
@@ -1549,7 +1523,7 @@ public class VTClient implements Runnable
           }
           if (line.toUpperCase().startsWith("Y"))
           {
-            VTMainConsole.print("VT>Enter proxy type(DIRECT as D, SOCKS as S, HTTP as H, PLUS as P, default:A):");
+            VTMainConsole.print("VT>Enter proxy type(DIRECT as D, SOCKS as S, HTTP as H, PLUS as P, default:P):");
             line = VTMainConsole.readLine(true);
             if (line == null)
             {
@@ -2006,11 +1980,6 @@ public class VTClient implements Runnable
         parameterValue = parameters[++i];
         sessionCommands = parameterValue;
       }
-      // if (parameterName.contains("-SL"))
-      // {
-      // parameterValue = parameters[++i];
-      // sessionLines = parameterValue;
-      // }
       if (parameterName.contains("-SU"))
       {
         parameterValue = parameters[++i];
