@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 
+import org.vash.vate.VTSystem;
 import org.vash.vate.ping.VTNanoPingListener;
 import org.vash.vate.ping.VTNanoPingService;
 import org.vash.vate.server.VTServer;
@@ -30,6 +31,7 @@ import org.vash.vate.server.runtime.VTServerRuntimeExecutor;
 import org.vash.vate.shell.adapter.VTShellAdapter;
 import org.vash.vate.shell.adapter.VTShellProcessor;
 import org.vash.vate.socket.remote.VTRemotePipedSocketFactory;
+import org.vash.vate.socket.remote.VTRemoteSocketFactory;
 import org.vash.vate.tunnel.connection.VTTunnelConnection;
 import org.vash.vate.tunnel.connection.VTTunnelConnectionHandler;
 
@@ -413,6 +415,12 @@ public class VTServerSession
   public VTRemotePipedSocketFactory createRemotePipedSocketFactory(int type)
   {
     return tunnelsHandler.getConnection().createRemotePipedSocketFactory(type);
+  }
+  
+  public VTRemoteSocketFactory createRemoteSocketFactory(int type)
+  {
+    type |= VTSystem.VT_MULTIPLEXED_CHANNEL_TYPE_PIPE_DIRECT;
+    return tunnelsHandler.getConnection().createRemoteSocketFactory(tunnelsHandler.getConnection().getResponseChannel(type));
   }
   
   // public VTTunnelConnectionHandler getSOCKSTunnelsHandler()
