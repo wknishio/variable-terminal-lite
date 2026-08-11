@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -47,35 +46,19 @@ public class VTServerSession
   private String user;
   private VTServer server;
   private VTServerConnection connection;
-  //private VTAWTControlProvider controlProvider;
-  //private VTAWTScreenCaptureProvider viewProvider;
-  //private VTAWTScreenCaptureProvider screenshotProvider;
   private VTServerRemoteConsoleReader clientReader;
   private VTServerShellOutputWriter shellOutputWriter;
-  // private VTServerShellErrorWriter shellErrorWriter;
   private VTServerShellExitListener shellExitListener;
   private VTFileTransferServer fileTransferServer;
-  //private VTServerScreenshotTask screenshotTask;
   private VTServerRuntimeExecutor runtimeExecutor;
-  //private VTGraphicsLinkServer graphicsServer;
   private VTServerFileScanOperation fileScanOperation;
   private VTServerFileModifyOperation fileModifyOperation;
-  // private VTServerZipFileOperation zipFileOperation;
   private VTServerHostResolver hostResolver;
   private VTServerNetworkInterfaceResolver networkInterfaceResolver;
-//  private VTServerURLInvoker urlInvoker;
-  //private VTServerPrintServiceResolver printServiceResolver;
   private VTServerOpticalDriveOperation opticalDriveOperation;
   private VTServerSessionListViewer connectionListViewer;
   private VTServerFileSystemRootsResolver fileSystemRootsResolver;
-  // private VTServerPrintTextTask printTextTask;
-  // private VTServerPrintFileTask printFileTask;
-  //private VTServerPrintDataTask printDataTask;
-  // private VTServerDefaultPrintServiceResolver defaultPrintServiceResolver;
-  //private VTClipboardTransferTask clipboardTransferTask;
-  //private VTServerGraphicsDeviceResolver graphicsDeviceResolver;
   private VTTunnelConnectionHandler tunnelsHandler;
-  // private VTTunnelConnectionHandler socksTunnelsHandler;
   private VTNanoPingService pingServiceClient;
   private VTNanoPingService pingServiceServer;
   private Collection<Closeable> sessionCloseables;
@@ -95,42 +78,22 @@ public class VTServerSession
     this.setEchoState(0);
     this.setEchoCommands(false);
     this.shellAdapter.setShellEncoding(null);
-    
     this.stoppingShell = false;
     this.restartingShell = false;
-    // this.runningAudio = false;
     this.echoCommands = false;
-    
     this.clientReader = new VTServerRemoteConsoleReader(this);
     this.shellOutputWriter = new VTServerShellOutputWriter(this);
-    // this.shellErrorWriter = new VTServerShellErrorWriter(this);
     this.shellExitListener = new VTServerShellExitListener(this);
-    
-    //this.controlProvider = new VTAWTControlProvider();
-    //this.viewProvider = new VTAWTScreenCaptureProvider();
-    //this.screenshotProvider = new VTAWTScreenCaptureProvider();
     this.fileTransferServer = new VTFileTransferServer(this);
-    //this.screenshotTask = new VTServerScreenshotTask(this);
     this.runtimeExecutor = new VTServerRuntimeExecutor(this);
-    //this.graphicsServer = new VTGraphicsLinkServer(this);
     this.fileScanOperation = new VTServerFileScanOperation(this);
     this.fileModifyOperation = new VTServerFileModifyOperation(this);
-    // this.zipFileOperation = new VTServerZipFileOperation(this);
     this.opticalDriveOperation = new VTServerOpticalDriveOperation(this);
     this.hostResolver = new VTServerHostResolver(this);
-//    this.urlInvoker = new VTServerURLInvoker(this);
     this.networkInterfaceResolver = new VTServerNetworkInterfaceResolver(this);
-    //this.printServiceResolver = new VTServerPrintServiceResolver(this);
     this.connectionListViewer = new VTServerSessionListViewer(this);
     this.fileSystemRootsResolver = new VTServerFileSystemRootsResolver(this);
-    //this.clipboardTransferTask = new VTClipboardTransferTask(executorService);
-    //this.graphicsDeviceResolver = new VTServerGraphicsDeviceResolver(this);
-    // this.printTextTask = new VTServerPrintTextTask(this);
-    // this.printFileTask = new VTServerPrintFileTask(this);
-    //this.printDataTask = new VTServerPrintDataTask(this);
     this.tunnelsHandler = new VTTunnelConnectionHandler(new VTTunnelConnection(executorService, sessionCloseables, connection.getSecureRandom()));
-    // this.socksTunnelsHandler = new VTTunnelConnectionHandler(new
-    // VTTunnelConnection(executor), executor);
     this.pingServiceClient = new VTNanoPingService(server.getPingIntervalMilliseconds(), server.getPingIntervalMilliseconds() / 2, false, executorService);
     this.pingServiceClient.addListener(new VTNanoPingListener()
     {
@@ -149,6 +112,16 @@ public class VTServerSession
     });
     setShellType(VTShellProcessor.SHELL_TYPE_PROCESS);
     setShellBuilder(null, null, null);
+    clientReader.setStopped(false);
+    shellExitListener.setStopped(false);
+    tunnelsHandler.getConnection().setControlInputStream(connection.getTunnelControlDataInputStream());
+    tunnelsHandler.getConnection().setControlOutputStream(connection.getTunnelControlDataOutputStream());
+    tunnelsHandler.getConnection().setDataInputStream(connection.getMultiplexedConnectionInputStream());
+    tunnelsHandler.getConnection().setDataOutputStream(connection.getMultiplexedConnectionOutputStream());
+    pingServiceClient.setInputStream(connection.getPingClientInputStream());
+    pingServiceClient.setOutputStream(connection.getPingClientOutputStream());
+    pingServiceServer.setInputStream(connection.getPingServerInputStream());
+    pingServiceServer.setOutputStream(connection.getPingServerOutputStream());
   }
   
   public ExecutorService getExecutorService()
@@ -267,21 +240,6 @@ public class VTServerSession
     return connection;
   }
   
-//  public VTAWTControlProvider getControlProvider()
-//  {
-//    return controlProvider;
-//  }
-//  
-//  public VTAWTScreenCaptureProvider getViewProvider()
-//  {
-//    return viewProvider;
-//  }
-//  
-//  public VTAWTScreenCaptureProvider getScreenshotProvider()
-//  {
-//    return screenshotProvider;
-//  }
-  
   public VTServerShellExitListener getShellExitListener()
   {
     return shellExitListener;
@@ -291,11 +249,6 @@ public class VTServerSession
   {
     return hostResolver;
   }
-  
-//  public VTServerURLInvoker getURLInvoker()
-//  {
-//    return urlInvoker;
-//  }
   
   public VTServerShellOutputWriter getOutputWriter()
   {
@@ -317,16 +270,6 @@ public class VTServerSession
     return server;
   }
   
-//  public VTServerScreenshotTask getScreenshotTask()
-//  {
-//    return screenshotTask;
-//  }
-//  
-//  public VTGraphicsLinkServer getGraphicsServer()
-//  {
-//    return graphicsServer;
-//  }
-  
   public VTServerFileScanOperation getFileScanOperation()
   {
     return fileScanOperation;
@@ -337,20 +280,10 @@ public class VTServerSession
     return fileModifyOperation;
   }
   
-  // public VTServerZipFileOperation getZipFileOperation()
-  // {
-  // return zipFileOperation;
-  // }
-  
   public VTServerNetworkInterfaceResolver getNetworkInterfaceResolver()
   {
     return networkInterfaceResolver;
   }
-  
-//  public VTServerPrintServiceResolver getPrintServiceResolver()
-//  {
-//    return printServiceResolver;
-//  }
   
   public VTServerOpticalDriveOperation getOpticalDriveOperation()
   {
@@ -366,31 +299,6 @@ public class VTServerSession
   {
     return fileSystemRootsResolver;
   }
-  
-  // public VTServerPrintTextTask getPrintTextTask()
-  // {
-  // return printTextTask;
-  // }
-  
-  // public VTServerPrintFileTask getPrintFileTask()
-  // {
-  // return printFileTask;
-  // }
-  
-//  public VTServerPrintDataTask getPrintDataTask()
-//  {
-//    return printDataTask;
-//  }
-//  
-//  public VTClipboardTransferTask getClipboardTransferTask()
-//  {
-//    return clipboardTransferTask;
-//  }
-//  
-//  public VTServerGraphicsDeviceResolver getGraphicsDeviceResolver()
-//  {
-//    return graphicsDeviceResolver;
-//  }
   
   public void ping()
   {
@@ -423,47 +331,22 @@ public class VTServerSession
     return tunnelsHandler.getConnection().createRemoteSocketFactory(tunnelsHandler.getConnection().getResponseChannel(type));
   }
   
-  // public VTTunnelConnectionHandler getSOCKSTunnelsHandler()
-  // {
-  // return socksTunnelsHandler;
-  // }
-  
   public boolean isStopped()
   {
     return clientReader.isStopped() || !connection.isConnected();
-    /* || outputWriter.isStopped() || exitListener.isStopped() */
-    // || !connection.isConnected();
   }
   
   public void stopTasks()
   {
     connection.closeSockets();
-    // System.out.println("connection.closeSockets");
     clientReader.setStopped(true);
-    // System.out.println("clientReader.setStopped");
     shellOutputWriter.setStopped(true);
-    // shellErrorWriter.setStopped(stopped);
-    // System.out.println("shellOutputWriter.setStopped");
     shellExitListener.setStopped(true);
-    // System.out.println("shellExitListener.setStopped");
     fileTransferServer.getHandler().getSession().getTransaction().setStopped(true);
-    // System.out.println("fileTransferServer.setStopped");
-    // runtimeExecutor.setStopped(stopped);
-    //graphicsServer.setStopped(true);
-    // System.out.println("graphicsServer.setStopped");
-    // printTextTask.setStopped(stopped);
-    // System.out.println("printTextTask.setStopped");
-    // printFileTask.setStopped(stopped);
-    // System.out.println("printFileTask.setStopped");
-    //printDataTask.setStopped(true);
     pingServiceClient.setStopped(true);
     pingServiceServer.setStopped(true);
     pingServiceClient.ping();
     pingServiceServer.ping();
-    // System.out.println("pingService.setStopped");
-    /*
-     * if (fileCopyOperation != null) { fileCopyOperation.setStopped(stopped); }
-     */
   }
   
   public void restartShell()
@@ -488,27 +371,11 @@ public class VTServerSession
     }
   }
   
-  public void startSession() throws UnsupportedEncodingException
+  public void startSession() throws IOException
   {
-    // screenshotProvider.initialize();
-    // runningAudio = false;
-    clientReader.setStopped(false);
-    shellOutputWriter.setStopped(false);
-    // shellErrorWriter.setStopped(false);
-    shellExitListener.setStopped(false);
-    tunnelsHandler.getConnection().setControlInputStream(connection.getTunnelControlDataInputStream());
-    tunnelsHandler.getConnection().setControlOutputStream(connection.getTunnelControlDataOutputStream());
-    tunnelsHandler.getConnection().setDataInputStream(connection.getMultiplexedConnectionInputStream());
-    tunnelsHandler.getConnection().setDataOutputStream(connection.getMultiplexedConnectionOutputStream());
-    // socksTunnelsHandler.getConnection().setControlOutputStream(connection.getSocksControlOutputStream());
-    // socksTunnelsHandler.getConnection().setControlInputStream(connection.getSocksControlInputStream());
-    // socksTunnelsHandler.getConnection().setDataInputStream(connection.getMultiplexedConnectionInputStream());
-    // socksTunnelsHandler.getConnection().setDataOutputStream(connection.getMultiplexedConnectionOutputStream());
-    pingServiceClient.setInputStream(connection.getPingClientInputStream());
-    pingServiceClient.setOutputStream(connection.getPingClientOutputStream());
-    pingServiceServer.setInputStream(connection.getPingServerInputStream());
-    pingServiceServer.setOutputStream(connection.getPingServerOutputStream());
-    // tunnelHandler.getConnection().start();
+    connection.getShellWriter().writeLong(connection.getSecureRandom().nextLong());
+    connection.getShellWriter().flush();
+    connection.getCommandReader().readLong();
   }
   
   public void startSessionThreads()
@@ -524,19 +391,13 @@ public class VTServerSession
   public void restartShellThreads()
   {
     shellOutputWriter.setStopped(false);
-    // shellErrorWriter.setStopped(false);
     shellExitListener.setStopped(false);
     shellOutputWriter.startThread();
-    // shellErrorWriter.startThread();
     shellExitListener.startThread();
   }
   
   public void waitSession()
   {
-    /*
-     * while (!isStopped()) { try { Thread.sleep(1); } catch (Throwable e) {
-     * return; } }
-     */
     synchronized (this)
     {
       while (!isStopped())
@@ -555,36 +416,18 @@ public class VTServerSession
   
   public void waitShell()
   {
-//    try
-//    {
-//      synchronized (shellProcess)
-//      {
-//        while (!shellOutputWriter.isStopped() && !shellExitListener.isStopped())
-//        {
-//          shellProcess.wait();
-//        }
-//      }
-//    }
-//    catch (Throwable e)
-//    {
-//      return;
-//    }
     shellAdapter.waitShell();
   }
   
   public void tryStopShellThreads()
   {
     shellOutputWriter.setStopped(true);
-    // shellErrorWriter.setStopped(true);
     shellExitListener.setStopped(true);
   }
   
-  @SuppressWarnings("unchecked")
   public void tryStopSessionThreads()
   {
-    // System.out.println("tryStopSessionThreads start");
     stopTasks();
-    // System.out.println("tryStopSessionThreads middle");
     try
     {
       for (Closeable closeable : sessionCloseables)
@@ -614,40 +457,6 @@ public class VTServerSession
       fileModifyOperation.interruptThread();
       fileModifyOperation.stopThread();
     }
-    // if (zipFileOperation.aliveThread())
-    // {
-    // zipFileOperation.interruptThread();
-    // zipFileOperation.stopThread();
-    // }
-//    if (clipboardTransferTask.aliveThread())
-//    {
-//      clipboardTransferTask.interruptThread();
-//    }
-//		if (printTextTask.aliveThread())
-//		{
-//			printTextTask.interruptThread();
-//			printTextTask.stopThread();
-//		}
-//		if (printFileTask.aliveThread())
-//		{
-//			printFileTask.interruptThread();
-//			printFileTask.stopThread();
-//		}
-//    if (printDataTask.aliveThread())
-//    {
-//      printDataTask.interruptThread();
-//      printDataTask.stopThread();
-//    }
-//    if (printServiceResolver.aliveThread())
-//    {
-//      printServiceResolver.interruptThread();
-//      printServiceResolver.stopThread();
-//    }
-//    if (screenshotTask.aliveThread())
-//    {
-//      screenshotTask.interruptThread();
-//      screenshotTask.stopThread();
-//    }
     if (runtimeExecutor.aliveThread())
     {
       runtimeExecutor.interruptThread();
@@ -658,11 +467,6 @@ public class VTServerSession
       hostResolver.interruptThread();
       hostResolver.stopThread();
     }
-//    if (urlInvoker.aliveThread())
-//    {
-//      urlInvoker.interruptThread();
-//      urlInvoker.stopThread();
-//    }
     if (networkInterfaceResolver.aliveThread())
     {
       networkInterfaceResolver.interruptThread();
@@ -678,30 +482,18 @@ public class VTServerSession
       fileSystemRootsResolver.interruptThread();
       fileSystemRootsResolver.stopThread();
     }
-//    if (graphicsDeviceResolver.aliveThread())
-//    {
-//      graphicsDeviceResolver.interruptThread();
-//      graphicsDeviceResolver.stopThread();
-//    }
     if (opticalDriveOperation.aliveThread())
     {
       opticalDriveOperation.interruptThread();
       opticalDriveOperation.stopThread();
     }
     tunnelsHandler.getConnection().close();
-    // socksTunnelsHandler.getConnection().close();
-    // System.out.println("tryStopSessionThreads end");
   }
   
   public String getShellEncoding()
   {
     return shellAdapter.getShellEncoding();
   }
-  
-  // public void changeShellCharset(Charset shellCharset)
-  // {
-  // shellAdapter.changeShellCharset(shellCharset);
-  // }
   
   public void stopShell()
   {
@@ -711,67 +503,28 @@ public class VTServerSession
   
   public void waitThreads()
   {
-    // System.out.println("waitThreads");
-    //sessionResources.clear();
     try
     {
       clientReader.joinThread();
-      // System.out.println("clientReader.joinThread()");
       shellOutputWriter.joinThread();
-      // shellErrorWriter.joinThread();
-      // System.out.println("shellOutputWriter.joinThread()");
       shellExitListener.joinThread();
-      // System.out.println("shellExitListener.joinThread()");
       fileTransferServer.joinThread();
-      // System.out.println("fileTransferServer.joinThread()");
-      //screenshotTask.joinThread();
-      // System.out.println("screenshotTask.joinThread()");
       runtimeExecutor.joinThread();
-      // System.out.println("runtimeExecutor.joinThread()");
-      //graphicsServer.joinThread();
-      // System.out.println("graphicsServer.joinThread()");
       fileScanOperation.joinThread();
-      // System.out.println("fileScanOperation.joinThread()");
       fileModifyOperation.joinThread();
-      // System.out.println("fileModifyOperation.joinThread()");
-      // zipFileOperation.joinThread();
-      // System.out.println("zipFileCompressOperation.joinThread()");
       hostResolver.joinThread();
-//      urlInvoker.joinThread();
-      // System.out.println("hostResolver.joinThread()");
       networkInterfaceResolver.joinThread();
-      // System.out.println("networkInterfaceResolver.joinThread()");
-      //printServiceResolver.joinThread();
-      // System.out.println("printServiceResolver.joinThread()");
-      // this.cdOperationThread.join();
       connectionListViewer.joinThread();
-      // System.out.println("connectionListViewer.joinThread()");
       fileSystemRootsResolver.joinThread();
-      // System.out.println("fileSystemRootsResolver.joinThread()");
-      // this.printTextTask.joinThread();
-      // System.out.println("printTextTask.joinThread()");
-      // this.printFileTask.joinThread();
-      // System.out.println("printFileTask.joinThread()");
-      //printDataTask.joinThread();
-      //graphicsDeviceResolver.joinThread();
-      // System.out.println("graphicsDeviceResolver.joinThread()");
-      //clipboardTransferTask.joinThread();
-      // System.out.println("clipboardTransferTask.joinThread()");
       tunnelsHandler.joinThread();
-      // socksTunnelsHandler.joinThread();
       pingServiceClient.joinThread();
       pingServiceServer.joinThread();
-      // System.out.println("pingService.joinThread()");
     }
     catch (Throwable e)
     {
       // e.printStackTrace();
       // return;
     }
-    //controlProvider.dispose();
-    //viewProvider.dispose();
-    //screenshotProvider.dispose();
-    //screenshotTask.dispose();
   }
   
   public void waitShellThreads()
@@ -779,7 +532,6 @@ public class VTServerSession
     try
     {
       shellOutputWriter.joinThread();
-      // shellErrorWriter.joinThread();
       shellExitListener.joinThread();
     }
     catch (Throwable e)
