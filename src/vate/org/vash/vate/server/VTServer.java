@@ -28,6 +28,7 @@ import org.vash.vate.proxy.client.VTProxy;
 import org.vash.vate.runtime.VTRuntimeExit;
 import org.vash.vate.security.VTBlake3SecureRandom;
 import org.vash.vate.security.VTCredential;
+import org.vash.vate.server.connection.VTServerConnectionListener;
 import org.vash.vate.server.connection.VTServerConnector;
 import org.vash.vate.server.console.local.VTServerLocalConsoleReader;
 //import org.vash.vate.server.console.local.VTServerLocalGraphicalConsoleMenuBar;
@@ -76,7 +77,8 @@ public class VTServer implements Runnable
   private boolean skipConfiguration;
   private boolean echoCommands = false;
   private boolean reconfigure = false;
-  private Collection<VTServerSessionListener> listeners = new ConcurrentLinkedQueue<VTServerSessionListener>();
+  private Collection<VTServerSessionListener> sessionListeners = new ConcurrentLinkedQueue<VTServerSessionListener>();
+  private Collection<VTServerConnectionListener> connectionListeners = new ConcurrentLinkedQueue<VTServerConnectionListener>();
   private int pingLimit = 0;
   private int pingInterval = 0;
   private int reconnectTimeout = 0;
@@ -2321,9 +2323,13 @@ public class VTServer implements Runnable
       consoleReader = new VTServerLocalConsoleReader(this);
       consoleReader.startThread();
     }
-    for (VTServerSessionListener listener : listeners)
+    for (VTServerSessionListener listener : sessionListeners)
     {
       serverConnector.addSessionListener(listener);
+    }
+    for (VTServerConnectionListener listener : connectionListeners)
+    {
+      serverConnector.addConnectionListener(listener);
     }
     serverConnector.run();
   }
@@ -2351,7 +2357,7 @@ public class VTServer implements Runnable
     }
     else
     {
-      listeners.add(listener);
+      sessionListeners.add(listener);
     }
   }
   
@@ -2363,7 +2369,31 @@ public class VTServer implements Runnable
     }
     else
     {
-      listeners.add(listener);
+      sessionListeners.add(listener);
+    }
+  }
+  
+  public void addConnectionListener(VTServerConnectionListener listener)
+  {
+    if (serverConnector != null)
+    {
+      serverConnector.addConnectionListener(listener);
+    }
+    else
+    {
+      connectionListeners.add(listener);
+    }
+  }
+  
+  public void removeConnectionListener(VTServerConnectionListener listener)
+  {
+    if (serverConnector != null)
+    {
+      serverConnector.removeConnectionListener(listener);
+    }
+    else
+    {
+      connectionListeners.add(listener);
     }
   }
   

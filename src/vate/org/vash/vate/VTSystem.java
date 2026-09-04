@@ -4,6 +4,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
+import java.security.KeyPair;
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,6 +14,7 @@ import java.util.Locale;
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.io.airlift.compress.zstd.ZstdUtil;
 import org.vash.vate.net.jpountz.lz4.LZ4Utils;
+import org.vash.vate.tls.VTTLSUtilities;
 
 @SuppressWarnings("deprecation")
 public class VTSystem
@@ -156,6 +159,7 @@ public class VTSystem
   
   private static final DateFormat VT_ERA_DATEFORMAT;
   private static final Calendar VT_YEAR_CALENDAR;
+  
 //  public static AudioFormat VT_AUDIO_FORMAT_DEFAULT;
 //  public static AudioFormat VT_AUDIO_FORMAT_8000;
 //  public static AudioFormat VT_AUDIO_FORMAT_16000;
@@ -164,6 +168,10 @@ public class VTSystem
 //  public static AudioFormat VT_AUDIO_FORMAT_48000;
 //  
 //  public static Map<RenderingHints.Key, Object> VT_GRAPHICS_RENDERING_HINTS;
+  
+  public static final KeyPair VT_TLS_KEY_PAIR;
+  public static final byte[] VT_TLS_CERTIFICATE_DATA;
+  
   private static boolean initialized = false;
   
   static
@@ -175,6 +183,9 @@ public class VTSystem
     
     VT_ERA_DATEFORMAT = new SimpleDateFormat("G", Locale.ENGLISH);
     VT_YEAR_CALENDAR = Calendar.getInstance();
+    
+    VT_TLS_KEY_PAIR = VTTLSUtilities.createKeyPair("RSA", 1024, null);
+    VT_TLS_CERTIFICATE_DATA = VTTLSUtilities.createSelfSignedTLSCertificateEncodedData(VT_TLS_KEY_PAIR, new SecureRandom());
   }
   
   public static void initialize()

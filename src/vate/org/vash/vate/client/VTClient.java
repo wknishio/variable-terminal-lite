@@ -15,6 +15,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
 import org.vash.vate.VTSystem;
+import org.vash.vate.client.connection.VTClientConnectionListener;
 //import org.vash.vate.audio.VTAudioSystem;
 import org.vash.vate.client.connection.VTClientConnector;
 //import org.vash.vate.client.console.remote.VTClientRemoteGraphicalConsoleMenuBar;
@@ -63,7 +64,8 @@ public class VTClient implements Runnable
   // private VTTrayIconInterface trayIconInterface;
   private boolean skipConfiguration;
   private boolean retry = false;
-  private Collection<VTClientSessionListener> listeners = new ConcurrentLinkedQueue<VTClientSessionListener>();
+  private Collection<VTClientSessionListener> sessionListeners = new ConcurrentLinkedQueue<VTClientSessionListener>();
+  private Collection<VTClientConnectionListener> connectionListeners = new ConcurrentLinkedQueue<VTClientConnectionListener>();
   private int pingLimit = 0;
   private int pingInterval = 0;
   private int reconnectTimeout = 0;
@@ -2175,9 +2177,13 @@ public class VTClient implements Runnable
     clientConnector.setEncryptionKey(encryptionKey);
     clientConnector.setSessionCommands(sessionCommands);
     clientConnector.setSessionShell(sessionShell);
-    for (VTClientSessionListener listener : listeners)
+    for (VTClientSessionListener listener : sessionListeners)
     {
       clientConnector.addSessionListener(listener);
+    }
+    for (VTClientConnectionListener listener : connectionListeners)
+    {
+      clientConnector.addConnectionListener(listener);
     }
     clientConnector.run();
   }
@@ -2190,7 +2196,7 @@ public class VTClient implements Runnable
     }
     else
     {
-      listeners.add(listener);
+      sessionListeners.add(listener);
     }
   }
   
@@ -2202,7 +2208,31 @@ public class VTClient implements Runnable
     }
     else
     {
-      listeners.add(listener);
+      sessionListeners.add(listener);
+    }
+  }
+  
+  public void addConnectionListener(VTClientConnectionListener listener)
+  {
+    if (clientConnector != null)
+    {
+      clientConnector.addConnectionListener(listener);
+    }
+    else
+    {
+      connectionListeners.add(listener);
+    }
+  }
+  
+  public void removeConnectionListener(VTClientConnectionListener listener)
+  {
+    if (clientConnector != null)
+    {
+      clientConnector.removeConnectionListener(listener);
+    }
+    else
+    {
+      connectionListeners.add(listener);
     }
   }
   
