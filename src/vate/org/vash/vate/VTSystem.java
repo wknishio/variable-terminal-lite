@@ -4,12 +4,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharsetEncoder;
 import java.nio.charset.CodingErrorAction;
-import java.security.KeyPair;
-import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import javax.net.ssl.SSLContext;
 
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.io.airlift.compress.zstd.ZstdUtil;
@@ -169,8 +169,7 @@ public class VTSystem
 //  
 //  public static Map<RenderingHints.Key, Object> VT_GRAPHICS_RENDERING_HINTS;
   
-  public static final KeyPair VT_TLS_KEY_PAIR;
-  public static final byte[] VT_TLS_CERTIFICATE_DATA;
+  public static final SSLContext VT_TLS_CONTEXT;
   
   private static boolean initialized = false;
   
@@ -185,8 +184,7 @@ public class VTSystem
     VT_YEAR_CALENDAR = Calendar.getInstance();
     
     //VTTLSUtilities.allowUnsafeTLSSettings();
-    VT_TLS_KEY_PAIR = VTTLSUtilities.createKeyPair("RSA", 2048, null);
-    VT_TLS_CERTIFICATE_DATA = VTTLSUtilities.createSelfSignedTLSCertificateEncodedData(VT_TLS_KEY_PAIR, new SecureRandom());
+    VT_TLS_CONTEXT = VTTLSUtilities.createUnsafeTLSContext("RSA", 2048, null);
   }
   
   public static void initialize()
