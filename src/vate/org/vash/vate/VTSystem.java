@@ -188,7 +188,7 @@ public class VTSystem
     VT_UNSAFE_TLS_CONTEXT = VTTLSUtilities.createUnsafeTLSContext("RSA", 2048, null);
   }
   
-  public static void initialize()
+  public static final void initialize()
   {
 //    VTGlobalTextStyleManager.checkScaling();
 //    try
@@ -254,7 +254,7 @@ public class VTSystem
 //    }
   }
   
-  public static CharsetEncoder getFlexibleCharsetEncoder(String charsetName)
+  public static final CharsetEncoder getFlexibleCharsetEncoder(String charsetName)
   {
     CharsetEncoder encoder = null;
     
@@ -281,7 +281,7 @@ public class VTSystem
     return encoder;
   }
   
-  public static CharsetDecoder getFlexibleCharsetDecoder(String charsetName)
+  public static final CharsetDecoder getFlexibleCharsetDecoder(String charsetName)
   {
     CharsetDecoder decoder = null;
     
@@ -308,7 +308,7 @@ public class VTSystem
     return decoder;
   }
   
-  public static CharsetEncoder getStrictCharsetEncoder(String charsetName)
+  public static final CharsetEncoder getStrictCharsetEncoder(String charsetName)
   {
     CharsetEncoder encoder = null;
     
@@ -335,7 +335,7 @@ public class VTSystem
     return encoder;
   }
   
-  public static CharsetDecoder getStrictCharsetDecoder(String charsetName)
+  public static final CharsetDecoder getStrictCharsetDecoder(String charsetName)
   {
     CharsetDecoder decoder = null;
     
