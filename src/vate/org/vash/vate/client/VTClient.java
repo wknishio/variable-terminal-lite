@@ -45,6 +45,7 @@ public class VTClient implements Runnable
   private Integer proxyPort = null;
   private String proxyUser = "";
   private String proxyPassword = "";
+  private boolean tlsAuthentication = false;
   private String encryptionType = "NONE";
   private byte[] encryptionKey = new byte[] {};
   private String sessionUser = "";
@@ -77,10 +78,11 @@ public class VTClient implements Runnable
   
   private static final String VT_CLIENT_SETTINGS_COMMENTS = 
   "Variable-Terminal client settings file, supports UTF-8\r\n" + 
-  "#vate.client.connection.mode  values: default active(A), passive(P)\r\n" + 
-  "#vate.client.proxy.type       values: DIRECT(D)/SOCKS(S)/HTTP(H)/PLUS(P)\r\n" + 
-  "#vate.client.encryption.type  values: SALSA(S)/HC(H)/ZUC(Z)/LEA(L)/TLS(T)\r\n" + 
-  "#vate.client.session.commands format: cmd1*;cmd*;cmd3*;...\r\n";
+  "#vate.client.connection.mode      values: default active(A), passive(P)\r\n" + 
+  "#vate.client.proxy.type           values: DIRECT(D)/SOCKS(S)/HTTP(H)/PLUS(P)\r\n" + 
+  "#vate.client.authentication.type  values: DEFAULT(D) or TLS(T)\r\n" + 
+  "#vate.client.encryption.type      values: SALSA(S)/HC(H)/ZUC(Z)/LEA(L)\r\n" + 
+  "#vate.client.session.commands     format: cmd1*;cmd2*;cmd3*;...\r\n";
   
   static
   {
@@ -280,6 +282,16 @@ public class VTClient implements Runnable
     this.encryptionKey = encryptionKey;
   }
   
+  public boolean getTLSAuthentication()
+  {
+    return tlsAuthentication;
+  }
+  
+  public void setTLSAuthentication(boolean tls)
+  {
+    tlsAuthentication = tls;
+  }
+  
   public String getUser()
   {
     return sessionUser;
@@ -459,14 +471,15 @@ public class VTClient implements Runnable
       
       fileClientSettings.clear();
       fileClientSettings.setProperty("vate.client.connection.mode", active ? "Active" : "Passive");
-      fileClientSettings.setProperty("vate.client.connection.port", hostPort != null ? String.valueOf(hostPort) : "");
       fileClientSettings.setProperty("vate.client.connection.host", hostAddress);
+      fileClientSettings.setProperty("vate.client.connection.port", hostPort != null ? String.valueOf(hostPort) : "");
       fileClientSettings.setProperty("vate.client.connection.nat.port", natPort != null ? String.valueOf(natPort) : "");
       fileClientSettings.setProperty("vate.client.proxy.type", proxyType);
       fileClientSettings.setProperty("vate.client.proxy.host", proxyAddress);
       fileClientSettings.setProperty("vate.client.proxy.port", proxyPort != null ? String.valueOf(proxyPort) : "");
       fileClientSettings.setProperty("vate.client.proxy.user", proxyUser);
       fileClientSettings.setProperty("vate.client.proxy.password", proxyPassword);
+      fileClientSettings.setProperty("vate.client.authentication.type", tlsAuthentication ? "TLS" : "");
       fileClientSettings.setProperty("vate.client.encryption.type", encryptionType);
       fileClientSettings.setProperty("vate.client.encryption.password", new String(encryptionKey, "UTF-8"));
       fileClientSettings.setProperty("vate.client.ping.limit", pingLimit > 0 ? String.valueOf(pingLimit) : "");
@@ -606,6 +619,19 @@ public class VTClient implements Runnable
         {
           natPort = fileNatPort;
         }
+      }
+      catch (Throwable e)
+      {
+        
+      }
+    }
+    
+    if (fileClientSettings.getProperty("vate.client.auhentication.type") != null)
+    {
+      found = true;
+      try
+      {
+        tlsAuthentication = fileClientSettings.getProperty("vate.client.auhentication.type", encryptionType).toUpperCase().startsWith("T");
       }
       catch (Throwable e)
       {
@@ -885,6 +911,18 @@ public class VTClient implements Runnable
         }
       }
       
+      if (fileClientSettings.getProperty("vate.client.auhentication.type") != null)
+      {
+        try
+        {
+          tlsAuthentication = fileClientSettings.getProperty("vate.client.auhentication.type", encryptionType).toUpperCase().startsWith("T");
+        }
+        catch (Throwable e)
+        {
+          
+        }
+      }
+      
       if (fileClientSettings.getProperty("vate.client.encryption.type") != null)
       {
         try
@@ -1120,6 +1158,18 @@ public class VTClient implements Runnable
         {
           natPort = fileNatPort;
         }
+      }
+      catch (Throwable e)
+      {
+        
+      }
+    }
+    
+    if (fileClientSettings.getProperty("vate.client.auhentication.type") != null)
+    {
+      try
+      {
+        tlsAuthentication = fileClientSettings.getProperty("vate.client.auhentication.type", encryptionType).toUpperCase().startsWith("T");
       }
       catch (Throwable e)
       {
@@ -1683,6 +1733,24 @@ public class VTClient implements Runnable
             proxyType = "NONE";
           }
         }
+        VTMainConsole.print("VT>Use TLS in authentication?(Y/N, default:N):");
+        line = VTMainConsole.readLine(true);
+        if (line == null)
+        {
+          VTRuntimeExit.exit(0);
+        }
+        else if (skipConfiguration)
+        {
+          return;
+        }
+        if (line.toUpperCase().startsWith("Y"))
+        {
+          tlsAuthentication = true;
+        }
+        else
+        {
+          tlsAuthentication = false;
+        }
         VTMainConsole.print("VT>Use encryption in connection?(Y/N, default:N):");
         line = VTMainConsole.readLine(true);
         if (line == null)
@@ -1726,10 +1794,10 @@ public class VTClient implements Runnable
           {
             encryptionType = "LEA";
           }
-          if (line.toUpperCase().startsWith("T"))
-          {
-            encryptionType = "TLS";
-          }
+//          if (line.toUpperCase().startsWith("T"))
+//          {
+//            encryptionType = "TLS";
+//          }
           VTMainConsole.print("VT>Enter encryption password:");
           line = VTMainConsole.readLine(false);
           if (line == null)
@@ -1935,6 +2003,11 @@ public class VTClient implements Runnable
           
         }
       }
+      if (parameterName.contains("-AT"))
+      {
+        parameterValue = parameters[++i];
+        tlsAuthentication = parameterValue.toUpperCase().startsWith("T");
+      }
       if (parameterName.contains("-ET"))
       {
         parameterValue = parameters[++i];
@@ -2129,6 +2202,7 @@ public class VTClient implements Runnable
       this.proxyPort = clientConnector.getProxyPort();
       this.proxyUser = clientConnector.getProxyUser();
       this.proxyPassword = clientConnector.getProxyPassword();
+      this.tlsAuthentication = clientConnector.getTLSAuthentication();
       this.encryptionType = clientConnector.getEncryptionType();
       this.encryptionKey = clientConnector.getEncryptionKey();
       this.sessionCommands = clientConnector.getSessionCommands();
@@ -2149,6 +2223,7 @@ public class VTClient implements Runnable
       clientConnector.setProxyPort(proxyPort);
       clientConnector.setProxyUser(proxyUser);
       clientConnector.setProxyPassword(proxyPassword);
+      clientConnector.setTLSAuthentication(tlsAuthentication);
       clientConnector.setEncryptionType(encryptionType);
       clientConnector.setEncryptionKey(encryptionKey);
       clientConnector.setSessionCommands(sessionCommands);
@@ -2177,6 +2252,7 @@ public class VTClient implements Runnable
     clientConnector.setProxyPort(proxyPort);
     clientConnector.setProxyUser(proxyUser);
     clientConnector.setProxyPassword(proxyPassword);
+    clientConnector.setTLSAuthentication(tlsAuthentication);
     clientConnector.setEncryptionType(encryptionType);
     clientConnector.setEncryptionKey(encryptionKey);
     clientConnector.setSessionCommands(sessionCommands);
