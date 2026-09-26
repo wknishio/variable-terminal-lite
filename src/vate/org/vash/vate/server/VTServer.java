@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Properties;
@@ -86,6 +87,8 @@ public class VTServer implements Runnable
   private Future<?> runThread;
   private VTTrafficMonitorService trafficMonitorService;
   private VTProxy proxy;
+  private InputStream commandInputStream;
+  private OutputStream commandOutputStream;
   
   private static final String VT_SERVER_SETTINGS_COMMENTS = 
   "Variable-Terminal server settings file, supports UTF-8\r\n" + 
@@ -148,6 +151,26 @@ public class VTServer implements Runnable
   public boolean isManaged()
   {
     return managed;
+  }
+  
+  public InputStream getCommandInputStream()
+  {
+    return commandInputStream;
+  }
+  
+  public OutputStream getCommandOutputStream()
+  {
+    return commandOutputStream;
+  }
+  
+  public void setCommandInputStream(InputStream stream)
+  {
+    commandInputStream = stream;
+  }
+  
+  public void setCommandOutputStream(OutputStream stream)
+  {
+    commandOutputStream = stream;
   }
   
   public VTTrafficMonitorService getTrafficMonitorService()

@@ -122,6 +122,8 @@ public class VTServerSession
     pingServiceClient.setOutputStream(connection.getPingClientOutputStream());
     pingServiceServer.setInputStream(connection.getPingServerInputStream());
     pingServiceServer.setOutputStream(connection.getPingServerOutputStream());
+    setCommandInputStream(server.getCommandInputStream());
+    setCommandOutputStream(server.getCommandOutputStream());
   }
   
   public ExecutorService getExecutorService()
@@ -329,6 +331,16 @@ public class VTServerSession
   {
     type |= VTSystem.VT_MULTIPLEXED_CHANNEL_TYPE_PIPE_DIRECT;
     return tunnelsHandler.getConnection().createRemoteSocketFactory(tunnelsHandler.getConnection().getResponseChannel(type));
+  }
+  
+  public void setCommandInputStream(InputStream stream)
+  {
+    
+  }
+  
+  public void setCommandOutputStream(OutputStream stream)
+  {
+    
   }
   
   public boolean isStopped()
