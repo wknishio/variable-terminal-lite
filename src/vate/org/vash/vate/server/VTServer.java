@@ -14,14 +14,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
-//import javax.sound.sampled.AudioFormat;
-
 import org.vash.vate.VTSystem;
-//import org.vash.vate.audio.VTAudioSystem;
 import org.vash.vate.console.VTMainConsole;
 import org.vash.vate.exception.VTUncaughtExceptionHandler;
 import org.vash.vate.monitor.VTTrafficMonitorService;
-//import org.vash.vate.graphics.message.VTTrayIconInterface;
 import org.vash.vate.parser.VTArgumentParser;
 import org.vash.vate.parser.VTConfigurationProperties;
 import org.vash.vate.parser.VTPropertiesBuilder;
@@ -32,8 +28,6 @@ import org.vash.vate.security.VTCredential;
 import org.vash.vate.server.connection.VTServerConnectionListener;
 import org.vash.vate.server.connection.VTServerConnector;
 import org.vash.vate.server.console.local.VTServerLocalConsoleReader;
-//import org.vash.vate.server.console.local.VTServerLocalGraphicalConsoleMenuBar;
-//import org.vash.vate.server.dialog.VTServerSettingsDialog;
 import org.vash.vate.server.session.VTServerSessionListener;
 
 public class VTServer implements Runnable
@@ -57,25 +51,15 @@ public class VTServer implements Runnable
   private Integer sessionsMaximum;
   private String sessionShell = "";
   private final String vtURL = System.getenv("VT_PATH");
-  // private MessageDigest sha256Digester;
-  //private VTBlake3MessageDigest blake3Digest;
-  // private File userDatabaseFile;
   private File serverSettingsFile;
   private final Collection<VTCredential> userCredentials = new ConcurrentLinkedQueue<VTCredential>();
-  // private Properties fileUserCredentials;
-  // private Properties argumentsServerSettings = new Properties();
   private VTConfigurationProperties fileServerSettings;
   private final Runtime runtime = Runtime.getRuntime();
-  // private Thread consoleThread;
   private InputStream userCredentialsReader;
   private InputStream serverSettingsReader;
   private VTServerConnector serverConnector;
   private VTServerLocalConsoleReader consoleReader;
-//  private VTServerLocalGraphicalConsoleMenuBar inputMenuBar;
-//  private VTAudioSystem[] audioSystem;
-//  private VTServerSettingsDialog connectionDialog;
   private ExecutorService executorService;
-//  private VTTrayIconInterface trayIconInterface;
   private boolean skipConfiguration;
   private boolean echoCommands = false;
   private boolean reconfigure = false;
@@ -616,7 +600,6 @@ public class VTServer implements Runnable
       }
       serverSettingsReader = new FileInputStream(serverSettingsFile);
       fileServerSettings = VTPropertiesBuilder.loadProperties(serverSettingsReader, "UTF-8");
-      // rawSecuritySettings.load(securitySettingsReader);
       serverSettingsReader.close();
     }
     catch (Throwable t)
@@ -900,7 +883,6 @@ public class VTServer implements Runnable
       }
       serverSettingsReader = new FileInputStream(serverSettingsFile);
       fileServerSettings = VTPropertiesBuilder.loadProperties(serverSettingsReader, "UTF-8");
-      // rawSecuritySettings.load(securitySettingsReader);
       serverSettingsReader.close();
       
       sessionAccounts = fileServerSettings.getProperty("vate.server.session.accounts", null);
@@ -1406,15 +1388,7 @@ public class VTServer implements Runnable
         VTMainConsole.print("VT>Press enter to start server:");
         try
         {
-//          if (inputMenuBar != null)
-//          {
-//            inputMenuBar.setEnabledDialogMenu(false);
-//          }
           VTMainConsole.readLine(true);
-//          if (inputMenuBar != null)
-//          {
-//            inputMenuBar.setEnabledDialogMenu(true);
-//          }
           if (skipConfiguration)
           {
             return;
@@ -1427,29 +1401,9 @@ public class VTServer implements Runnable
       }
       else
       {
-        // if (inputMenuBar != null)
-        // {
-        // inputMenuBar.setEnabledDialogMenu(true);
-        // }
+        
       }
       
-//      if (connectionDialog != null)
-//      {
-//        if ((passive && hostPort == null) || (!passive && (hostAddress == null || hostPort == null)))
-//        {
-//          connectionDialog.open();
-//          if (skipConfiguration)
-//          {
-//            skipConfiguration = false;
-//            if (reconfigure)
-//            {
-//              reconfigure = false;
-//              loadFromConnectorToServer();
-//            }
-//            return;
-//          }
-//        }
-//      }
       if (reconfigure)
       {
         reconfigure = false;
@@ -1531,15 +1485,7 @@ public class VTServer implements Runnable
         }
         else
         {
-          // VTExit.exit(0);
-          // try
-          // {
-          // addUserCredential("", "");
-          // }
-          // catch (UnsupportedEncodingException e)
-          // {
           
-          // }
         }
       }
       VTMainConsole.print("VT>Enter connection mode(active as A or passive as P, default:P):");
@@ -2032,9 +1978,7 @@ public class VTServer implements Runnable
       }
       catch (NumberFormatException e)
       {
-        //VTConsole.print("VT>Invalid port!\n");
-        //hostPort = null;
-        //proxyPort = null;
+        
       }
       catch (Throwable e)
       {
@@ -2310,19 +2254,7 @@ public class VTServer implements Runnable
       VTMainConsole.setTitle("Variable-Terminal " + VTSystem.VT_VERSION + " - Server - Console");
       if (!VTMainConsole.isDaemon() && !daemon)
       {
-//        connectionDialog = new VTServerSettingsDialog(VTConsole.getFrame(), "Variable-Terminal " + VT.VT_VERSION + " - Server - Connection", true, this);
-//        inputMenuBar = new VTServerLocalGraphicalConsoleMenuBar(connectionDialog);
-//        VTConsole.getFrame().setMenuBar(inputMenuBar);
-//        VTConsole.getFrame().pack();
-//        try
-//        {
-//          trayIconInterface = new VTTrayIconInterface();
-//          trayIconInterface.install(VTConsole.getFrame(), "Variable-Terminal - Server");
-//        }
-//        catch (Throwable t)
-//        {
-//          trayIconInterface = null;
-//        }
+        
       }
     }
     else

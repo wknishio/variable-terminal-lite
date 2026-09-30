@@ -58,11 +58,7 @@ public class VTClient implements Runnable
   private VTConfigurationProperties fileClientSettings;
   private InputStream clientSettingsReader;
   private VTClientConnector clientConnector;
-//  private VTClientRemoteGraphicalConsoleMenuBar inputMenuBar;
-//  private VTAudioSystem audioSystem;
-//  private VTClientConfigurationDialog connectionDialog;
   private ExecutorService executorService;
-  // private VTTrayIconInterface trayIconInterface;
   private boolean skipConfiguration;
   private boolean retry = false;
   private Collection<VTClientSessionListener> sessionListeners = new ConcurrentLinkedQueue<VTClientSessionListener>();
@@ -198,18 +194,12 @@ public class VTClient implements Runnable
   public void setSkipConfiguration(boolean skipConfiguration)
   {
     this.skipConfiguration = skipConfiguration;
-    // System.out.println("skipConfiguration = " + skipConfiguration);
   }
   
   public VTClientConnector getClientConnector()
   {
     return clientConnector;
   }
-  
-//  public VTAudioSystem getAudioSystem()
-//  {
-//    return audioSystem;
-//  }
   
   public void setActive(boolean active)
   {
@@ -226,8 +216,6 @@ public class VTClient implements Runnable
   {
     this.agent = agent;
   }
-  
-  /* public String getAddress() { return address; } */
   
   public void setAddress(String address)
   {
@@ -322,10 +310,6 @@ public class VTClient implements Runnable
     this.sessionCommands = sessionCommands;
   }
   
-  /* public MessageDigest getSha256Digester() { return sha256Digester; } */
-  
-  /* public SecureRandom getSecureRandom() { return secureRandom; } */
-  
   public Integer getNatPort()
   {
     return natPort;
@@ -409,11 +393,6 @@ public class VTClient implements Runnable
   {
     this.clientConnector = clientConnector;
   }
-  
-//  public void setInputMenuBar(VTClientRemoteGraphicalConsoleMenuBar inputMenuBar)
-//  {
-//    this.inputMenuBar = inputMenuBar;
-//  }
   
   public Runtime getRuntime()
   {
@@ -524,7 +503,6 @@ public class VTClient implements Runnable
       }
       clientSettingsReader = new FileInputStream(clientSettingsFile);
       fileClientSettings = VTPropertiesBuilder.loadProperties(clientSettingsReader, "UTF-8");
-      // rawSecuritySettings.load(securitySettingsReader);
       clientSettingsReader.close();
     }
     catch (Throwable t)
@@ -820,7 +798,6 @@ public class VTClient implements Runnable
       }
       clientSettingsReader = new FileInputStream(clientSettingsFile);
       fileClientSettings = VTPropertiesBuilder.loadProperties(clientSettingsReader, "UTF-8");
-      // rawSecuritySettings.load(securitySettingsReader);
       clientSettingsReader.close();
       
       if (fileClientSettings.getProperty("vate.client.connection.mode") != null)
@@ -1356,19 +1333,9 @@ public class VTClient implements Runnable
       else
       {
         VTMainConsole.print("VT>Press enter to start client:");
-        // VTConsole.print("\nVT>Press enter to try connecting with server");
         try
         {
-//          if (inputMenuBar != null)
-//          {
-//            inputMenuBar.setEnabledDialogMenu(false);
-//          }
           VTMainConsole.readLine(true);
-//          
-//          if (inputMenuBar != null)
-//          {
-//            inputMenuBar.setEnabledDialogMenu(true);
-//          }
           if (skipConfiguration)
           {
             return;
@@ -1379,17 +1346,6 @@ public class VTClient implements Runnable
           VTRuntimeExit.exit(0);
         }
       }
-//      manual = false;
-//      if (connectionDialog != null && !connectionDialog.isVisible())
-//      {
-//        connectionDialog.open();
-//        if (skipConfiguration)
-//        {
-//          skipConfiguration = false;
-//          return;
-//        }
-//      }
-//      manual = true;
       if (retry)
       {
         VTMainConsole.print("\nVT>Enter settings file(if available):");
@@ -2146,19 +2102,6 @@ public class VTClient implements Runnable
     {
       VTMainConsole.initialize();
       VTMainConsole.setTitle("Variable-Terminal " + VTSystem.VT_VERSION + " - Client - Console");
-//      connectionDialog = new VTClientConfigurationDialog(VTConsole.getFrame(), "Variable-Terminal " + VT.VT_VERSION + " - Client - Connection", true, this);
-//      inputMenuBar = new VTClientRemoteGraphicalConsoleMenuBar(connectionDialog);
-//      VTConsole.getFrame().setMenuBar(inputMenuBar);
-//      VTConsole.getFrame().pack();
-//      try
-//      {
-//        trayIconInterface = new VTTrayIconInterface();
-//        trayIconInterface.install(VTConsole.getFrame(), "Variable-Terminal - Client");
-//      }
-//      catch (Throwable t)
-//      {
-//        trayIconInterface = null;
-//      }
     }
     else
     {
@@ -2176,7 +2119,6 @@ public class VTClient implements Runnable
     }
     VTMainConsole.print("VT>Variable-Terminal " + VTSystem.VT_VERSION + " - Client - (c) " + VTSystem.VT_YEAR + " wknishio@gmail.com\n" + 
     "VT>This software is under MIT license with no warranty, use at your own risk!\n");
-    // + "VT>Press enter to start client:");
     if (!VTMainConsole.isDaemon() && !daemon)
     {
       configure();
@@ -2325,30 +2267,6 @@ public class VTClient implements Runnable
   {
     this.sessionShell = sessionShell;
   }
-  
-//  public void enableTrayIcon()
-//  {
-//    if (trayIconInterface != null)
-//    {
-//      trayIconInterface.install(VTConsole.getFrame(), "Variable-Terminal - Client");
-//    }
-//  }
-//
-//  public void disableTrayIcon()
-//  {
-//    if (trayIconInterface != null)
-//    {
-//      trayIconInterface.removeTrayIcon();
-//    }
-//  }
-//
-//  public void displayTrayIconMessage(String caption, String text)
-//  {
-//    if (trayIconInterface != null)
-//    {
-//      trayIconInterface.displayMessage(caption, text);
-//    }
-//  }
   
   public void setPingLimit(int limit)
   {
