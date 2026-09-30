@@ -11,12 +11,12 @@ import java.util.Locale;
 
 import javax.net.ssl.SSLContext;
 
+import org.vash.vate.graphics.VTGraphicsSystem;
 import org.vash.vate.help.VTHelpManager;
 import org.vash.vate.io.airlift.compress.zstd.ZstdUtil;
 import org.vash.vate.net.jpountz.lz4.LZ4Utils;
 import org.vash.vate.tls.VTTLSUtilities;
 
-@SuppressWarnings("deprecation")
 public class VTSystem
 {
   public static final int VT_MAJOR_VERSION = 1;
@@ -159,14 +159,6 @@ public class VTSystem
   private static final DateFormat VT_ERA_DATEFORMAT;
   private static final Calendar VT_YEAR_CALENDAR;
   
-//  public static AudioFormat VT_AUDIO_FORMAT_DEFAULT;
-//  public static AudioFormat VT_AUDIO_FORMAT_8000;
-//  public static AudioFormat VT_AUDIO_FORMAT_16000;
-//  public static AudioFormat VT_AUDIO_FORMAT_24000;
-//  public static AudioFormat VT_AUDIO_FORMAT_32000;
-//  public static AudioFormat VT_AUDIO_FORMAT_48000;
-//  
-//  public static Map<RenderingHints.Key, Object> VT_GRAPHICS_RENDERING_HINTS;
   public static final SSLContext VT_UNSAFE_TLS_CONTEXT;
   
   private static boolean initialized = false;
@@ -176,27 +168,18 @@ public class VTSystem
     if (!initialized)
     {
       initialize();
+      //VTTLSUtilities.allowUnsafeTLSSettings();
     }
     
     VT_ERA_DATEFORMAT = new SimpleDateFormat("G", Locale.ENGLISH);
     VT_YEAR_CALENDAR = Calendar.getInstance();
     
-    //VTTLSUtilities.allowUnsafeTLSSettings();
     VT_UNSAFE_TLS_CONTEXT = VTTLSUtilities.createUnsafeTLSContext("RSA", 2048, null);
   }
   
   public static final void initialize()
   {
-//    VTGlobalTextStyleManager.checkScaling();
-//    try
-//    {
-//      Toolkit.getDefaultToolkit().setDynamicLayout(false);
-//    }
-//    catch (Throwable t)
-//    {
-//      
-//    }
-//    ImageIO.setUseCache(false);
+    VTGraphicsSystem.initialize();
     VTHelpManager.initialize();
     
     initialized = true;
@@ -216,40 +199,6 @@ public class VTSystem
   
   public static final String VT_VERSION = "v" + VTSystem.VT_MAJOR_VERSION + "." + VTSystem.VT_MINOR_VERSION + "." + VTSystem.VT_REVISION_VERSION;
   public static final String VT_YEAR = VT_ERA_DATEFORMAT.format(VT_YEAR_CALENDAR.getTime()) + " " + String.valueOf(VT_YEAR_CALENDAR.get(Calendar.YEAR));
-  
-//  public static BufferedImage remoteIcon;
-//  public static BufferedImage terminalIcon;
-//  public static BufferedImage desktopIcon;
-  
-  static
-  {
-//    try
-//    {
-//      remoteIcon = ImageIO.read(VT.class.getResourceAsStream("/org/vash/vate/console/graphical/resource/remote.png"));
-//    }
-//    catch (Throwable e)
-//    {
-//      remoteIcon = null;
-//    }
-//    
-//    try
-//    {
-//      terminalIcon = ImageIO.read(VT.class.getResourceAsStream("/org/vash/vate/console/graphical/resource/terminal.png"));
-//    }
-//    catch (Throwable e)
-//    {
-//      terminalIcon = null;
-//    }
-//    
-//    try
-//    {
-//      desktopIcon = ImageIO.read(VT.class.getResourceAsStream("/org/vash/vate/console/graphical/resource/desktop.png"));
-//    }
-//    catch (Throwable e)
-//    {
-//      desktopIcon = null;
-//    }
-  }
   
   public static final CharsetEncoder getFlexibleCharsetEncoder(String charsetName)
   {
