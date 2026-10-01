@@ -16,10 +16,7 @@ import java.util.concurrent.ThreadFactory;
 
 import org.vash.vate.VTSystem;
 import org.vash.vate.client.connection.VTClientConnectionListener;
-//import org.vash.vate.audio.VTAudioSystem;
 import org.vash.vate.client.connection.VTClientConnector;
-//import org.vash.vate.client.console.remote.VTClientRemoteGraphicalConsoleMenuBar;
-//import org.vash.vate.client.dialog.VTClientConfigurationDialog;
 import org.vash.vate.client.session.VTClientSessionListener;
 import org.vash.vate.console.VTMainConsole;
 import org.vash.vate.exception.VTUncaughtExceptionHandler;
