@@ -44,7 +44,8 @@ public class VTClient implements Runnable
   private String proxyPassword = "";
   private boolean tlsAuthentication = false;
   private String encryptionType = "NONE";
-  private byte[] encryptionKey = new byte[] {};
+  private String encryptionKey = "";
+  private byte[] encryptionKeyData = new byte[] {};
   private String sessionUser = "";
   private String sessionPassword = "";
   private String sessionCommands = "";
@@ -262,9 +263,14 @@ public class VTClient implements Runnable
     this.encryptionType = encryptionType;
   }
   
-  public void setEncryptionKey(byte[] encryptionKey)
+  public void setEncryptionKey(String encryptionKey)
   {
     this.encryptionKey = encryptionKey;
+  }
+  
+  public void setEncryptionKeyData(byte[] encryptionKeyData)
+  {
+    this.encryptionKeyData = encryptionKeyData;
   }
   
   public boolean getTLSAuthentication()
@@ -376,9 +382,14 @@ public class VTClient implements Runnable
     return encryptionType;
   }
   
-  public byte[] getEncryptionKey()
+  public String getEncryptionKey()
   {
     return encryptionKey;
+  }
+  
+  public byte[] getEncryptionKeyData()
+  {
+    return encryptionKeyData;
   }
   
   public String getVTURL()
@@ -457,7 +468,7 @@ public class VTClient implements Runnable
       fileClientSettings.setProperty("vate.client.proxy.password", proxyPassword);
       fileClientSettings.setProperty("vate.client.authentication.type", tlsAuthentication ? "TLS" : "");
       fileClientSettings.setProperty("vate.client.encryption.type", encryptionType);
-      fileClientSettings.setProperty("vate.client.encryption.password", new String(encryptionKey, "UTF-8"));
+      fileClientSettings.setProperty("vate.client.encryption.password", encryptionKey);
       fileClientSettings.setProperty("vate.client.ping.limit", pingLimit > 0 ? String.valueOf(pingLimit) : "");
       fileClientSettings.setProperty("vate.client.ping.interval", pingInterval > 0 ? String.valueOf(pingInterval) : "");
       fileClientSettings.setProperty("vate.client.session.commands", sessionCommands);
@@ -632,7 +643,7 @@ public class VTClient implements Runnable
       found = true;
       try
       {
-        encryptionKey = fileClientSettings.getProperty("vate.client.encryption.password", "").getBytes("UTF-8");
+        encryptionKey = fileClientSettings.getProperty("vate.client.encryption.password", encryptionKey);
       }
       catch (Throwable e)
       {
@@ -913,7 +924,7 @@ public class VTClient implements Runnable
       {
         try
         {
-          encryptionKey = fileClientSettings.getProperty("vate.client.encryption.password", "").getBytes("UTF-8");
+          encryptionKey = fileClientSettings.getProperty("vate.client.encryption.password", encryptionKey);
         }
         catch (Throwable e)
         {
@@ -1167,7 +1178,7 @@ public class VTClient implements Runnable
     {
       try
       {
-        encryptionKey = properties.getProperty("vate.client.encryption.password", "").getBytes("UTF-8");
+        encryptionKey = properties.getProperty("vate.client.encryption.password", encryptionKey);
       }
       catch (Throwable e)
       {
@@ -1761,7 +1772,7 @@ public class VTClient implements Runnable
           {
             return;
           }
-          encryptionKey = line.getBytes("UTF-8");
+          encryptionKey = line;
         }
         else
         {
@@ -1969,7 +1980,7 @@ public class VTClient implements Runnable
       if (parameterName.contains("-EK"))
       {
         parameterValue = parameters[++i];
-        encryptionKey = parameterValue.getBytes("UTF-8");
+        encryptionKey = parameterValue;;
       }
       if (parameterName.contains("-PT"))
       {

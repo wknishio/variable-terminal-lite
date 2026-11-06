@@ -46,7 +46,8 @@ public class VTServer implements Runnable
   private String proxyPassword = "";
   private boolean tlsAuthentication = false;
   private String encryptionType = "NONE";
-  private byte[] encryptionKey = new byte[] {};
+  private String encryptionKey = "";
+  private byte[] encryptionKeyData = new byte[] {};
   private String sessionAccounts = "";
   private Integer sessionsMaximum;
   private String sessionShell = "";
@@ -317,9 +318,14 @@ public class VTServer implements Runnable
     this.encryptionType = encryptionType;
   }
   
-  public void setEncryptionKey(byte[] encryptionKey)
+  public void setEncryptionKey(String encryptionKey)
   {
     this.encryptionKey = encryptionKey;
+  }
+  
+  public void setEncryptionKeyData(byte[] encryptionKeyData)
+  {
+    this.encryptionKeyData = encryptionKeyData;
   }
   
   public boolean getTLSAuthentication()
@@ -431,9 +437,14 @@ public class VTServer implements Runnable
     return encryptionType;
   }
   
-  public byte[] getEncryptionKey()
+  public String getEncryptionKey()
   {
     return encryptionKey;
+  }
+  
+  public byte[] getEncryptionKeyData()
+  {
+    return encryptionKeyData;
   }
   
   public String getVTURL()
@@ -558,7 +569,7 @@ public class VTServer implements Runnable
       fileServerSettings.setProperty("vate.server.proxy.password", proxyPassword);
       fileServerSettings.setProperty("vate.server.authentication.type", tlsAuthentication ? "TLS" : "");
       fileServerSettings.setProperty("vate.server.encryption.type", encryptionType);
-      fileServerSettings.setProperty("vate.server.encryption.password", new String(encryptionKey, "UTF-8"));
+      fileServerSettings.setProperty("vate.server.encryption.password", encryptionKey);
       fileServerSettings.setProperty("vate.server.ping.limit", pingLimit > 0 ? String.valueOf(pingLimit) : "");
       fileServerSettings.setProperty("vate.server.ping.interval", pingInterval > 0 ? String.valueOf(pingInterval) : "");
       fileServerSettings.setProperty("vate.server.session.shell", sessionShell);
@@ -712,7 +723,7 @@ public class VTServer implements Runnable
       found = true;
       try
       {
-        encryptionKey = fileServerSettings.getProperty("vate.server.encryption.password", "").getBytes("UTF-8");
+        encryptionKey = fileServerSettings.getProperty("vate.server.encryption.password", encryptionKey);
       }
       catch (Throwable e)
       {
@@ -981,7 +992,7 @@ public class VTServer implements Runnable
       {
         try
         {
-          encryptionKey = fileServerSettings.getProperty("vate.server.encryption.password", "").getBytes("UTF-8");
+          encryptionKey = fileServerSettings.getProperty("vate.server.encryption.password", encryptionKey);
         }
         catch (Throwable e)
         {
@@ -1223,7 +1234,7 @@ public class VTServer implements Runnable
     {
       try
       {
-        encryptionKey = properties.getProperty("vate.server.encryption.password", "").getBytes("UTF-8");
+        encryptionKey = properties.getProperty("vate.server.encryption.password", encryptionKey);
       }
       catch (Throwable e)
       {
@@ -1875,7 +1886,7 @@ public class VTServer implements Runnable
           {
             return;
           }
-          encryptionKey = line.getBytes("UTF-8");
+          encryptionKey = line;
         }
         else
         {
@@ -2103,7 +2114,7 @@ public class VTServer implements Runnable
       if (parameterName.contains("-EK"))
       {
         parameterValue = parameters[++i];
-        encryptionKey = parameterValue.getBytes("UTF-8");
+        encryptionKey = parameterValue;
       }
       if (parameterName.contains("-PT"))
       {
